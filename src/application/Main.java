@@ -11,9 +11,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("TimeLine.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("templates/TimeLine.fxml"));
 			Parent root = loader.load();
-			root.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			root.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.show();
