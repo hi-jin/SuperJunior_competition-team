@@ -17,6 +17,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.show();
+		  primaryStage.setResizable(false);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
