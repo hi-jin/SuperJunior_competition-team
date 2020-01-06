@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TimeLineController">
+   <children>
+      <ListView fx:id="timeLineListView" layoutX="50.0" layoutY="35.0" prefHeight="312.0" prefWidth="300.0" />
+      <Line fx:id="currentTimeLine" endX="278.0" layoutX="111.0" layoutY="95.0" startX="-100.0" stroke="RED" />
+      <Label fx:id="currentTimeLabel" layoutX="17.0" layoutY="75.0" text="now" textFill="RED">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="timeSettingButton" layoutX="50.0" layoutY="355.0" mnemonicParsing="false" text="고정 해제" />
+      <Button fx:id="leftButton" layoutX="20.0" layoutY="178.0" mnemonicParsing="false" onAction="#moveToLeft" text="&lt;" />
+      <Button fx:id="rightButton" layoutX="354.0" layoutY="178.0" mnemonicParsing="false" onAction="#moveToRight" text="&gt;" />
+      <Label fx:id="dayOfWeekLabel" layoutX="181.0" layoutY="14.0" text="일요일" />
+   </children>
+</AnchorPane>
