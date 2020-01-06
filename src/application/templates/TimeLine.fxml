@@ -4,10 +4,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TimeLineController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TimeLineController">
    <children>
       <ListView fx:id="timeLineListView" layoutX="50.0" layoutY="35.0" prefHeight="312.0" prefWidth="300.0" />
       <Line fx:id="currentTimeLine" endX="278.0" layoutX="111.0" layoutY="95.0" startX="-100.0" stroke="RED" />
@@ -20,5 +22,97 @@
       <Button fx:id="leftButton" layoutX="20.0" layoutY="178.0" mnemonicParsing="false" onAction="#moveToLeft" text="&lt;" />
       <Button fx:id="rightButton" layoutX="354.0" layoutY="178.0" mnemonicParsing="false" onAction="#moveToRight" text="&gt;" />
       <Label fx:id="dayOfWeekLabel" layoutX="181.0" layoutY="14.0" text="일요일" />
+      <HBox layoutX="78.0" layoutY="377.0" spacing="5.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Sun" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Mon" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Tue" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Wed" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Thu" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Fri" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Sat" />
+         </children>
+      </HBox>
+      <HBox layoutX="79.0" layoutY="401.0" spacing="5.0">
+         <children>
+            <Label fx:id="sun" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #ebedf0;" />
+            <Label fx:id="mon" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #ebedf0;" />
+            <Label fx:id="tue" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #ebedf0;" />
+            <Label fx:id="wed" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #ebedf0;" />
+            <Label fx:id="thu" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #ebedf0;" />
+            <Label fx:id="fri" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #ebedf0;" />
+            <Label fx:id="sat" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #ebedf0;" />
+         </children>
+      </HBox>
+      <HBox fx:id="month" layoutX="150.0" layoutY="460.0" spacing="5.0">
+         <children>
+            <VBox spacing="3.0">
+               <children>
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+               </children>
+            </VBox>
+            <VBox spacing="3.0">
+               <children>
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+               </children>
+            </VBox>
+            <VBox spacing="3.0">
+               <children>
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+               </children>
+            </VBox>
+            <VBox spacing="3.0">
+               <children>
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+               </children>
+            </VBox>
+            <VBox spacing="3.0">
+               <children>
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+                  <Label prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: #ebedf0;" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Label fx:id="nowMonth" alignment="CENTER" layoutY="439.0" prefHeight="14.0" prefWidth="400.0">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Label>
+      <Button layoutX="302.0" layoutY="493.0" mnemonicParsing="false" onAction="#nextDay" text="다음날" />
    </children>
 </AnchorPane>
