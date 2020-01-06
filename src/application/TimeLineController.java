@@ -3,7 +3,9 @@ package application;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
@@ -18,6 +20,8 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -33,6 +37,13 @@ public class TimeLineController implements Initializable {
 	@FXML Button leftButton; // "<"
 	@FXML Button rightButton; // ">"
 	
+	//////////////////////////////////////////////////////
+	
+	@FXML Label 	sun, mon, tue, wed, thu, fri, sat; // TODO week1~5처럼 구성하기
+	@FXML Label		nowMonth; // nowDate
+	@FXML HBox 		month;
+	@FXML VBox 		week1, week2, week3, week4, week5;
+	
 	private double 					cellHeight = 24;
 	// all(list의 길이) : speed = barLength(=1) : x(barSpeed) => x = speed * barLength / all
     private double 					speed = ((144.0*cellHeight) / (24 * 60 * 60.0)) * 1.0 / (144.0*cellHeight);
@@ -44,6 +55,24 @@ public class TimeLineController implements Initializable {
 	private ObservableList<String> 	timeLineList;
     private Vector<Integer[]> 		scheduleIndexList = new Vector<>();
     
+    //////////////////////////////// 진척도 관련 필드 ///////////////////////////////////
+    
+    private Calendar calendar = Calendar.getInstance(); 						// 달력 객체
+	
+	private HashMap<Integer, String> colorMap = new HashMap<>();				// 진척도에 따른 색깔이 들어간 Map
+	
+	private Label[] week; 														// 일주일과 관련된 요일이 들어간 Label 배열
+	private int[] 	weekColors = new int[] {5, 5, 5, 5, 5, 5, 5}; 				// 일주일과 관련된 색깔이 들어간 배열
+	private VBox[] 	weeks = new VBox[] { week1, week2, week3, week4, week5 }; 	// 몇주인지가 들어간 VBox배열
+	
+	private String[] dayOfWeek = new String[] { "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" };
+	
+	private int 		dayCount, weekCount; 									// 일주일중 몇일이 지났는지, 몇주가 지났는지를 카운트하는 정수
+	private boolean 	monthCheck;
+	
+	private final int 	MAX_DAY_COUNT = 7;
+	private final int 	MAX_WEEK_COUNT = 5;
+	
     // 시간에 따라서 자동으로 스크롤 하는 애니메이션
     private AnimationTimer timer = new AnimationTimer() {
         private long lastUpdate = -1;
@@ -190,6 +219,40 @@ public class TimeLineController implements Initializable {
 		showSchedules(dayOfWeekList[currentDayOfWeek]);
 		dayOfWeekLabel.setText(dayOfWeekList[currentDayOfWeek] + "요일");
 		//////////////////////////////////////////////////////////
+		
+		////////////////////// 진척도 표시 부분 //////////////////////
+		
+		/*
+		nowDate.setText(calendar.get(Calendar.YEAR)+"년 "
+				+(calendar.get(Calendar.MONTH)+1)+"월 "
+				+calendar.get(Calendar.DATE)+"일 "
+				+dayOfWeek[calendar.get(Calendar.DAY_OF_WEEK)-1]);
+		*/
+		
+		nowMonth.setText((calendar.get(Calendar.MONTH)+1)+"월 ");
+		
+		colorMap.put(0, "-fx-background-color: #ebedf0");
+		colorMap.put(1, "-fx-background-color: #c6e48b");
+		colorMap.put(2, "-fx-background-color: #7bc96f");
+		colorMap.put(3, "-fx-background-color: #239a3b");
+		colorMap.put(4, "-fx-background-color: #196127");
+		colorMap.put(5, "-fx-opacity: 0");
+		colorMap.put(6, "-fx-background-color: #ebedf0");
+		colorMap.put(7, "-fx-background-color: #eba698");
+		colorMap.put(8, "-fx-background-color: #cc614b");
+		colorMap.put(9, "-fx-background-color: #962c17");
+		colorMap.put(10, "-fx-background-color: #5e1405");
+		
+		week = new Label[]{ sun, mon, tue, wed, thu, fri, sat };
+		
+		for(int i=0; i<MAX_WEEK_COUNT; i++) {
+			VBox week = (VBox)month.getChildren().get(i);
+			weeks[i] = week;
+		}
+		
+		dayCount = calendar.get(Calendar.DAY_OF_WEEK)-1;
+		weekCount = 0;
+		/////////////////////////////////////////////////////////
 	}
 	
 	public int parseDayOfWeek(String dayOfWeek) {
@@ -319,4 +382,98 @@ public class TimeLineController implements Initializable {
 		}
 		showSchedules(dayOfWeekList[currentDayOfWeek]);
 	}
+	
+	@FXML
+	public void nextDay() {
+		int color;
+		if(calendar.get(Calendar.MONTH)%2 == 0) {
+			color = (int)(Math.random()*5);
+		} else {
+			color = (int) (Math.random() * 5) + 6;
+		}
+		
+		week[dayCount].setStyle(colorMap.get(color));
+		
+		weekColors[dayCount] = color;
+		calendar.set(Calendar.DATE, calendar.get(Calendar.DATE)+1);
+		dayCount++;
+		
+		/*
+		nowDate.setText(calendar.get(Calendar.YEAR)+"년 "
+				+(calendar.get(Calendar.MONTH)+1)+"월 "
+				+calendar.get(Calendar.DATE)+"일 "
+				+dayOfWeek[calendar.get(Calendar.DAY_OF_WEEK)-1]);
+		*/
+		
+		monthCheck = monthChecker();
+		
+		clearColor();
+		
+		if(dayCount > 6) {
+			changeColor();
+			clearColor();
+			weekColors = new int[] {5, 5, 5, 5, 5, 5, 5};
+			dayCount = 0;
+		}
+		
+		if(weekCount > 4) {
+			weekCount = 0;
+		}
+		
+	}
+	
+	private void changeColor() {
+		for(int i=0; i < MAX_DAY_COUNT; i++) {
+			Label label = (Label) weeks[weekCount].getChildren().get(i);
+			label.setStyle(colorMap.get(weekColors[i]));
+		}
+		weekCount++;
+	}
+	
+	private void clearColor() {
+		
+		if(dayCount > 6) {
+			for(Label label: week) {
+				label.setStyle(colorMap.get(0));
+			}
+		}
+		
+		if(weekCount > 4) {
+			for(int i=0; i < weekCount; i++) {
+				for(int j=0; j < MAX_DAY_COUNT; j++) {
+					Label label = (Label) weeks[i].getChildren().get(j);
+					label.setStyle(colorMap.get(0));
+				}
+			}
+		}
+		
+		if(monthCheck) {
+			changeColor();
+			
+			for(int i=0; i < weekCount; i++) {
+				for(int j=0; j < MAX_DAY_COUNT; j++) {
+					Label label = (Label) weeks[i].getChildren().get(j);
+					label.setStyle(colorMap.get(0));
+				}
+			}
+			nowMonth.setText((calendar.get(Calendar.MONTH)+1)+"월 ");
+			weekCount = 0;
+		}
+		
+	}
+	
+	private boolean monthChecker() {
+		int todayDate = calendar.get(Calendar.DATE);
+		
+		calendar.set(Calendar.DATE, calendar.get(Calendar.DATE)-1);
+		int pastDate = calendar.get(Calendar.DATE);
+		
+		calendar.set(Calendar.DATE, calendar.get(Calendar.DATE)+1);
+		
+		if(pastDate > todayDate) {
+			return true;
+		}
+		return false;
+	}
+	
 }
