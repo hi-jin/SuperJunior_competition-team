@@ -1,1 +1,33 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.root {
+	-fx-background-color: #FFFFFF;
+}
+
+.list-view {
+	-fx-background-color: #FFFFFF;
+	-fx-padding: 0 5px;
+	-fx-border-width: 0 1px;
+	-fx-border-color: #000000;
+}
+
+.list-view .scroll-bar:vertical {
+	-fx-scale-x: 0;
+}
+
+.list-cell {
+	-fx-background-color: -fx-control-inner-background;
+	-fx-text-fill: -fx-text-inner-color;
+}
+
+.list-cell:odd {
+	-fx-background-color: derive(-fx-control-inner-background, -2%);
+}
+
+.list-cell:focused {
+	-fx-background-color: -fx-control-inner-background;
+	-fx-text-fill: -fx-text-inner-color;
+	/*-fx-padding: 0.25em;*/
+}
+
+.list-cell:focused:odd {
+	-fx-background-color: derive(-fx-control-inner-background, -2%);
+}

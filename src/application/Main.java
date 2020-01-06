@@ -9,12 +9,18 @@ import javafx.scene.Scene;
 
 public class Main extends Application {
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("templates/main.fxml"));
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		primaryStage.setResizable(false);
+	public void start(Stage primaryStage) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("templates/TimeLine.fxml"));
+			Parent root = loader.load();
+			root.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		  primaryStage.setResizable(false);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {
