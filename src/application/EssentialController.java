@@ -3,14 +3,19 @@ package application;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ListView;
 
 public class EssentialController implements Initializable {
 
@@ -27,25 +32,32 @@ public class EssentialController implements Initializable {
 	@FXML TextField end_h;
 	@FXML TextField end_m;
 	@FXML TextField title;
+	@FXML Label error_msg;
+	@FXML ListView<String> timeLineListView;
 	
 	
 	@SuppressWarnings("serial")
 	ArrayList<String> day_list = new ArrayList<String>() {{
-		add("일요일");
-		add("월요일");
-		add("화요일");
-		add("수요일");
-		add("목요일");
-		add("금요일");
-		add("토요일");
+		add("일");
+		add("월");
+		add("화");
+		add("수");
+		add("목");
+		add("금");
+		add("토");
 	}};
 	int day_index = 0; // day_list index
 	
 	int[] essential = {0, 0, 0, 0, 0, 0, 0}; //요일별 필수 일정 개수
 	
 	StringBuilder time_info = new StringBuilder();
-	@FXML Label error_msg;
-
+	
+	////////// timeLine //////////
+	private double 					cellHeight = 24;
+	private ObservableList<String> 	timeLineList;
+    private Vector<Integer[]> 		scheduleIndexList = new Vector<>();
+	//////////////////////////////
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		day.setText(day_list.get(day_index));
@@ -79,6 +91,50 @@ public class EssentialController implements Initializable {
 					
 	            }
 		});
+		
+		////////// timeLine ////////// TODO 필수일정 추가 하면 timeLine에 반영
+		////////// 초기화 //////////
+		timeLineListView.setFixedCellSize(cellHeight);
+		timeLineList = FXCollections.observableArrayList();
+		timeLineListView.setItems(timeLineList);
+		///////////////////////////
+		
+		
+		////////// 타임라인 일정 색상 표시 기능 //////////
+		timeLineListView.setCellFactory(lv -> new ListCell<String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if(empty) {
+					setText(null);
+					setStyle("");
+				} else {
+					setText(item);
+					setStyle("");
+					for(int i = 0; i < scheduleIndexList.size(); i++) {
+						if(scheduleIndexList.get(i)[0] < getIndex() && scheduleIndexList.get(i)[1] > getIndex()) {
+							setStyle("-fx-background-color: #A9F5F2");
+						} else if(scheduleIndexList.get(i)[0] == getIndex()) {
+							if(getIndex() % 2 == 0) {
+								setStyle("-fx-background-color: linear-gradient(-fx-control-inner-background 50%, #A9F5F2 50%)");
+							} else {
+								setStyle("-fx-background-color: linear-gradient(derive(-fx-control-inner-background, -2%) 50%, #A9F5F2 50%)");
+							}
+						} else if(scheduleIndexList.get(i)[1] == getIndex()) {
+							if(getIndex() % 2 == 0) {
+								setStyle("-fx-background-color: linear-gradient(#A9F5F2 50%, -fx-control-inner-background 50%)");
+							} else {
+								setStyle("-fx-background-color: linear-gradient(derive(#A9F5F2, -2%) 50%, -fx-control-inner-background 50%)");
+							}
+						}
+					}
+				}
+			}
+		});
+		
+		showSchedules(day_list.get(day_index));
+		///////////////////////////////////////////
+		//////////////////////////////
 	}
 	
 
@@ -86,14 +142,16 @@ public class EssentialController implements Initializable {
 	@FXML public void next_view_btn() {
 		
 		day_index ++;
-		day.setText(day_list.get(day_index));
+		day.setText(day_list.get(day_index) + "요일");
+		showSchedules(day_list.get(day_index));
 	}
 
 	
 	@FXML public void pre_view_btn() {
 
 		day_index --;
-		day.setText(day_list.get(day_index));
+		day.setText(day_list.get(day_index) + "요일");
+		showSchedules(day_list.get(day_index));
 	}
 	
 
@@ -143,12 +201,96 @@ public class EssentialController implements Initializable {
 		end_m.clear();
 		essential[day_index] += 1;
 		essential_num.setText(String.valueOf(essential[day_index]));
+		showSchedules(day_list.get(day_index));
 	}
 
 
 	@FXML public void exit() {
 		
-		System.out.println(time_info);
+		System.out.println(time_info); // TODO 서버로 보내기.
 	}
+	
+	////////// timeLine //////////
+	// 요일에 맞는 타임라인을 표시함
+		public void showSchedules(String dayOfWeek) {
+			clearSchedules();
+			String line = null;
+			// TODO line = Server input
+			line = time_info.toString(); // default (테스트용)
+			// TODO 서버에서 받아온 것 추가하도록 해야됨.
+			// TODO 이 윗부분은 initialize 할 때 한 번에 하는 게 더 좋을 수도...
+			
+			String[] scheduleList = line.split("//");
+			for(int i = 0; i < scheduleList.length; i++) {
+				String[] command = scheduleList[i].split("/");
+				
+				if(command[0].equals(dayOfWeek)) {
+					writeSchedule(command[1], command[2], command[3]);
+				}
+			}
+		}
+
+	// 타임라인에 스케줄 추가
+	private void writeSchedule(String title, String startTime, String endTime) {
+		int time = Integer.parseInt(startTime);
+		int hour = time / 100;
+		int min = time - hour * 100;
+		int startIndex = min / 10 + hour * 6 + 2;
+		timeLineList.set(startIndex, String.format("%02d:%02d", hour, min) + " " + title);
+		
+		time = Integer.parseInt(endTime);
+		hour = time / 100;
+		min = time - hour * 100;
+		int endIndex = min / 10 + hour * 6 + 2;
+		timeLineList.set(endIndex, String.format("%02d:%02d", hour, min));
+		
+		Integer[] indexList = {startIndex, endIndex};
+		scheduleIndexList.add(indexList);
+		for(int i = startIndex + 1; i < endIndex; i++) {
+			timeLineList.set(i, "");
+		}
+	}
+	
+	// 타임라인 초기화
+	private void clearSchedules() {
+		timeLineList.clear();
+		scheduleIndexList.clear();
+		
+		int time = 0000;
+		
+		timeLineList.add("");
+		timeLineList.add("");
+		
+		for(int i = 0; i < 144; i++) {
+			if(time % 100 == 0 || time % 100 == 30) {
+				timeLineList.add(getTime(time));
+			} else {
+				timeLineList.add("");
+			}
+			time = addTime(time, 10);
+		}
+		for(int i = 0; i < 11; i++) {
+			timeLineList.add("");
+		}
+	}
+	
+	private String getTime(int time) {
+		int hour = time / 100;
+		int min = time - hour * 100;
+		
+		return String.format("%02d:%02d", hour, min);
+	}
+	
+	private int addTime(int time, int min) {
+		if(time - (time / 100) * 100 > 49) {
+			time -= 50;
+			time += 100;
+		} else {
+			time += 10;
+		}
+		
+		return time;
+	}
+	//////////////////////////////
 
 }
