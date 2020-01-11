@@ -11,7 +11,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("templates/first.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("templates/AddingChallenges.fxml"));
+//			FXMLLoader loader = new FXMLLoader(getClass().getResource("templates/first.fxml"));
 //			FXMLLoader loader = new FXMLLoader(getClass().getResource("templates/TimeLine.fxml"));
 			Parent root = loader.load();
 			root.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
