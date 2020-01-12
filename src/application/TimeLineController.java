@@ -39,9 +39,9 @@ public class TimeLineController implements Initializable {
 	
 	//////////////////////////////////////////////////////
 	
-	@FXML Label 	sun, mon, tue, wed, thu, fri, sat; // TODO week1~5처럼 구성하기
+	@FXML Label 	sun, mon, tue, wed, thu, fri, sat;
 	@FXML Label		nowMonth; // nowDate
-	@FXML HBox 		month;
+	@FXML HBox 		month, sunToMon;
 	@FXML VBox 		week1, week2, week3, week4, week5;
 	
 	private double 					cellHeight = 24;
@@ -61,12 +61,10 @@ public class TimeLineController implements Initializable {
 	
 	private HashMap<Integer, String> colorMap = new HashMap<>();				// 진척도에 따른 색깔이 들어간 Map
 	
-	private Label[] week; 														// 일주일과 관련된 요일이 들어간 Label 배열
+	private Label[] week = new Label[]{ sun, mon, tue, wed, thu, fri, sat };	// 일주일과 관련된 요일이 들어간 Label 배열
 	private int[] 	weekColors = new int[] {5, 5, 5, 5, 5, 5, 5}; 				// 일주일과 관련된 색깔이 들어간 배열
 	private VBox[] 	weeks = new VBox[] { week1, week2, week3, week4, week5 }; 	// 몇주인지가 들어간 VBox배열
-	
-	private String[] dayOfWeek = new String[] { "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" };
-	
+		
 	private int 		dayCount, weekCount; 									// 일주일중 몇일이 지났는지, 몇주가 지났는지를 카운트하는 정수
 	private boolean 	monthCheck;
 	
@@ -243,8 +241,10 @@ public class TimeLineController implements Initializable {
 		colorMap.put(9, "-fx-background-color: #962c17");
 		colorMap.put(10, "-fx-background-color: #5e1405");
 		
-		week = new Label[]{ sun, mon, tue, wed, thu, fri, sat };
-		
+		for(int i=0; i<MAX_DAY_COUNT; i++) {
+			Label days = (Label)sunToMon.getChildren().get(i);
+			week[i] = days;
+		}
 		for(int i=0; i<MAX_WEEK_COUNT; i++) {
 			VBox week = (VBox)month.getChildren().get(i);
 			weeks[i] = week;
