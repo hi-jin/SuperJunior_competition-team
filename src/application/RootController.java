@@ -11,11 +11,16 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import data.ClientInfo;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 public class RootController implements Initializable {
@@ -90,14 +95,24 @@ public class RootController implements Initializable {
 
 	@FXML public void login() {
 		if(!idTextField.getText().equals("")) {
-			Socket server = application.ClientInfo.socketInfo;
+			Socket server = data.ClientInfo.socketInfo;
 			try {
 				PrintWriter out = new PrintWriter(new BufferedOutputStream(server.getOutputStream()));
 				out.println("login/" + idTextField.getText());
 				out.flush();
+				Thread.sleep(200);
+				if(!ClientInfo.userId.equals("")) {
+					Parent second = FXMLLoader.load(getClass().getResource("templates/first.fxml"));
+					Scene sc = new Scene(second);
+					Stage stage = (Stage)loginButton.getScene().getWindow();
+					stage.setScene(sc);
+					stage.show();
+				}
 			} catch (IOException e) {
 	        	error_msg.setText("서버 에러 혹은 인터넷 연결을 확인해주세요.");
 	        	loginButton.setDisable(true);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
