@@ -1,20 +1,26 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import data.ClientInfo;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 
 public class EssentialController implements Initializable {
@@ -206,8 +212,17 @@ public class EssentialController implements Initializable {
 
 
 	@FXML public void exit() {
-		
-		System.out.println(time_info); // TODO 서버로 보내기.
+		try {
+			ClientInfo.schedules = time_info.toString();
+			System.out.println(time_info);
+			Parent second = FXMLLoader.load(getClass().getResource("templates/TimeLine.fxml"));
+			Scene sc = new Scene(second);
+			Stage stage = (Stage)exit.getScene().getWindow();
+			stage.setScene(sc);
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	////////// timeLine //////////

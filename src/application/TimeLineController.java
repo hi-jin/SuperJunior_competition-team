@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import data.ClientInfo;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -286,11 +287,7 @@ public class TimeLineController implements Initializable {
 	// 요일에 맞는 타임라인을 표시함
 	public void showSchedules(String dayOfWeek) {
 		clearSchedules();
-		String line = null;
-		// TODO line = Server input
-		line = "일/브베 배 빵빵 연습하기/2000/2040//일/앵망 빵됴 연습하기/2100/2120//"
-				+ "일/앵망 빵듀데요 연습하기/2200/2240//월/박으수/1000/1030"; // default (테스트용)
-		// TODO 이 윗부분은 initialize 할 때 한 번에 하는 게 더 좋을 수도...
+		String line = ClientInfo.schedules;
 		
 		dayOfWeekLabel.setText(dayOfWeekList[currentDayOfWeek] + "요일");
 		String[] scheduleList = line.split("//");
