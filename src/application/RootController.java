@@ -40,7 +40,7 @@ public class RootController implements Initializable {
 			
 		final String SERVER_IP = "localhost"; //local에서 테스트 중일 경우 자신의 IP 작성
 
-		final int SERVER_PORT = 50000;
+		final int SERVER_PORT = 40000;
 		
         socket = new Socket();
         
@@ -73,6 +73,10 @@ public class RootController implements Initializable {
 							} else {
 								Platform.runLater(() -> error_msg.setText("다시 시도해주세요."));
 							}
+							break;
+						case "update":
+							// TODO 진척도를 업데이트 하도록 시킴.
+							break;
 						}
 					}
 				} catch (IOException e) {
