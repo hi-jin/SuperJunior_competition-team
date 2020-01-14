@@ -100,7 +100,7 @@ public class RootController implements Initializable {
 				PrintWriter out = new PrintWriter(new BufferedOutputStream(server.getOutputStream()));
 				out.println("login/" + idTextField.getText());
 				out.flush();
-				Thread.sleep(200);
+				Thread.sleep(400);
 				if(!ClientInfo.userId.equals("")) {
 					Parent second = FXMLLoader.load(getClass().getResource("templates/first.fxml"));
 					Scene sc = new Scene(second);

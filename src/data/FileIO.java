@@ -29,7 +29,7 @@ public class FileIO { // TODO utf-8 인코딩
 		}
 	}
 	
-	public static String read() {
+	public static void read() {
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new FileReader(user));
@@ -38,10 +38,13 @@ public class FileIO { // TODO utf-8 인코딩
 			if(userStr != null && !userStr.equals("")) {
 				String[] data = userStr.split("///");
 				ClientInfo.userId = data[0];
-				ClientInfo.schedules = data[1];
+				if(data.length == 2) ClientInfo.schedules = data[1];
+				else ClientInfo.schedules = "";
 			} else {
 				user.delete();
 				user.createNewFile();
+				ClientInfo.userId = "";
+				ClientInfo.schedules = "";
 			}
 		} catch (FileNotFoundException e) {
 			try {
@@ -66,8 +69,5 @@ public class FileIO { // TODO utf-8 인코딩
 					e.printStackTrace();
 				}
 		}
-		
-		
-		return ""; // TODO
 	}
 }
