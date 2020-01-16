@@ -1,5 +1,5 @@
 package application;
-	
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -53,7 +53,10 @@ public class Main extends Application {
 				e.printStackTrace();
 	        }
 	        
-	        (new ServerListener()).start();
+	        ServerListener sl = new ServerListener();
+	        sl.setDaemon(true);
+	        sl.start();
+	        
 		}
 		
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
