@@ -28,3 +28,4 @@ hs_err_pid*
 .settings/
 /bin/
 module-info.java
+/user.txt
