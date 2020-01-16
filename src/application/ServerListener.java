@@ -38,7 +38,7 @@ public class ServerListener extends Thread {
 					try {
 						data.Controllers.timeLineController.nextDay();
 					} catch (Exception e) {
-						System.out.println("error");
+						System.out.println("!");
 					}
 					break;
 				}

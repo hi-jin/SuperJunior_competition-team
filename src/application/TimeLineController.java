@@ -49,10 +49,11 @@ public class TimeLineController implements Initializable {
 	
 	//////////////////////////////////////////////////////
 	
-	@FXML Label 	sun, mon, tue, wed, thu, fri, sat;
+	@FXML static Label 		sun, mon, tue, wed, thu, fri, sat;
 	@FXML Label		nowMonth; // nowDate
-	@FXML HBox 		month, sunToMon;
-	@FXML VBox 		week1, week2, week3, week4, week5;
+	@FXML HBox		sunToMon;
+	@FXML HBox 		month;
+	@FXML static VBox 		week1, week2, week3, week4, week5;
 	
 	private double 					cellHeight = 24;
 	// all(list의 길이) : speed = barLength(=1) : x(barSpeed) => x = speed * barLength / all
@@ -67,16 +68,16 @@ public class TimeLineController implements Initializable {
     
     //////////////////////////////// 진척도 관련 필드 ///////////////////////////////////
     
-    private Calendar calendar = Calendar.getInstance(); 						// 달력 객체
+    private static Calendar calendar = Calendar.getInstance(); 						// 달력 객체
 	
-	private HashMap<Integer, String> colorMap = new HashMap<>();				// 진척도에 따른 색깔이 들어간 Map
+	private static HashMap<Integer, String> colorMap = new HashMap<>();				// 진척도에 따른 색깔이 들어간 Map
 	
-	private Label[] week = new Label[]{ sun, mon, tue, wed, thu, fri, sat };	// 일주일과 관련된 요일이 들어간 Label 배열
-	private int[] 	weekColors = new int[] {5, 5, 5, 5, 5, 5, 5}; 				// 일주일과 관련된 색깔이 들어간 배열
-	private VBox[] 	weeks = new VBox[] { week1, week2, week3, week4, week5 }; 	// 몇주인지가 들어간 VBox배열
+	private static Label[] week = new Label[]{ sun, mon, tue, wed, thu, fri, sat };	// 일주일과 관련된 요일이 들어간 Label 배열
+	private static int[] 	weekColors = new int[] {5, 5, 5, 5, 5, 5, 5}; 				// 일주일과 관련된 색깔이 들어간 배열
+	private static VBox[] 	weeks = new VBox[] { week1, week2, week3, week4, week5 }; 	// 몇주인지가 들어간 VBox배열
 		
-	private int 		dayCount, weekCount; 									// 일주일중 몇일이 지났는지, 몇주가 지났는지를 카운트하는 정수
-	private boolean 	monthCheck;
+	private static int 		dayCount, weekCount; 									// 일주일중 몇일이 지났는지, 몇주가 지났는지를 카운트하는 정수
+	private static boolean 	monthCheck;
 	
 	private final int 	MAX_DAY_COUNT = 7;
 	private final int 	MAX_WEEK_COUNT = 5;
@@ -187,7 +188,34 @@ public class TimeLineController implements Initializable {
 		});
 		
 		////////// 각종 초기화 + 애니메이션 (타임라인) 시작 //////////
-		data.Controllers.timeLineController = this;
+		if(data.Controllers.timeLineController == null) {
+			data.Controllers.timeLineController = this;
+			
+			colorMap.put(0, "-fx-background-color: #ebedf0");
+			colorMap.put(1, "-fx-background-color: #c6e48b");
+			colorMap.put(2, "-fx-background-color: #7bc96f");
+			colorMap.put(3, "-fx-background-color: #239a3b");
+			colorMap.put(4, "-fx-background-color: #196127");
+			colorMap.put(5, "-fx-opacity: 0");
+			colorMap.put(6, "-fx-background-color: #ebedf0");
+			colorMap.put(7, "-fx-background-color: #eba698");
+			colorMap.put(8, "-fx-background-color: #cc614b");
+			colorMap.put(9, "-fx-background-color: #962c17");
+			colorMap.put(10, "-fx-background-color: #5e1405");
+		}
+		
+		nowMonth.setText((calendar.get(Calendar.MONTH)+1)+"월 ");
+		for(int i=0; i<MAX_DAY_COUNT; i++) {
+			Label days = (Label)sunToMon.getChildren().get(i);
+			week[i] = days;
+		}
+		for(int i=0; i<MAX_WEEK_COUNT; i++) {
+			VBox week = (VBox)month.getChildren().get(i);
+			weeks[i] = week;
+		}
+		
+		dayCount = calendar.get(Calendar.DAY_OF_WEEK)-1;
+		weekCount = 0;
 		
 		timerFlag = true;
 		timeSetting = true;
@@ -288,31 +316,7 @@ public class TimeLineController implements Initializable {
 				+dayOfWeek[calendar.get(Calendar.DAY_OF_WEEK)-1]);
 		*/
 		
-		nowMonth.setText((calendar.get(Calendar.MONTH)+1)+"월 ");
 		
-		colorMap.put(0, "-fx-background-color: #ebedf0");
-		colorMap.put(1, "-fx-background-color: #c6e48b");
-		colorMap.put(2, "-fx-background-color: #7bc96f");
-		colorMap.put(3, "-fx-background-color: #239a3b");
-		colorMap.put(4, "-fx-background-color: #196127");
-		colorMap.put(5, "-fx-opacity: 0");
-		colorMap.put(6, "-fx-background-color: #ebedf0");
-		colorMap.put(7, "-fx-background-color: #eba698");
-		colorMap.put(8, "-fx-background-color: #cc614b");
-		colorMap.put(9, "-fx-background-color: #962c17");
-		colorMap.put(10, "-fx-background-color: #5e1405");
-		
-		for(int i=0; i<MAX_DAY_COUNT; i++) {
-			Label days = (Label)sunToMon.getChildren().get(i);
-			week[i] = days;
-		}
-		for(int i=0; i<MAX_WEEK_COUNT; i++) {
-			VBox week = (VBox)month.getChildren().get(i);
-			weeks[i] = week;
-		}
-		
-		dayCount = calendar.get(Calendar.DAY_OF_WEEK)-1;
-		weekCount = 0;
 		/////////////////////////////////////////////////////////
 	}
 	
