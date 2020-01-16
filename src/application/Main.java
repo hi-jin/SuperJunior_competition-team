@@ -18,6 +18,8 @@ import javafx.scene.Scene;
 
 public class Main extends Application {
 	
+	static Thread listener;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -50,46 +52,11 @@ public class Main extends Application {
 	            socket.connect( new InetSocketAddress(SERVER_IP, SERVER_PORT) );
 	            
 	            ClientInfo.setSocket(socket);
-	            
-	            Thread listener = new Thread(() -> {
-	            	try {
-						BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-						
-						String line;
-						String[] command;
-						while(true) {
-							line = in.readLine();
-							System.out.println("server=>" + line);
-							
-							command = line.split("/");
-							
-							switch(command[0]) {
-							case "login":
-								if(command[1].equals("1")) {
-									ClientInfo.userId = data.Controllers.rootController.idTextField.getText();
-									ClientInfo.groupId = command[2];
-								} else if(command[1].equals("2")) {
-									Platform.runLater(() -> data.Controllers.rootController.login());
-								} else {
-									Platform.runLater(() -> data.Controllers.rootController.error_msg.setText("다시 시도해주세요."));
-								}
-								break;
-							case "update":
-								// TODO 진척도를 업데이트 하도록 시킴.
-								break;
-							}
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-	            });
-	            listener.setDaemon(true);
-	            listener.start();
-	        }
-	        
-	        catch (IOException e) {
+	        } catch (IOException e) {
 				e.printStackTrace();
 	        }
+	        
+	        (new ServerListener()).start();
 		}
 		
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
