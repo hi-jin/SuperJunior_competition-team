@@ -129,6 +129,8 @@ public class TimeLineController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		////////// 각종 초기화 + 애니메이션 (타임라인) 시작 //////////
+		data.Controllers.timeLineController = this;
+		
 		timerFlag = true;
 		timeSetting = true;
 		leftButton.setDisable(true);
@@ -404,7 +406,7 @@ public class TimeLineController implements Initializable {
 		
 		monthCheck = monthChecker();
 		
-		clearColor();
+		Platform.runLater(() -> clearColor());
 		
 		if(dayCount > 6) {
 			changeColor();

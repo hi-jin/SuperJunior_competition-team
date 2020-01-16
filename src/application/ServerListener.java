@@ -35,6 +35,11 @@ public class ServerListener extends Thread {
 					break;
 				case "update":
 					// TODO 진척도를 업데이트 하도록 시킴.
+					try {
+						data.Controllers.timeLineController.nextDay();
+					} catch (Exception e) {
+						System.out.println("error");
+					}
 					break;
 				}
 			}
