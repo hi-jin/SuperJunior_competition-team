@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -8,11 +9,15 @@ import java.util.Vector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -27,6 +32,10 @@ public class AddingChallengesController implements Initializable {
 	@FXML Button addMoreButton;
 	@FXML Button cancelButton;
 	@FXML Label error_msg;
+	@FXML Button AddEssentialsButton;
+	@FXML Button ShowTimeLineButton;
+	@FXML Button AddChallengesButton;
+	@FXML Button MoveToGroupButton;
 	
 	////////// timeLine //////////
 	private double 					cellHeight = 24;
@@ -49,6 +58,55 @@ public class AddingChallengesController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		AddEssentialsButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/first.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)AddEssentialsButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		ShowTimeLineButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/TimeLine.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)ShowTimeLineButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		AddChallengesButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/AddingChallenges.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)AddChallengesButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		MoveToGroupButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		
 		//////////timeLine ////////// TODO 필수일정 추가 하면 timeLine에 반영
 		////////// 초기화 //////////
 		timeLineListView.setFixedCellSize(cellHeight);
