@@ -67,20 +67,23 @@ public class TimeLineController implements Initializable {
     private Vector<Integer[]> 		scheduleIndexList = new Vector<>();
     
     //////////////////////////////// 진척도 관련 필드 ///////////////////////////////////
-    
+	
+	private final static int 	MAX_DAY_COUNT = 7;
+	private final static int 	MAX_WEEK_COUNT = 5;
+	
     private static Calendar calendar = Calendar.getInstance(); 						// 달력 객체
 	
 	private static HashMap<Integer, String> colorMap = new HashMap<>();				// 진척도에 따른 색깔이 들어간 Map
 	
 	private static Label[] week = new Label[]{ sun, mon, tue, wed, thu, fri, sat };	// 일주일과 관련된 요일이 들어간 Label 배열
-	private static int[] 	weekColors = new int[] {5, 5, 5, 5, 5, 5, 5}; 				// 일주일과 관련된 색깔이 들어간 배열
+	private static int[] 	weekColors = new int[] { 5, 5, 5, 5, 5, 5, 5 }; 				// 일주일과 관련된 색깔이 들어간 배열
+	
 	private static VBox[] 	weeks = new VBox[] { week1, week2, week3, week4, week5 }; 	// 몇주인지가 들어간 VBox배열
-		
+	private static int[][] 	weeksColors = new int[MAX_WEEK_COUNT][MAX_DAY_COUNT];
+	
 	private static int 		dayCount, weekCount; 									// 일주일중 몇일이 지났는지, 몇주가 지났는지를 카운트하는 정수
 	private static boolean 	monthCheck;
-	
-	private final int 	MAX_DAY_COUNT = 7;
-	private final int 	MAX_WEEK_COUNT = 5;
+
 	
     // 시간에 따라서 자동으로 스크롤 하는 애니메이션
     private AnimationTimer timer = new AnimationTimer() {
@@ -202,20 +205,29 @@ public class TimeLineController implements Initializable {
 			colorMap.put(8, "-fx-background-color: #cc614b");
 			colorMap.put(9, "-fx-background-color: #962c17");
 			colorMap.put(10, "-fx-background-color: #5e1405");
+			
+			dayCount = calendar.get(Calendar.DAY_OF_WEEK)-1;
+			weekCount = 0;
 		}
 		
 		nowMonth.setText((calendar.get(Calendar.MONTH)+1)+"월 ");
+		
 		for(int i=0; i<MAX_DAY_COUNT; i++) {
 			Label days = (Label)sunToMon.getChildren().get(i);
 			week[i] = days;
+			week[i].setStyle(colorMap.get(weekColors[i]));
 		}
 		for(int i=0; i<MAX_WEEK_COUNT; i++) {
 			VBox week = (VBox)month.getChildren().get(i);
 			weeks[i] = week;
 		}
-		
-		dayCount = calendar.get(Calendar.DAY_OF_WEEK)-1;
-		weekCount = 0;
+		// TODO
+		for(int i=0; i<weekCount; i++) {
+			for(int j=0; j < MAX_DAY_COUNT; j++) {
+				Label label = (Label) weeks[i].getChildren().get(j);
+				label.setStyle(colorMap.get(weeksColors[i][j]));
+			}
+		}
 		
 		timerFlag = true;
 		timeSetting = true;
@@ -468,16 +480,35 @@ public class TimeLineController implements Initializable {
 		
 		monthCheck = monthChecker();
 		
-		Platform.runLater(() -> clearColor());
+		if(monthCheck) {
+			changeColor();
+			for(int i=0; i < weekCount; i++) {
+				for(int j=0; j < MAX_DAY_COUNT; j++) {
+					Label label = (Label) weeks[i].getChildren().get(j);
+					label.setStyle(colorMap.get(0));
+				}
+			}
+			
+			Platform.runLater(() -> nowMonth.setText((calendar.get(Calendar.MONTH)+1)+"월 "));
+			weekCount = 0;
+		}
 		
 		if(dayCount > 6) {
 			changeColor();
-			clearColor();
-			weekColors = new int[] {5, 5, 5, 5, 5, 5, 5};
+			for(Label label: week) {
+				label.setStyle(colorMap.get(0));
+			}
+			weekColors = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 			dayCount = 0;
 		}
 		
 		if(weekCount > 4) {
+			for(int i=0; i < weekCount; i++) {
+				for(int j=0; j < MAX_DAY_COUNT; j++) {
+					Label label = (Label) weeks[i].getChildren().get(j);
+					label.setStyle(colorMap.get(0));
+				}
+			}
 			weekCount = 0;
 		}
 		
@@ -487,40 +518,9 @@ public class TimeLineController implements Initializable {
 		for(int i=0; i < MAX_DAY_COUNT; i++) {
 			Label label = (Label) weeks[weekCount].getChildren().get(i);
 			label.setStyle(colorMap.get(weekColors[i]));
+			weeksColors[weekCount][i] = weekColors[i]; // TODO
 		}
 		weekCount++;
-	}
-	
-	private void clearColor() {
-		
-		if(dayCount > 6) {
-			for(Label label: week) {
-				label.setStyle(colorMap.get(0));
-			}
-		}
-		
-		if(weekCount > 4) {
-			for(int i=0; i < weekCount; i++) {
-				for(int j=0; j < MAX_DAY_COUNT; j++) {
-					Label label = (Label) weeks[i].getChildren().get(j);
-					label.setStyle(colorMap.get(0));
-				}
-			}
-		}
-		
-		if(monthCheck) {
-			changeColor();
-			
-			for(int i=0; i < weekCount; i++) {
-				for(int j=0; j < MAX_DAY_COUNT; j++) {
-					Label label = (Label) weeks[i].getChildren().get(j);
-					label.setStyle(colorMap.get(0));
-				}
-			}
-			nowMonth.setText((calendar.get(Calendar.MONTH)+1)+"월 ");
-			weekCount = 0;
-		}
-		
 	}
 	
 	private boolean monthChecker() {
