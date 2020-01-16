@@ -40,7 +40,11 @@ public class EssentialController implements Initializable {
 	@FXML TextField title;
 	@FXML Label error_msg;
 	@FXML ListView<String> timeLineListView;
-	
+
+	@FXML Button AddEssentialsButton;
+	@FXML Button ShowTimeLineButton;
+	@FXML Button AddChallengesButton;
+	@FXML Button MoveToGroupButton;
 	
 	@SuppressWarnings("serial")
 	ArrayList<String> day_list = new ArrayList<String>() {{
@@ -66,6 +70,54 @@ public class EssentialController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		AddEssentialsButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/first.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)AddEssentialsButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		ShowTimeLineButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/TimeLine.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)ShowTimeLineButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		AddChallengesButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/AddingChallenges.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)AddChallengesButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		MoveToGroupButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
 		time_info.append(ClientInfo.schedules);
 		
 		day.setText(day_list.get(day_index));
@@ -192,13 +244,13 @@ public class EssentialController implements Initializable {
 		
 		error_msg.setText("");
 
-		
 		time_info.append(day_list.get(day_index)+"/");
 		time_info.append(title.getText()+"/");
 		time_info.append(start_h.getText());
 		time_info.append(start_m.getText()+"/");
 		time_info.append(end_h.getText());
-		time_info.append(end_m.getText()+"//");
+		time_info.append(end_m.getText()+"/");
+		time_info.append("E//"); // Essential (필수 일정)
 		
 		
 		//등록완료

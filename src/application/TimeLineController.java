@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,9 +17,12 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.HBox;
@@ -27,6 +31,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 
 public class TimeLineController implements Initializable {
 
@@ -37,6 +42,10 @@ public class TimeLineController implements Initializable {
 	@FXML Label dayOfWeekLabel;
 	@FXML Button leftButton; // "<"
 	@FXML Button rightButton; // ">"
+	@FXML Button AddEssentialsButton;
+	@FXML Button ShowTimeLineButton;
+	@FXML Button AddChallengesButton;
+	@FXML Button MoveToGroupButton;
 	
 	//////////////////////////////////////////////////////
 	
@@ -128,6 +137,55 @@ public class TimeLineController implements Initializable {
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		AddEssentialsButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/first.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)AddEssentialsButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		ShowTimeLineButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/TimeLine.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)ShowTimeLineButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		AddChallengesButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/AddingChallenges.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)AddChallengesButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		MoveToGroupButton.setOnMouseClicked(event -> {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		});
+		
 		////////// 각종 초기화 + 애니메이션 (타임라인) 시작 //////////
 		data.Controllers.timeLineController = this;
 		
