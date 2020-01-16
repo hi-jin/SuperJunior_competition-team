@@ -50,6 +50,11 @@ public class RootController implements Initializable {
             
             ClientInfo.setSocket(socket);
             
+            if(ClientInfo.userId != null && !ClientInfo.userId.equals("") ) {
+            	Platform.runLater(() -> idTextField.setText(ClientInfo.userId));
+            	Platform.runLater(() -> login());
+            }
+            
             Thread listener = new Thread(() -> {
             	try {
 					BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -99,18 +104,22 @@ public class RootController implements Initializable {
 
 	@FXML public void login() {
 		if(!idTextField.getText().equals("")) {
+			loginButton.setDisable(true);
 			Socket server = data.ClientInfo.socketInfo;
 			try {
 				PrintWriter out = new PrintWriter(new BufferedOutputStream(server.getOutputStream()));
 				out.println("login/" + idTextField.getText());
 				out.flush();
-				Thread.sleep(400);
-				if(!ClientInfo.userId.equals("")) {
+				Thread.sleep(1000);
+				if(ClientInfo.userId != null && !ClientInfo.userId.equals("")) {
 					Parent second = FXMLLoader.load(getClass().getResource("templates/first.fxml"));
 					Scene sc = new Scene(second);
 					Stage stage = (Stage)loginButton.getScene().getWindow();
 					stage.setScene(sc);
 					stage.show();
+				} else {
+		        	error_msg.setText("아이디를 다시 입력해주세요.");
+					loginButton.setDisable(false);
 				}
 			} catch (IOException e) {
 	        	error_msg.setText("서버 에러 혹은 인터넷 연결을 확인해주세요.");

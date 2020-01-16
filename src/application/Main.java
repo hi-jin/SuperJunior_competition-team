@@ -14,12 +14,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			FileIO.read();
-			FXMLLoader loader = null;
-			if(ClientInfo.userId.equals("")) {
-				loader = new FXMLLoader(getClass().getResource("templates/main.fxml"));
-			} else {
-				loader = new FXMLLoader(getClass().getResource("templates/TimeLine.fxml")); // TODO 로그인 후 첫화면이 뭐지?
-			}
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("templates/main.fxml"));
 			Parent root = loader.load();
 			root.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
 			Scene scene = new Scene(root);

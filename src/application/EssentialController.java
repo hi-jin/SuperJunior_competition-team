@@ -66,6 +66,8 @@ public class EssentialController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		time_info.append(ClientInfo.schedules);
+		
 		day.setText(day_list.get(day_index));
 		essential_num.setText(String.valueOf(essential[day_index]));
 		
