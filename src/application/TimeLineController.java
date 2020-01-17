@@ -65,6 +65,7 @@ public class TimeLineController implements Initializable {
     private int						currentDayOfWeek; // 현재 보고있는 요일
 	private ObservableList<String> 	timeLineList;
     private Vector<Integer[]> 		scheduleIndexList = new Vector<>();
+    private Vector<Integer[]>		challengeIndexList = new Vector<>();
     
     //////////////////////////////// 진척도 관련 필드 ///////////////////////////////////
 	
@@ -307,6 +308,23 @@ public class TimeLineController implements Initializable {
 							}
 						}
 					}
+					for(int i = 0; i < challengeIndexList.size(); i++) {
+						if(challengeIndexList.get(i)[0] < getIndex() && challengeIndexList.get(i)[1] > getIndex()) {
+							setStyle("-fx-background-color: #ebedf0");
+						} else if(challengeIndexList.get(i)[0] == getIndex()) {
+							if(getIndex() % 2 == 0) {
+								setStyle("-fx-background-color: linear-gradient(-fx-control-inner-background 50%, #ebedf0 50%)");
+							} else {
+								setStyle("-fx-background-color: linear-gradient(derive(-fx-control-inner-background, -2%) 50%, #ebedf0 50%)");
+							}
+						} else if(challengeIndexList.get(i)[1] == getIndex()) {
+							if(getIndex() % 2 == 0) {
+								setStyle("-fx-background-color: linear-gradient(#ebedf0 50%, -fx-control-inner-background 50%)");
+							} else {
+								setStyle("-fx-background-color: linear-gradient(derive(#ebedf0, -2%) 50%, -fx-control-inner-background 50%)");
+							} // 빨강 ㅎ2 ㅋㅋ
+						}
+					}
 				}
 			}
 		});
@@ -371,7 +389,7 @@ public class TimeLineController implements Initializable {
 			String[] command = scheduleList[i].split("/");
 			
 			if(command[0].equals(dayOfWeek)) {
-				writeSchedule(command[1], command[2], command[3]);
+				writeSchedule(command[1], command[2], command[3], command[4]);
 			}
 		}
 	}
@@ -380,6 +398,7 @@ public class TimeLineController implements Initializable {
 	private void clearSchedules() {
 		timeLineList.clear();
 		scheduleIndexList.clear();
+		challengeIndexList.clear();
 		
 		int time = 0000;
 		
@@ -400,7 +419,7 @@ public class TimeLineController implements Initializable {
 	}
 	
 	// 타임라인에 스케줄 추가
-	private void writeSchedule(String title, String startTime, String endTime) {
+	private void writeSchedule(String title, String startTime, String endTime, String type) {
 		int time = Integer.parseInt(startTime);
 		int hour = time / 100;
 		int min = time - hour * 100;
@@ -414,7 +433,10 @@ public class TimeLineController implements Initializable {
 		timeLineList.set(endIndex, String.format("%02d:%02d", hour, min));
 		
 		Integer[] indexList = {startIndex, endIndex};
-		scheduleIndexList.add(indexList);
+		
+		if(type.equals("E")) scheduleIndexList.add(indexList);
+		else challengeIndexList.add(indexList);
+		
 		for(int i = startIndex + 1; i < endIndex; i++) {
 			timeLineList.set(i, "");
 		}
