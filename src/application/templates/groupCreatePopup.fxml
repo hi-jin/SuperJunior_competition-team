@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="300.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.groupCreateController">
+   <children>
+      <Label alignment="CENTER" layoutY="45.0" prefHeight="14.0" prefWidth="300.0" text="그룹 생성하기">
+         <font>
+            <Font name="Arial" size="25.0" />
+         </font>
+      </Label>
+      <HBox layoutX="70.0" layoutY="85.0">
+         <children>
+            <TextField fx:id="insertGroupID" prefHeight="30.0" prefWidth="120.0" promptText="5자로 작성">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <Button mnemonicParsing="false" onAction="#createGroup" prefHeight="30.0" prefWidth="40.0" text="생성" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
