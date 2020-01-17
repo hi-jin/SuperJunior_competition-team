@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AddingChallengesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AddingChallengesController">
    <children>
       <ListView fx:id="timeLineListView" layoutX="10.0" layoutY="87.0" prefHeight="312.0" prefWidth="208.0" />
       <Label layoutX="158.0" layoutY="51.0" text="도전 일정 입력" />
@@ -22,7 +22,6 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ComboBox>
-      <Button layoutX="265.0" layoutY="310.0" mnemonicParsing="false" onAction="#addMore" text="계속 추가하기" />
       <Button layoutX="324.0" layoutY="357.0" mnemonicParsing="false" onAction="#cancel" text="취소" />
       <Label fx:id="error_msg" alignment="CENTER" layoutY="502.0" prefHeight="17.0" prefWidth="400.0" textAlignment="CENTER" textFill="RED" />
       <Button fx:id="doneButton" layoutX="265.0" layoutY="357.0" mnemonicParsing="false" onAction="#done" text="완료" />
@@ -34,7 +33,7 @@
             <Button fx:id="MoveToGroupButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="그" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
-      <Button fx:id="AddChallengesButton" layoutX="280.0" layoutY="273.0" mnemonicParsing="false" onAction="#add" text="추가하기" />
+      <Button layoutX="280.0" layoutY="273.0" mnemonicParsing="false" onAction="#add" text="추가하기" />
       <Label layoutX="241.0" layoutY="183.0" text="희망 시각 선택 (10분 단위)" />
    </children>
 </AnchorPane>
