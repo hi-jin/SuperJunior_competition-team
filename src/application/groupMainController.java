@@ -1,36 +1,56 @@
 package application;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.stage.Popup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-public class groupGatewayController implements Initializable {
-	@FXML Button btn;
+public class groupMainController implements Initializable{
+	@FXML ComboBox<String> myTeam;
 	@FXML Button AddEssentialsButton;
 	@FXML Button ShowTimeLineButton;
 	@FXML Button AddChallengesButton;
 	@FXML Button MoveToGroupButton;
+	@FXML Label progressOfMonth;
+	@FXML Label myRank;
+	@FXML ListView<String> groupRank;
 	
-	private Stage Stage;
+	private ObservableList<String> teamList;
+	private ObservableList<String> rankList;
+	private static PrintWriter out;
+	private static String progress;
 	
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		if(data.Controllers.groupMainController==null) {
+			data.Controllers.groupMainController = this;
+			
+			try {
+				out = new PrintWriter(new BufferedOutputStream(data.ClientInfo.socketInfo.getOutputStream()));
+			} catch (IOException e) {
+				System.out.println("서버가 닫혀있습니다.");
+			}
+			
+			out.println("progress/"+data.ClientInfo.userId);
+			out.flush();
+		}
 		AddEssentialsButton.setOnMouseClicked(event -> {
 			try {
 				Parent second;
 				second = FXMLLoader.load(getClass().getResource("templates/first.fxml"));
+				second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
 				Scene sc = new Scene(second);
 				Stage stage = (Stage)AddEssentialsButton.getScene().getWindow();
 				stage.setScene(sc);
@@ -43,6 +63,7 @@ public class groupGatewayController implements Initializable {
 			try {
 				Parent second;
 				second = FXMLLoader.load(getClass().getResource("templates/TimeLine.fxml"));
+				second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
 				Scene sc = new Scene(second);
 				Stage stage = (Stage)ShowTimeLineButton.getScene().getWindow();
 				stage.setScene(sc);
@@ -55,6 +76,7 @@ public class groupGatewayController implements Initializable {
 			try {
 				Parent second;
 				second = FXMLLoader.load(getClass().getResource("templates/AddingChallenges.fxml"));
+				second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
 				Scene sc = new Scene(second);
 				Stage stage = (Stage)AddChallengesButton.getScene().getWindow();
 				stage.setScene(sc);
@@ -90,53 +112,47 @@ public class groupGatewayController implements Initializable {
 				}
 			}
 		});
-		if(data.Controllers.groupGatewayController==null) {
-			data.Controllers.groupGatewayController=this;
+		
+
+		
+		teamList = FXCollections.observableArrayList();
+		String[] teams = data.ClientInfo.groupId.split(";");
+		for(String team : teams) {
+			teamList.add(team);
+		}
+		myTeam.setItems(teamList);
+		Platform.runLater(() -> {
+			myTeam.setPromptText(teams[0]);
+		});
+		rankList = FXCollections.observableArrayList();
+		groupRank.setItems(rankList);
+		
+		Platform.runLater(() -> {
+			progressOfMonth.setText(progress);
+		});
+	}
+	
+	@FXML
+	public void moveToCreateOrJoinGroup() {
+		try {
+			Parent second;
+			second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));
+			second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+			Scene sc = new Scene(second);
+			Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
+			stage.setScene(sc);
+			stage.show();
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
-	@FXML
-	public void createGroupGateWay() {
-		Stage = (Stage)btn.getScene().getWindow();
-		Popup pop = new Popup();
-		Parent root;
-		try {
-			root = FXMLLoader.load(getClass().getResource("templates/groupCreatePopup.fxml"));
-			// 팝업 객체에 레이아웃 추가
-			pop.getContent().add(root);
-			pop.setAutoHide(true); // 포커스 이동시 창 숨김
-			
-			// 팝업 객체에서 스테이지를 보여줌
-			pop.show(Stage);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} // 저번에 설명한 경로 땡겨오기
+	public void setProgress(String progress) {
+		groupMainController.progress = progress;
 	}
 	
-
-	
-	@FXML
-	public void joinGroupGateWay() {
-		Stage = (Stage)btn.getScene().getWindow();
-		Popup pop = new Popup();
-		Parent root;
-		try {
-			root = FXMLLoader.load(getClass().getResource("templates/groupjoinPopup.fxml"));
-			// 팝업 객체에 레이아웃 추가
-			pop.getContent().add(root);
-			pop.setAutoHide(true); // 포커스 이동시 창 숨김
-			
-			// 팝업 객체에서 스테이지를 보여줌
-			pop.show(Stage);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} // 저번에 설명한 경로 땡겨오기
+	public void setRank(String groupRank) {
+		// TODO
 	}
 
-	public void alertErrorMessage(String errorMsg) {
-		Platform.runLater(() -> {
-			new Alert(Alert.AlertType.INFORMATION, errorMsg, ButtonType.CLOSE).show();
-		});
-		return;
-	}
 }
