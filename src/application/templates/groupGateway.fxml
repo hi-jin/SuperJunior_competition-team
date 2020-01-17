@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.groupGatewayController">
+   <children>
+      <VBox layoutX="130.0" layoutY="165.0" spacing="70.0">
+         <children>
+            <Button fx:id="btn" mnemonicParsing="false" onAction="#createGroupGateWay" prefHeight="50.0" prefWidth="140.0" text="그룹 생성" />
+            <Button mnemonicParsing="false" onAction="#joinGroupGateWay" prefHeight="50.0" prefWidth="140.0" text="그룹 찹여" />
+         </children>
+      </VBox>
+      <VBox layoutX="400.0" layoutY="10.0" prefHeight="600.0" prefWidth="50.0">
+         <children>
+            <Button fx:id="AddEssentialsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="필" VBox.vgrow="ALWAYS" />
+            <Button fx:id="ShowTimeLineButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="타" VBox.vgrow="ALWAYS" />
+            <Button fx:id="AddChallengesButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="도" VBox.vgrow="ALWAYS" />
+            <Button fx:id="MoveToGroupButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="그" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

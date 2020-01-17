@@ -42,7 +42,12 @@ public class ServerListener extends Thread {
 					if(command[1].equals("error")) {
 						data.Controllers.groupGatewayController.alertErrorMessage(command[2]);
 					}
+					break;	
+				case "progress":
+					data.Controllers.groupMainController.setProgress(command[1]);
+					break;
 				}
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
