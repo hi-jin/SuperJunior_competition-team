@@ -41,6 +41,10 @@ public class ServerListener extends Thread {
 						System.out.println("!");
 					}
 					break;
+				case "group":
+					if(command[1].equals("error")) {
+						data.Controllers.groupGatewayController.alertErrorMessage(command[2]);
+					}
 				}
 			}
 		} catch (IOException e) {
