@@ -14,10 +14,10 @@
       <ListView fx:id="timeLineListView" layoutX="10.0" layoutY="87.0" prefHeight="312.0" prefWidth="208.0" />
       <Label layoutX="158.0" layoutY="51.0" text="도전 일정 입력" />
       <TextField fx:id="titleTextField" layoutX="229.0" layoutY="87.0" promptText="제목 입력" />
-      <Label layoutX="282.0" layoutY="123.0" text="시작시간" />
-      <TextField fx:id="hourTextField" layoutX="229.0" layoutY="142.0" prefHeight="27.0" prefWidth="66.0" />
-      <Label layoutX="309.0" layoutY="149.0" text=":" />
-      <TextField fx:id="minTextField" layoutX="324.0" layoutY="142.0" prefHeight="27.0" prefWidth="66.0" />
+      <Label layoutX="221.0" layoutY="125.0" text="도전 일정 지속시간 (10분 단위)" />
+      <TextField fx:id="hourTextField" layoutX="229.0" layoutY="148.0" prefHeight="27.0" prefWidth="66.0" />
+      <Label layoutX="308.0" layoutY="153.0" text=":" />
+      <TextField fx:id="minTextField" layoutX="324.0" layoutY="148.0" prefHeight="27.0" prefWidth="66.0" />
       <ComboBox fx:id="challengeTimeComboBox" layoutX="231.0" layoutY="215.0" prefHeight="27.0" prefWidth="161.0" promptText="희망 시각 선택">
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -34,6 +34,6 @@
          </children>
       </VBox>
       <Button layoutX="280.0" layoutY="273.0" mnemonicParsing="false" onAction="#add" text="추가하기" />
-      <Label layoutX="241.0" layoutY="183.0" text="희망 시각 선택 (10분 단위)" />
+      <Label layoutX="270.0" layoutY="185.0" text="희망 시각 선택" />
    </children>
 </AnchorPane>

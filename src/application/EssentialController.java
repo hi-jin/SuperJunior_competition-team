@@ -3,10 +3,12 @@ package application;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
 import data.ClientInfo;
+import data.Schedule;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -65,8 +67,7 @@ public class EssentialController implements Initializable {
 	////////// timeLine //////////
 	private double 					cellHeight = 24;
 	private ObservableList<String> 	timeLineList;
-    private Vector<Integer[]> 		scheduleIndexList = new Vector<>();
-    private Vector<Integer[]>		challengeIndexList = new Vector<>();
+    private Vector<Schedule> 		scheduleIndexList = new Vector<>();
 	//////////////////////////////
 	
 	@Override
@@ -179,9 +180,13 @@ public class EssentialController implements Initializable {
 		
 		
 		////////// 타임라인 일정 색상 표시 기능 //////////
-		timeLineListView.setCellFactory(lv -> new ListCell<String>() {
+		timeLineListView.setCellFactory(lv -> new ListCell<String>() { // TODO 최적화
 			@Override
 			protected void updateItem(String item, boolean empty) {
+				String color;
+				String otherColor;
+				
+				Collections.sort(scheduleIndexList);
 				super.updateItem(item, empty);
 				if(empty) {
 					setText(null);
@@ -190,37 +195,42 @@ public class EssentialController implements Initializable {
 					setText(item);
 					setStyle("");
 					for(int i = 0; i < scheduleIndexList.size(); i++) {
-						if(scheduleIndexList.get(i)[0] < getIndex() && scheduleIndexList.get(i)[1] > getIndex()) {
-							setStyle("-fx-background-color: #A9F5F2");
-						} else if(scheduleIndexList.get(i)[0] == getIndex()) {
-							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(-fx-control-inner-background 50%, #A9F5F2 50%)");
-							} else {
-								setStyle("-fx-background-color: linear-gradient(derive(-fx-control-inner-background, -2%) 50%, #A9F5F2 50%)");
-							}
-						} else if(scheduleIndexList.get(i)[1] == getIndex()) {
-							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(#A9F5F2 50%, -fx-control-inner-background 50%)");
-							} else {
-								setStyle("-fx-background-color: linear-gradient(derive(#A9F5F2, -2%) 50%, -fx-control-inner-background 50%)");
-							}
+						if(scheduleIndexList.get(i).getType() == 'E') {
+							color = "#A9F5F2";
+						} else {
+							color = "#ebedf0";
 						}
-					}
-					for(int i = 0; i < challengeIndexList.size(); i++) {
-						if(challengeIndexList.get(i)[0] < getIndex() && challengeIndexList.get(i)[1] > getIndex()) {
-							setStyle("-fx-background-color: #ebedf0");
-						} else if(challengeIndexList.get(i)[0] == getIndex()) {
-							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(-fx-control-inner-background 50%, #ebedf0 50%)");
-							} else {
-								setStyle("-fx-background-color: linear-gradient(derive(-fx-control-inner-background, -2%) 50%, #ebedf0 50%)");
+						if(scheduleIndexList.get(i).getStartIndex() < getIndex() && scheduleIndexList.get(i).getEndIndex() > getIndex()) {
+							setStyle("-fx-background-color: " + color);
+							break;
+						} else if(scheduleIndexList.get(i).getStartIndex() == getIndex()) {
+							if(i > 0) {
+								if(scheduleIndexList.get(i-1).getEndIndex() == getIndex()) {
+									if(scheduleIndexList.get(i-1).getType() == 'E') otherColor = "#A9F5F2";
+									else otherColor = "#ebedf0";
+									setStyle("-fx-background-color: linear-gradient(" + otherColor + " 50%, " + color + " 50%)");
+									break;
+								} 
 							}
-						} else if(challengeIndexList.get(i)[1] == getIndex()) {
 							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(#ebedf0 50%, -fx-control-inner-background 50%)");
+								setStyle("-fx-background-color: linear-gradient(-fx-control-inner-background 50%, " + color + " 50%)");
 							} else {
-								setStyle("-fx-background-color: linear-gradient(derive(#ebedf0, -2%) 50%, -fx-control-inner-background 50%)");
-							} // 빨강 ㅎ2 ㅋㅋ
+								setStyle("-fx-background-color: linear-gradient(derive(-fx-control-inner-background, -2%) 50%, " + color + " 50%)");
+							}
+						} else if(scheduleIndexList.get(i).getEndIndex() == getIndex()) {
+							if(i < scheduleIndexList.size()-1) {
+								if(scheduleIndexList.get(i+1).getStartIndex() == getIndex()) {
+									if(scheduleIndexList.get(i+1).getType() == 'E') otherColor = "#A9F5F2";
+									else otherColor = "#ebedf0";
+									setStyle("-fx-background-color: linear-gradient(" + color + " 50%, " + otherColor + " 50%)");
+									break;
+								} 
+							}
+							if(getIndex() % 2 == 0) {
+								setStyle("-fx-background-color: linear-gradient(" + color + " 50%, -fx-control-inner-background 50%)");
+							} else {
+								setStyle("-fx-background-color: linear-gradient(" + color + " 50%, derive(-fx-control-inner-background, -2%) 50%)");
+							}
 						}
 					}
 				}
@@ -298,6 +308,7 @@ public class EssentialController implements Initializable {
 		essential_num.setText(String.valueOf(essential[day_index]));
 		data.ClientInfo.schedules += time_info.toString();
 		showSchedules(day_list.get(day_index));
+		timeLineListView.refresh();
 	}
 
 
@@ -337,24 +348,14 @@ public class EssentialController implements Initializable {
 
 	// 타임라인에 스케줄 추가
 	private void writeSchedule(String title, String startTime, String endTime, String type) {
-		int time = Integer.parseInt(startTime);
-		int hour = time / 100;
-		int min = time - hour * 100;
-		int startIndex = min / 10 + hour * 6 + 2;
-		timeLineList.set(startIndex, String.format("%02d:%02d", hour, min) + " " + title);
+		Schedule schedule = new Schedule(startTime, endTime, type.charAt(0));
 		
-		time = Integer.parseInt(endTime);
-		hour = time / 100;
-		min = time - hour * 100;
-		int endIndex = min / 10 + hour * 6 + 2;
-		timeLineList.set(endIndex, String.format("%02d:%02d", hour, min));
+		timeLineList.set(schedule.getStartIndex(), getTime(schedule.getStartTime()) + " " + title);
+		timeLineList.set(schedule.getEndIndex(), getTime(schedule.getEndTime()));
 		
-		Integer[] indexList = {startIndex, endIndex};
+		scheduleIndexList.add(schedule);
 		
-		if(type.equals("E")) scheduleIndexList.add(indexList);
-		else challengeIndexList.add(indexList);
-		
-		for(int i = startIndex + 1; i < endIndex; i++) {
+		for(int i = schedule.getStartIndex() + 1; i < schedule.getEndIndex(); i++) {
 			timeLineList.set(i, "");
 		}
 	}
@@ -363,7 +364,6 @@ public class EssentialController implements Initializable {
 	private void clearSchedules() {
 		timeLineList.clear();
 		scheduleIndexList.clear();
-		challengeIndexList.clear();
 		
 		int time = 0000;
 		
@@ -390,15 +390,37 @@ public class EssentialController implements Initializable {
 		return String.format("%02d:%02d", hour, min);
 	}
 	
-	private int addTime(int time, int min) {
-		if(time - (time / 100) * 100 > 49) {
-			time -= 50;
-			time += 100;
+	private int addTime(int time1, int time2) {
+		int result = 0;
+		
+		if(time2 > 0) {
+			int h1 = time1 / 100;
+			int m1 = time1 % 100;
+			int h2 = time2 / 100;
+			int m2 = time2 % 100;
+			
+			while(m1 + m2 >= 60) {
+				m1 -= 60;
+				h1 += 1;
+			}
+			result = (h1 + h2) * 100 + m1 + m2;
+		} else if(time2 < 0){
+			time2 *= -1;
+			int h1 = time1 / 100;
+			int m1 = time1 % 100;
+			int h2 = time2 / 100;
+			int m2 = time2 % 100;
+
+			while(m1 - m2 < 0) {
+				m1 += 60;
+				h1 -= 1;
+			}
+			result = (h1 - h2) * 100 + m1 - m2;
 		} else {
-			time += 10;
+			result = time1;
 		}
 		
-		return time;
+		return result;
 	}
 	//////////////////////////////
 
