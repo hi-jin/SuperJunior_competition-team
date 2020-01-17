@@ -221,7 +221,7 @@ public class TimeLineController implements Initializable {
 			VBox week = (VBox)month.getChildren().get(i);
 			weeks[i] = week;
 		}
-		// TODO
+		
 		for(int i=0; i<weekCount; i++) {
 			for(int j=0; j < MAX_DAY_COUNT; j++) {
 				Label label = (Label) weeks[i].getChildren().get(j);
@@ -518,7 +518,7 @@ public class TimeLineController implements Initializable {
 		for(int i=0; i < MAX_DAY_COUNT; i++) {
 			Label label = (Label) weeks[weekCount].getChildren().get(i);
 			label.setStyle(colorMap.get(weekColors[i]));
-			weeksColors[weekCount][i] = weekColors[i]; // TODO
+			weeksColors[weekCount][i] = weekColors[i];
 		}
 		weekCount++;
 	}

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,7 +29,7 @@ public class AddingChallengesController implements Initializable {
 	@FXML TextField titleTextField;
 	@FXML TextField hourTextField;
 	@FXML TextField minTextField;
-	@FXML ComboBox challengeTimeComboBox; // TODO ComboBox + Algorithm
+	@FXML ComboBox<String> challengeTimeComboBox; // TODO ComboBox + Algorithm
 	@FXML Button doneButton;
 	@FXML Button addMoreButton;
 	@FXML Button cancelButton;
@@ -42,7 +44,7 @@ public class AddingChallengesController implements Initializable {
 	private ObservableList<String> 	timeLineList;
     private Vector<Integer[]> 		scheduleIndexList = new Vector<>();
     
-    ArrayList<String> day_list = new ArrayList<String>() {{
+    ArrayList<String> day_list = new ArrayList<>() {{
 		add("일");
 		add("월");
 		add("화");
@@ -51,10 +53,16 @@ public class AddingChallengesController implements Initializable {
 		add("금");
 		add("토");
 	}};
+	
 	int day_index = 0; // day_list index
 	
 	StringBuilder time_info = new StringBuilder();
 	//////////////////////////////
+	
+	////////// AddChallanges //////////
+	private ObservableList<String> recommendList;
+	private boolean isBlank = true;
+	///////////////////////////////////
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -149,7 +157,44 @@ public class AddingChallengesController implements Initializable {
 		
 		showSchedules(day_list.get(day_index));
 		///////////////////////////////////////////
-		//////////////////////////////
+		recommendList = FXCollections.observableArrayList();
+		challengeTimeComboBox.setItems(recommendList);
+		AddChallengesButton.setDisable(true);
+		hourTextField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(!oldValue.equals(newValue) && newValue.length() > 0) {
+					AddChallengesButton.setDisable(false);
+					if(!isBlank && !minTextField.getText().equals("")) { // TODO
+						recommendList.clear();
+						recommendTime();
+					}
+					isBlank = false;
+				}
+				
+				if(newValue.length() == 0) {
+					AddChallengesButton.setDisable(true);
+				}
+			}
+			
+		});
+		minTextField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(!oldValue.equals(newValue) && newValue.length() > 0) {
+					AddChallengesButton.setDisable(false);
+					if(!isBlank && !hourTextField.getText().equals("")) {
+						recommendList.clear();
+						recommendTime();
+					}
+				}
+				
+				if(newValue.length() == 0) {
+					AddChallengesButton.setDisable(true);
+				}
+			}
+			
+		});
 	}
 	
 	////////// timeLine //////////
@@ -237,7 +282,18 @@ public class AddingChallengesController implements Initializable {
 		return time;
 	}
 	//////////////////////////////
-
+	@FXML public void add() {
+		String title = titleTextField.getText();
+		System.out.println(challengeTimeComboBox.getValue());
+		String[] startToEnd = challengeTimeComboBox.getValue().split("~");
+		String[] start = startToEnd[0].split(":");
+		String[] end = startToEnd[1].split(":");
+		String startTime = start[0]+start[1];
+		String endTime = end[0]+end[1];
+		
+		writeSchedule(title, startTime, endTime);
+		showSchedules(day_list.get(day_index));
+	}
 	@FXML public void done() {
 		sendChallenges();
 	} // TODO
@@ -267,5 +323,35 @@ public class AddingChallengesController implements Initializable {
 		}
 		
 		error_msg.setText("");
+	}
+	
+	private void recommendTime() {
+		int startHour = Integer.parseInt(hourTextField.getText());
+		int startMin = Integer.parseInt(minTextField.getText());
+		int recommendMin = startMin;
+		for(int recommendHour = startHour; recommendHour < 24; recommendHour++) {
+			while(recommendMin < 60) {
+				if(recommendMin>=50) {
+					if(recommendHour>=23) {
+						recommendList.add(
+								startHour+":"+startMin
+								+"~23:59"
+						);
+					}else {
+						recommendList.add(
+								startHour+":"+startMin
+								+"~"+(recommendHour+1)+":"+(recommendMin-50)
+						);
+					}
+				}else {
+					recommendList.add(
+							startHour+":"+startMin
+							+"~"+recommendHour+":"+(recommendMin+10)
+					);
+				}
+				recommendMin+=10;
+			}
+			recommendMin-=60;
+		}
 	}
 }
