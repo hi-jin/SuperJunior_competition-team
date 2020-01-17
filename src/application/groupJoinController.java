@@ -28,13 +28,21 @@ public class groupJoinController implements Initializable{
 	
 	@FXML
 	public void joinGroup() {
-		String groupID = insertGroupID.getText();
-		
-		if(groupID.length()!=5) {
+		String teamID = insertGroupID.getText();
+		System.out.println(teamID);
+		String[] nowTeam = data.ClientInfo.groupId.split(";");
+		for(String team : nowTeam) {
+			if(team.equals(teamID)) {
+				new Alert(Alert.AlertType.ERROR, "이미 참여한 그룹입니다.", ButtonType.CLOSE).show();
+				return;
+			}
+		}
+		if(teamID.length()!=5) {
 			new Alert(Alert.AlertType.ERROR, "정확하게 5자로 입력해주세요!!", ButtonType.CLOSE).show();
 			return;
 		}
-		out.println("group/join/"+data.ClientInfo.userId+"/"+groupID);
+		data.ClientInfo.groupId += teamID+";";
+		out.println("group/join/"+data.ClientInfo.userId+"/"+teamID);
 		out.flush();
 	}
 }
