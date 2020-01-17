@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import data.Schedule;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -45,10 +47,10 @@ public class AddingChallengesController implements Initializable {
 	////////// timeLine //////////
 	private double 					cellHeight = 24;
 	private ObservableList<String> 	timeLineList;
-    private Vector<Integer[]> 		scheduleIndexList = new Vector<>();
-    private Vector<Integer[]>		challengeIndexList = new Vector<>();
+    private Vector<Schedule> 		scheduleIndexList = new Vector<>();
     
-    ArrayList<String> day_list = new ArrayList<String>() {{
+    @SuppressWarnings("serial")
+	ArrayList<String> day_list = new ArrayList<String>() {{
 		add("일");
 		add("월");
 		add("화");
@@ -135,9 +137,13 @@ public class AddingChallengesController implements Initializable {
 		
 		
 		////////// 타임라인 일정 색상 표시 기능 //////////
-		timeLineListView.setCellFactory(lv -> new ListCell<String>() {
+		timeLineListView.setCellFactory(lv -> new ListCell<String>() { // TODO 최적화
 			@Override
 			protected void updateItem(String item, boolean empty) {
+				String color;
+				String otherColor;
+				
+				Collections.sort(scheduleIndexList);
 				super.updateItem(item, empty);
 				if(empty) {
 					setText(null);
@@ -146,37 +152,42 @@ public class AddingChallengesController implements Initializable {
 					setText(item);
 					setStyle("");
 					for(int i = 0; i < scheduleIndexList.size(); i++) {
-						if(scheduleIndexList.get(i)[0] < getIndex() && scheduleIndexList.get(i)[1] > getIndex()) {
-							setStyle("-fx-background-color: #A9F5F2");
-						} else if(scheduleIndexList.get(i)[0] == getIndex()) {
-							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(-fx-control-inner-background 50%, #A9F5F2 50%)");
-							} else {
-								setStyle("-fx-background-color: linear-gradient(derive(-fx-control-inner-background, -2%) 50%, #A9F5F2 50%)");
-							}
-						} else if(scheduleIndexList.get(i)[1] == getIndex()) {
-							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(#A9F5F2 50%, -fx-control-inner-background 50%)");
-							} else {
-								setStyle("-fx-background-color: linear-gradient(derive(#A9F5F2, -2%) 50%, -fx-control-inner-background 50%)");
-							}
+						if(scheduleIndexList.get(i).getType() == 'E') {
+							color = "#A9F5F2";
+						} else {
+							color = "#ebedf0";
 						}
-					}
-					for(int i = 0; i < challengeIndexList.size(); i++) {
-						if(challengeIndexList.get(i)[0] < getIndex() && challengeIndexList.get(i)[1] > getIndex()) {
-							setStyle("-fx-background-color: #ebedf0");
-						} else if(challengeIndexList.get(i)[0] == getIndex()) {
-							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(-fx-control-inner-background 50%, #ebedf0 50%)");
-							} else {
-								setStyle("-fx-background-color: linear-gradient(derive(-fx-control-inner-background, -2%) 50%, #ebedf0 50%)");
+						if(scheduleIndexList.get(i).getStartIndex() < getIndex() && scheduleIndexList.get(i).getEndIndex() > getIndex()) {
+							setStyle("-fx-background-color: " + color);
+							break;
+						} else if(scheduleIndexList.get(i).getStartIndex() == getIndex()) {
+							if(i > 0) {
+								if(scheduleIndexList.get(i-1).getEndIndex() == getIndex()) {
+									if(scheduleIndexList.get(i-1).getType() == 'E') otherColor = "#A9F5F2";
+									else otherColor = "#ebedf0";
+									setStyle("-fx-background-color: linear-gradient(" + otherColor + " 50%, " + color + " 50%)");
+									break;
+								} 
 							}
-						} else if(challengeIndexList.get(i)[1] == getIndex()) {
 							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(#ebedf0 50%, -fx-control-inner-background 50%)");
+								setStyle("-fx-background-color: linear-gradient(-fx-control-inner-background 50%, " + color + " 50%)");
 							} else {
-								setStyle("-fx-background-color: linear-gradient(derive(#ebedf0, -2%) 50%, -fx-control-inner-background 50%)");
-							} // 빨강 ㅎ2 ㅋㅋ
+								setStyle("-fx-background-color: linear-gradient(derive(-fx-control-inner-background, -2%) 50%, " + color + " 50%)");
+							}
+						} else if(scheduleIndexList.get(i).getEndIndex() == getIndex()) {
+							if(i < scheduleIndexList.size()-1) {
+								if(scheduleIndexList.get(i+1).getStartIndex() == getIndex()) {
+									if(scheduleIndexList.get(i+1).getType() == 'E') otherColor = "#A9F5F2";
+									else otherColor = "#ebedf0";
+									setStyle("-fx-background-color: linear-gradient(" + color + " 50%, " + otherColor + " 50%)");
+									break;
+								} 
+							}
+							if(getIndex() % 2 == 0) {
+								setStyle("-fx-background-color: linear-gradient(" + color + " 50%, -fx-control-inner-background 50%)");
+							} else {
+								setStyle("-fx-background-color: linear-gradient(" + color + " 50%, derive(-fx-control-inner-background, -2%) 50%)");
+							}
 						}
 					}
 				}
@@ -247,24 +258,14 @@ public class AddingChallengesController implements Initializable {
 	
 	// 타임라인에 스케줄 추가
 	private void writeSchedule(String title, String startTime, String endTime, String type) {
-		int time = Integer.parseInt(startTime);
-		int hour = time / 100;
-		int min = time - hour * 100;
-		int startIndex = min / 10 + hour * 6 + 2;
-		timeLineList.set(startIndex, String.format("%02d:%02d", hour, min) + " " + title);
+		Schedule schedule = new Schedule(startTime, endTime, type.charAt(0));
 		
-		time = Integer.parseInt(endTime);
-		hour = time / 100;
-		min = time - hour * 100;
-		int endIndex = min / 10 + hour * 6 + 2;
-		timeLineList.set(endIndex, String.format("%02d:%02d", hour, min));
+		timeLineList.set(schedule.getStartIndex(), getTime(schedule.getStartTime()) + " " + title);
+		timeLineList.set(schedule.getEndIndex(), getTime(schedule.getEndTime()));
 		
-		Integer[] indexList = {startIndex, endIndex};
+		scheduleIndexList.add(schedule);
 		
-		if(type.equals("E")) scheduleIndexList.add(indexList);
-		else challengeIndexList.add(indexList);
-		
-		for(int i = startIndex + 1; i < endIndex; i++) {
+		for(int i = schedule.getStartIndex() + 1; i < schedule.getEndIndex(); i++) {
 			timeLineList.set(i, "");
 		}
 	}
@@ -273,7 +274,6 @@ public class AddingChallengesController implements Initializable {
 	private void clearSchedules() {
 		timeLineList.clear();
 		scheduleIndexList.clear();
-		challengeIndexList.clear();
 		
 		int time = 0000;
 		
@@ -300,15 +300,37 @@ public class AddingChallengesController implements Initializable {
 		return String.format("%02d:%02d", hour, min);
 	}
 	
-	private int addTime(int time, int min) {
-		if(time - (time / 100) * 100 > 49) {
-			time -= 50;
-			time += 100;
+	private int addTime(int time1, int time2) {
+		int result = 0;
+		
+		if(time2 > 0) {
+			int h1 = time1 / 100;
+			int m1 = time1 % 100;
+			int h2 = time2 / 100;
+			int m2 = time2 % 100;
+			
+			while(m1 + m2 >= 60) {
+				m1 -= 60;
+				h1 += 1;
+			}
+			result = (h1 + h2) * 100 + m1 + m2;
+		} else if(time2 < 0){
+			time2 *= -1;
+			int h1 = time1 / 100;
+			int m1 = time1 % 100;
+			int h2 = time2 / 100;
+			int m2 = time2 % 100;
+
+			while(m1 - m2 < 0) {
+				m1 += 60;
+				h1 -= 1;
+			}
+			result = (h1 - h2) * 100 + m1 - m2;
 		} else {
-			time += 10;
+			result = time1;
 		}
 		
-		return time;
+		return result;
 	}
 	//////////////////////////////
 	
@@ -320,11 +342,6 @@ public class AddingChallengesController implements Initializable {
 		
 		if(titleTextField.getText().length() > 15) {
 			error_msg.setText("제목은 15자 이내로 작성해주세요.");
-			return;
-		}
-		
-		if(!hourTextField.getText().matches("^[0-9]{2}$") || !minTextField.getText().matches("^[0-9]{2}$")) {
-			error_msg.setText("시간은 숫자 2개만 입력해주십시요. ex) 21:20");
 			return;
 		}
 		
@@ -343,6 +360,10 @@ public class AddingChallengesController implements Initializable {
 		temp_time_info.append("C//"); // Challenge (도전 일정)
 		
 		writeSchedule(title, startTime, endTime, "C");
+		timeLineListView.refresh();
+		titleTextField.clear();
+		hourTextField.clear();
+		minTextField.clear();
 	}
 	@FXML public void done() {
 		time_info.append(temp_time_info.toString());
@@ -365,33 +386,75 @@ public class AddingChallengesController implements Initializable {
 	}
 	
 	private void recommendTime() {
-		int startHour = Integer.parseInt(hourTextField.getText());
-		int startMin = Integer.parseInt(minTextField.getText());
-		int recommendMin = startMin;
-		for(int recommendHour = startHour; recommendHour < 24; recommendHour++) {
-			while(recommendMin < 60) {
-				if(recommendMin>=50) {
-					if(recommendHour>=23) {
-						recommendList.add(
-								startHour+":"+startMin
-								+"~23:59"
-						);
-					}else {
-						recommendList.add(
-								startHour+":"+startMin
-								+"~"+(recommendHour+1)+":"+(recommendMin-50)
-						);
-					}
-				}else {
-					recommendList.add(
-							startHour+":"+startMin
-							+"~"+recommendHour+":"+(recommendMin+10)
-					);
+		Collections.sort(scheduleIndexList);
+		
+		if(scheduleIndexList.size() > 0) {
+			int time1, time2;
+			int userInput = Integer.parseInt(hourTextField.getText() + minTextField.getText());
+			
+			time1 = 0;
+			time2 = scheduleIndexList.get(0).getStartTime();
+			
+			if(addTime(time2, -time1) >= userInput) {
+				if(addTime(addTime(time2, -time1), -20) >= userInput) {
+					recommendList.add(getTime(addTime(addTime(time2, -userInput), -10)) + "~" + getTime(addTime(time2, -10)));
 				}
-				recommendMin+=10;
+				recommendList.add(getTime(addTime(time2, -userInput)) + "~" + getTime(time2));
 			}
-			recommendMin-=60;
+			for(int i = 0; i < scheduleIndexList.size() - 1; i++) {
+				time1 = scheduleIndexList.get(i).getEndTime();
+				time2 = scheduleIndexList.get(i+1).getStartTime();
+				if(addTime(time2, -time1) >= userInput) {
+					if(addTime(addTime(time2, -time1), -20) >= userInput) {
+						recommendList.add(getTime(addTime(addTime(time2, -userInput), -10)) + "~" + getTime(addTime(time2, -10)));
+					}
+					recommendList.add(getTime(addTime(time2, -userInput)) + "~" + getTime(time2));
+					
+					recommendList.add(getTime(time1) + "~" + getTime(addTime(time1, userInput)));
+					if(addTime(addTime(time2, -time1), -20) >= userInput) {
+						recommendList.add(getTime(addTime(time1, 10)) + "~" + getTime(addTime(addTime(time1, userInput), 10)));
+					}
+				}
+			}
+			time1 = scheduleIndexList.get(scheduleIndexList.size()-1).getEndTime();
+			time2 = 2400;
+			if(addTime(time2, -time1) >= userInput) {
+				recommendList.add(getTime(time1) + "~" + getTime(addTime(time1, userInput)));
+				if(addTime(addTime(time2, -time1), -20) >= userInput) {
+					recommendList.add(getTime(addTime(time1, 10)) + "~" + getTime(addTime(addTime(time1, userInput), 10)));
+				}
+			}
 		}
+		
+		
+//		// 재헌 코드 (시작 시각을 입력하면 지속 시간 추천)
+//		int startHour = Integer.parseInt(hourTextField.getText());
+//		int startMin = Integer.parseInt(minTextField.getText());
+//		int recommendMin = startMin;
+//		for(int recommendHour = startHour; recommendHour < 24; recommendHour++) {
+//			while(recommendMin < 60) {
+//				if(recommendMin>=50) {
+//					if(recommendHour>=23) {
+//						recommendList.add(
+//								startHour+":"+startMin
+//								+"~23:59"
+//						);
+//					}else {
+//						recommendList.add(
+//								startHour+":"+startMin
+//								+"~"+(recommendHour+1)+":"+(recommendMin-50)
+//						);
+//					}
+//				}else {
+//					recommendList.add(
+//							startHour+":"+startMin
+//							+"~"+recommendHour+":"+(recommendMin+10)
+//					);
+//				}
+//				recommendMin+=10;
+//			}
+//			recommendMin-=60;
+//		}
 	}
 	
 	public int parseDayOfWeek(String dayOfWeek) {
