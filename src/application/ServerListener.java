@@ -26,7 +26,7 @@ public class ServerListener extends Thread {
 				case "login":
 					if(command[1].equals("1")) {
 						ClientInfo.userId = data.Controllers.rootController.idTextField.getText();
-						ClientInfo.groupId = command[2];
+						ClientInfo.groupId = command[2]+";";
 					} else if(command[1].equals("2")) {
 						Platform.runLater(() -> data.Controllers.rootController.login());
 					} else {
@@ -34,12 +34,9 @@ public class ServerListener extends Thread {
 					}
 					break;
 				case "update":
-					// TODO 진척도를 업데이트 하도록 시킴.
 					try {
 						data.Controllers.timeLineController.nextDay();
-					} catch (Exception e) {
-						System.out.println("!");
-					}
+					} catch (Exception e) {}
 					break;
 				case "group":
 					if(command[1].equals("error")) {
