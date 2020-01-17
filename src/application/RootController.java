@@ -55,6 +55,7 @@ public class RootController implements Initializable {
 				Thread.sleep(1000);
 				if(ClientInfo.userId != null && !ClientInfo.userId.equals("")) {
 					Parent second = FXMLLoader.load(getClass().getResource("templates/first.fxml"));
+					second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
 					Scene sc = new Scene(second);
 					Stage stage = (Stage)loginButton.getScene().getWindow();
 					stage.setScene(sc);
