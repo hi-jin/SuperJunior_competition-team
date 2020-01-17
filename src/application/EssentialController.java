@@ -118,7 +118,6 @@ public class EssentialController implements Initializable {
 				e.printStackTrace();
 			}
 		});
-		time_info.append(ClientInfo.schedules);
 		
 		day.setText(day_list.get(day_index));
 		essential_num.setText(String.valueOf(essential[day_index]));
@@ -261,14 +260,14 @@ public class EssentialController implements Initializable {
 		end_m.clear();
 		essential[day_index] += 1;
 		essential_num.setText(String.valueOf(essential[day_index]));
+		data.ClientInfo.schedules += time_info.toString();
 		showSchedules(day_list.get(day_index));
 	}
 
 
 	@FXML public void exit() {
 		try {
-			ClientInfo.schedules = time_info.toString();
-			System.out.println(time_info);
+			System.out.println(ClientInfo.schedules);
 			Parent second = FXMLLoader.load(getClass().getResource("templates/TimeLine.fxml"));
 			Scene sc = new Scene(second);
 			Stage stage = (Stage)exit.getScene().getWindow();
@@ -281,23 +280,23 @@ public class EssentialController implements Initializable {
 	
 	////////// timeLine //////////
 	// 요일에 맞는 타임라인을 표시함
-		public void showSchedules(String dayOfWeek) {
-			clearSchedules();
-			String line = null;
-			// TODO line = Server input
-			line = time_info.toString(); // default (테스트용)
-			// TODO 서버에서 받아온 것 추가하도록 해야됨.
-			// TODO 이 윗부분은 initialize 할 때 한 번에 하는 게 더 좋을 수도...
+	public void showSchedules(String dayOfWeek) {
+		clearSchedules();
+		String line = null;
+		// TODO line = Server input
+		line = data.ClientInfo.schedules; // default (테스트용)
+		// TODO 서버에서 받아온 것 추가하도록 해야됨.
+		// TODO 이 윗부분은 initialize 할 때 한 번에 하는 게 더 좋을 수도...
+		
+		String[] scheduleList = line.split("//");
+		for(int i = 0; i < scheduleList.length; i++) {
+			String[] command = scheduleList[i].split("/");
 			
-			String[] scheduleList = line.split("//");
-			for(int i = 0; i < scheduleList.length; i++) {
-				String[] command = scheduleList[i].split("/");
-				
-				if(command[0].equals(dayOfWeek)) {
-					writeSchedule(command[1], command[2], command[3]);
-				}
+			if(command[0].equals(dayOfWeek)) {
+				writeSchedule(command[1], command[2], command[3]);
 			}
 		}
+	}
 
 	// 타임라인에 스케줄 추가
 	private void writeSchedule(String title, String startTime, String endTime) {

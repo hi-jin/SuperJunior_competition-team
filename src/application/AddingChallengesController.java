@@ -2,7 +2,10 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -44,7 +47,7 @@ public class AddingChallengesController implements Initializable {
 	private ObservableList<String> 	timeLineList;
     private Vector<Integer[]> 		scheduleIndexList = new Vector<>();
     
-    ArrayList<String> day_list = new ArrayList<>() {{
+    ArrayList<String> day_list = new ArrayList<String>() {{
 		add("일");
 		add("월");
 		add("화");
@@ -57,6 +60,7 @@ public class AddingChallengesController implements Initializable {
 	int day_index = 0; // day_list index
 	
 	StringBuilder time_info = new StringBuilder();
+	StringBuilder temp_time_info = new StringBuilder();
 	//////////////////////////////
 	
 	////////// AddChallanges //////////
@@ -66,6 +70,8 @@ public class AddingChallengesController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		day_index = parseDayOfWeek((new SimpleDateFormat("E", Locale.KOREA).format(new Date())));
+		
 		AddEssentialsButton.setOnMouseClicked(event -> {
 			try {
 				Parent second;
@@ -197,16 +203,13 @@ public class AddingChallengesController implements Initializable {
 		});
 	}
 	
-	////////// timeLine //////////
+	//////////timeLine //////////
 	// 요일에 맞는 타임라인을 표시함
 	public void showSchedules(String dayOfWeek) {
 		clearSchedules();
 		String line = null;
 		// TODO line = Server input
-		
-		time_info.append("일/브베 배 빵빵 연습하기/2000/2040//일/앵망 빵됴 연습하기/2100/2120//"
-			+ "일/앵망 빵듀데요 연습하기/2200/2240//월/박으수/1000/1030");
-		line = time_info.toString(); // default (테스트용)
+		line = data.ClientInfo.schedules; // default (테스트용)
 		// TODO 서버에서 받아온 것 추가하도록 해야됨.
 		// TODO 이 윗부분은 initialize 할 때 한 번에 하는 게 더 좋을 수도...
 		
@@ -219,7 +222,7 @@ public class AddingChallengesController implements Initializable {
 			}
 		}
 	}
-
+	
 	// 타임라인에 스케줄 추가
 	private void writeSchedule(String title, String startTime, String endTime) {
 		int time = Integer.parseInt(startTime);
@@ -282,31 +285,8 @@ public class AddingChallengesController implements Initializable {
 		return time;
 	}
 	//////////////////////////////
-	@FXML public void add() {
-		String title = titleTextField.getText();
-		System.out.println(challengeTimeComboBox.getValue());
-		String[] startToEnd = challengeTimeComboBox.getValue().split("~");
-		String[] start = startToEnd[0].split(":");
-		String[] end = startToEnd[1].split(":");
-		String startTime = start[0]+start[1];
-		String endTime = end[0]+end[1];
-		
-		writeSchedule(title, startTime, endTime);
-		showSchedules(day_list.get(day_index));
-	}
-	@FXML public void done() {
-		sendChallenges();
-	} // TODO
-
-	@FXML public void addMore() {
-		sendChallenges();
-	} // TODO
-
-	@FXML public void cancel() {
-		sendChallenges();
-	} // TODO
 	
-	private void sendChallenges() {
+	@FXML public void add() {
 		if(titleTextField.getText().equals("") || hourTextField.getText().equals("") || minTextField.getText().equals("")) {
 			error_msg.setText("empty error");
 			return;
@@ -322,7 +302,40 @@ public class AddingChallengesController implements Initializable {
 			return;
 		}
 		
+		String title = titleTextField.getText();
+		System.out.println(challengeTimeComboBox.getValue());
+		String[] startToEnd = challengeTimeComboBox.getValue().split("~");
+		String[] start = startToEnd[0].split(":");
+		String[] end = startToEnd[1].split(":");
+		String startTime = start[0]+start[1];
+		String endTime = end[0]+end[1];
+		
+		temp_time_info.append(day_list.get(day_index)+"/");
+		temp_time_info.append(title+"/");
+		temp_time_info.append(startTime +"/");
+		temp_time_info.append(endTime+"/");
+		temp_time_info.append("C//"); // Essential (필수 일정)
+		
+		writeSchedule(title, startTime, endTime);
+	}
+	@FXML public void done() {
+		time_info.append(temp_time_info.toString());
+		sendChallenges();
+	} // TODO
+
+	@FXML public void cancel() {
+		time_info = new StringBuilder();
+		temp_time_info = new StringBuilder();
+
+		showSchedules(day_list.get(day_index));
+	} // TODO
+	
+	private void sendChallenges() {
 		error_msg.setText("");
+		
+		data.ClientInfo.schedules += time_info.toString();
+		time_info = new StringBuilder();
+		temp_time_info = new StringBuilder();
 	}
 	
 	private void recommendTime() {
@@ -353,5 +366,33 @@ public class AddingChallengesController implements Initializable {
 			}
 			recommendMin-=60;
 		}
+	}
+	
+	public int parseDayOfWeek(String dayOfWeek) {
+		int intDayOfWeek = -1;
+		switch(dayOfWeek) {
+		case "일":
+			intDayOfWeek = 0;
+			break;
+		case "월":
+			intDayOfWeek = 1;
+			break;
+		case "화":
+			intDayOfWeek = 2;
+			break;
+		case "수":
+			intDayOfWeek = 3;
+			break;
+		case "목":
+			intDayOfWeek = 4;
+			break;
+		case "금":
+			intDayOfWeek = 5;
+			break;
+		case "토":
+			intDayOfWeek = 6;
+			break;
+		}
+		return intDayOfWeek;
 	}
 }
