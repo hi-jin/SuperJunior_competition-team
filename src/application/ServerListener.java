@@ -44,7 +44,12 @@ public class ServerListener extends Thread {
 					}
 					break;	
 				case "progress":
-					data.Controllers.groupMainController.setProgress(command[1]);
+					if(command[1].equals("getUser")) {
+						data.Controllers.groupMainController.setProgress(command[2]);
+					}
+					if(command[1].equals("getGroup")) {
+						data.Controllers.groupMainController.setRank(command[2]);
+					}
 					break;
 				}
 				
