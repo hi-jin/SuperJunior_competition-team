@@ -2,6 +2,7 @@ package data;
 
 import java.util.HashMap;
 
+import javafx.application.Platform;
 import javafx.scene.control.ListCell;
 
 public class GroupCell extends ListCell<String>{
@@ -19,43 +20,33 @@ public class GroupCell extends ListCell<String>{
 	protected void updateItem(String item, boolean empty) {
 		// TODO Auto-generated method stub
 		super.updateItem(item, empty);
+		int index = this.getIndex();
 		if(empty) {
 			setText(null);
 			setStyle("");
 		} else {
 			setText(item);
-			setStyle("");
-		}
-	}
-
-	@Override
-	public void updateIndex(int index) {
-		// TODO Auto-generated method stub
-		super.updateIndex(index);
-		String content = super.getItem();
-		
-		if(index%3==0) {
-			setStyle(
-					"-fx-font-size: 15.0;"
-					+"-fx-border-color: black;"
-					+"-fx-border-width: 0.5;"
-					+"-fx-border-style: solid none none none;"
-			);
-		}
-		else {
-			if((index-2)%3==0 && index>1) {
-				int percent = Integer.parseInt(content.split("%")[0])/20;
-				setStyle(colorMap.get(percent)
-						+"-fx-font-size: 15.0;"
-						+"-fx-alignment: center;"
-				);
-			}else {
+			if(index%3==0) {
 				setStyle(
 						"-fx-font-size: 15.0;"
-						+"-fx-alignment: center;"
+						+"-fx-border-color: black;"
+						+"-fx-border-width: 0.5;"
+						+"-fx-border-style: solid none none none;"
 				);
+			}else {
+				if((index-2)%3==0 && index>1) {
+					int percent = Integer.parseInt(item.split("%")[0])/20;
+					setStyle(colorMap.get(percent)
+							+"-fx-font-size: 15.0;"
+							+"-fx-alignment: center;"
+					);
+				}else {
+					setStyle(
+							"-fx-font-size: 15.0;"
+							+"-fx-alignment: center;"
+					);
+				}
 			}
 		}
 	}
-
 }
