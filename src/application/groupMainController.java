@@ -4,6 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -28,7 +30,7 @@ public class groupMainController implements Initializable{
 	@FXML ListView<String> groupRank;
 	
 	private ObservableList<String> teamList;
-	private ObservableList<String> rankList;
+	private ObservableList<String> rankList = FXCollections.observableArrayList();
 	private static PrintWriter out;
 	private static String progress;
 	
@@ -43,7 +45,7 @@ public class groupMainController implements Initializable{
 				System.out.println("서버가 닫혀있습니다.");
 			}
 			
-			out.println("progress/"+data.ClientInfo.userId);
+			out.println("progress/getUser/"+data.ClientInfo.userId);
 			out.flush();
 		}
 		AddEssentialsButton.setOnMouseClicked(event -> {
@@ -113,8 +115,6 @@ public class groupMainController implements Initializable{
 			}
 		});
 		
-
-		
 		teamList = FXCollections.observableArrayList();
 		String[] teams = data.ClientInfo.groupId.split(";");
 		for(String team : teams) {
@@ -124,9 +124,8 @@ public class groupMainController implements Initializable{
 		Platform.runLater(() -> {
 			myTeam.setPromptText(teams[0]);
 		});
-		rankList = FXCollections.observableArrayList();
-		groupRank.setItems(rankList);
-		
+		out.println("progress/getGroup/"+teams[0]);
+		out.flush();
 		Platform.runLater(() -> {
 			progressOfMonth.setText(progress);
 		});
@@ -152,7 +151,33 @@ public class groupMainController implements Initializable{
 	}
 	
 	public void setRank(String groupRank) {
-		// TODO
+		rankList.clear();
+		
+		String[] userInfo = groupRank.split("//");
+		for(String user : userInfo) {
+			rankList.add(user);
+		}
+		
+		Collections.sort(rankList, new Comparator<String>() {
+
+			@Override
+			public int compare(String o1, String o2) {
+				String[] o1Info = o1.split("/");
+				String[] o2Info = o2.split("/");
+				int o1Progress = Integer.parseInt(o1Info[1]);
+				int o2Progress = Integer.parseInt(o2Info[1]);
+				if(o1Progress > o2Progress) {
+					return 1;
+				} else if (o1Progress == o2Progress) {
+					return 0;
+				} else {
+					return -1;
+				}
+			}
+			
+		});
+		
+		this.groupRank.setItems(rankList);
 	}
 
 }
