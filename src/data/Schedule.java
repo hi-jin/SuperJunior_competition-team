@@ -32,14 +32,6 @@ public class Schedule implements Comparable<Schedule> {
 		endIndex = min / 10 + hour * 6 + 2;
 	}
 	
-	public void addSchedule(Schedule schedule) {
-		ClientInfo.scheduleList.add(schedule);
-	}
-	
-	public void removeSchedule(Schedule schedule) {
-		ClientInfo.scheduleList.remove(schedule);
-	}
-	
 	public static void readSchedule() {
 		setToday();
 		String line = ClientInfo.schedules;
