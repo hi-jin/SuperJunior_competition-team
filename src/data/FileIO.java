@@ -14,6 +14,7 @@ public class FileIO { // TODO utf-8 인코딩
 	private static final File user = new File("user.txt"); 
 	
 	public static void write() {
+		Schedule.writeSchedule();
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(new FileWriter(user));

@@ -5,19 +5,17 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import data.ClientInfo;
 import data.Schedule;
+import data.TimeLine;
+import data.TimeLineCell;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,11 +29,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
-public class TimeLineController implements Initializable {
+public class TimeLineController extends TimeLine implements Initializable {
 
 	@FXML ListView<String> timeLineListView;
 	@FXML Button timeSettingButton;
@@ -63,10 +60,7 @@ public class TimeLineController implements Initializable {
     private boolean 				timerFlag = true; // 애니메이션 실행 플래그
     private boolean 				timeSetting = true; // 타임라인 고정 플래그
     private double 					currentScroll; // 현재 스크롤의 위치
-    private String[]				dayOfWeekList = {"일", "월", "화", "수", "목", "금", "토"};
     private int						currentDayOfWeek; // 현재 보고있는 요일
-	private ObservableList<String> 	timeLineList;
-    private Vector<Schedule> 		scheduleIndexList = new Vector<>();
     
     //////////////////////////////// 진척도 관련 필드 ///////////////////////////////////
 	
@@ -241,7 +235,6 @@ public class TimeLineController implements Initializable {
 		rightButton.setDisable(true);
 		
 		timeLineListView.setFixedCellSize(cellHeight);
-		timeLineList = FXCollections.observableArrayList();
 		timeLineListView.setItems(timeLineList);
 
 		Platform.runLater(() -> timer.start());
@@ -278,77 +271,22 @@ public class TimeLineController implements Initializable {
 				leftButton.setDisable(true);
 				rightButton.setDisable(true);
 				timeSettingButton.setText("고정 해제");
-				currentDayOfWeek = parseDayOfWeek((new SimpleDateFormat("E", Locale.KOREA).format(new Date())));
-				showSchedules(dayOfWeekList[currentDayOfWeek]);
+				currentDayOfWeek = ClientInfo.today;
+				showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
 			}
 		});
 		///////////////////////////////////////////////////
 		
 		
 		////////// 타임라인 일정 색상 표시 기능 //////////
-		timeLineListView.setCellFactory(lv -> new ListCell<String>() { // TODO 최적화
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				String color;
-				String otherColor;
-				
-				Collections.sort(scheduleIndexList);
-				super.updateItem(item, empty);
-				if(empty) {
-					setText(null);
-					setStyle("");
-				} else {
-					setText(item);
-					setStyle("");
-					for(int i = 0; i < scheduleIndexList.size(); i++) {
-						if(scheduleIndexList.get(i).getType() == 'E') {
-							color = "#A9F5F2";
-						} else {
-							color = "#ebedf0";
-						}
-						if(scheduleIndexList.get(i).getStartIndex() < getIndex() && scheduleIndexList.get(i).getEndIndex() > getIndex()) {
-							setStyle("-fx-background-color: " + color);
-							break;
-						} else if(scheduleIndexList.get(i).getStartIndex() == getIndex()) {
-							if(i > 0) {
-								if(scheduleIndexList.get(i-1).getEndIndex() == getIndex()) {
-									if(scheduleIndexList.get(i-1).getType() == 'E') otherColor = "#A9F5F2";
-									else otherColor = "#ebedf0";
-									setStyle("-fx-background-color: linear-gradient(" + otherColor + " 50%, " + color + " 50%)");
-									break;
-								} 
-							}
-							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(-fx-control-inner-background 50%, " + color + " 50%)");
-							} else {
-								setStyle("-fx-background-color: linear-gradient(derive(-fx-control-inner-background, -2%) 50%, " + color + " 50%)");
-							}
-						} else if(scheduleIndexList.get(i).getEndIndex() == getIndex()) {
-							if(i < scheduleIndexList.size()-1) {
-								if(scheduleIndexList.get(i+1).getStartIndex() == getIndex()) {
-									if(scheduleIndexList.get(i+1).getType() == 'E') otherColor = "#A9F5F2";
-									else otherColor = "#ebedf0";
-									setStyle("-fx-background-color: linear-gradient(" + color + " 50%, " + otherColor + " 50%)");
-									break;
-								} 
-							}
-							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(" + color + " 50%, -fx-control-inner-background 50%)");
-							} else {
-								setStyle("-fx-background-color: linear-gradient(" + color + " 50%, derive(-fx-control-inner-background, -2%) 50%)");
-							}
-						}
-					}
-				}
-			}
-		});
+		timeLineListView.setCellFactory(lv -> new TimeLineCell(timeLineListView, selectedScheduleList));
 		///////////////////////////////////////////
 		
 		
 		////////// 서버로부터 스케줄 String을 받아 처리하는 부분 //////////
-		currentDayOfWeek = parseDayOfWeek((new SimpleDateFormat("E", Locale.KOREA).format(new Date())));
-		showSchedules(dayOfWeekList[currentDayOfWeek]);
-		dayOfWeekLabel.setText(dayOfWeekList[currentDayOfWeek] + "요일");
+		currentDayOfWeek = ClientInfo.today;
+		showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
+		dayOfWeekLabel.setText(ClientInfo.dayOfWeekList[currentDayOfWeek] + "요일");
 		//////////////////////////////////////////////////////////
 		
 		////////////////////// 진척도 표시 부분 //////////////////////
@@ -363,144 +301,23 @@ public class TimeLineController implements Initializable {
 		
 		/////////////////////////////////////////////////////////
 	}
-	
-	public int parseDayOfWeek(String dayOfWeek) {
-		int intDayOfWeek = -1;
-		switch(dayOfWeek) {
-		case "일":
-			intDayOfWeek = 0;
-			break;
-		case "월":
-			intDayOfWeek = 1;
-			break;
-		case "화":
-			intDayOfWeek = 2;
-			break;
-		case "수":
-			intDayOfWeek = 3;
-			break;
-		case "목":
-			intDayOfWeek = 4;
-			break;
-		case "금":
-			intDayOfWeek = 5;
-			break;
-		case "토":
-			intDayOfWeek = 6;
-			break;
-		}
-		return intDayOfWeek;
-	}
-	
-	// 요일에 맞는 타임라인을 표시함
-	public void showSchedules(String dayOfWeek) {
-		clearSchedules();
-		String line = ClientInfo.schedules;
-		
-		dayOfWeekLabel.setText(dayOfWeekList[currentDayOfWeek] + "요일");
-		String[] scheduleList = line.split("//");
-		for(int i = 0; i < scheduleList.length; i++) {
-			String[] command = scheduleList[i].split("/");
-			
-			if(command[0].equals(dayOfWeek)) {
-				writeSchedule(command[1], command[2], command[3], command[4]);
-			}
-		}
-	}
-	
-	// 타임라인 초기화
-	private void clearSchedules() {
-		timeLineList.clear();
-		scheduleIndexList.clear();
-		
-		int time = 0000;
-		
-		timeLineList.add("");
-		timeLineList.add("");
-		
-		for(int i = 0; i < 144; i++) {
-			if(time % 100 == 0 || time % 100 == 30) {
-				timeLineList.add(getTime(time));
-			} else {
-				timeLineList.add("");
-			}
-			time = addTime(time, 10);
-		}
-		for(int i = 0; i < 11; i++) {
-			timeLineList.add("");
-		}
-	}
-	
-	// 타임라인에 스케줄 추가
-	private void writeSchedule(String title, String startTime, String endTime, String type) {
-		Schedule schedule = new Schedule(startTime, endTime, type.charAt(0));
-		
-		timeLineList.set(schedule.getStartIndex(), getTime(schedule.getStartTime()) + " " + title);
-		timeLineList.set(schedule.getEndIndex(), getTime(schedule.getEndTime()));
-		
-		scheduleIndexList.add(schedule);
-		
-		for(int i = schedule.getStartIndex() + 1; i < schedule.getEndIndex(); i++) {
-			timeLineList.set(i, "");
-		}
-	}
-	
-	private String getTime(int time) {
-		int hour = time / 100;
-		int min = time - hour * 100;
-		
-		return String.format("%02d:%02d", hour, min);
-	}
-	
-	private int addTime(int time1, int time2) {
-		int result = 0;
-		
-		if(time2 > 0) {
-			int h1 = time1 / 100;
-			int m1 = time1 % 100;
-			int h2 = time2 / 100;
-			int m2 = time2 % 100;
-			
-			while(m1 + m2 >= 60) {
-				m1 -= 60;
-				h1 += 1;
-			}
-			result = (h1 + h2) * 100 + m1 + m2;
-		} else if(time2 < 0){
-			time2 *= -1;
-			int h1 = time1 / 100;
-			int m1 = time1 % 100;
-			int h2 = time2 / 100;
-			int m2 = time2 % 100;
-
-			while(m1 - m2 < 0) {
-				m1 += 60;
-				h1 -= 1;
-			}
-			result = (h1 - h2) * 100 + m1 - m2;
-		} else {
-			result = time1;
-		}
-		
-		return result;
-	}
 
 	@FXML public void moveToLeft() {
 		if(currentDayOfWeek > 0) {
 			currentDayOfWeek -= 1;
 		} else {
-			currentDayOfWeek = dayOfWeekList.length - 1;
+			currentDayOfWeek = ClientInfo.dayOfWeekList.length - 1;
 		}
-		showSchedules(dayOfWeekList[currentDayOfWeek]);
+		showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
 	}
 
 	@FXML public void moveToRight() {
-		if(currentDayOfWeek < dayOfWeekList.length - 1) {
+		if(currentDayOfWeek < ClientInfo.dayOfWeekList.length - 1) {
 			currentDayOfWeek += 1;
 		} else {
 			currentDayOfWeek = 0;
 		}
-		showSchedules(dayOfWeekList[currentDayOfWeek]);
+		showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
 	}
 	
 	@FXML
@@ -517,7 +334,7 @@ public class TimeLineController implements Initializable {
 		weekColors[dayCount] = color;
 		calendar.set(Calendar.DATE, calendar.get(Calendar.DATE)+1);
 		dayCount++;
-		
+		Schedule.setToday(); // TODO 이렇게 하는 거 맞음??
 		/*
 		nowDate.setText(calendar.get(Calendar.YEAR)+"년 "
 				+(calendar.get(Calendar.MONTH)+1)+"월 "
