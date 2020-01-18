@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import data.ClientInfo;
+import data.Controllers;
 import data.Schedule;
 import data.TimeLine;
 import data.TimeLineCell;
@@ -18,7 +19,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -39,7 +39,6 @@ public class EssentialController extends TimeLine implements Initializable {
 	@FXML TextField end_m;
 	@FXML TextField title;
 	@FXML Label error_msg;
-	@FXML ListView<String> timeLineListView;
 
 	@FXML Button AddEssentialsButton;
 	@FXML Button ShowTimeLineButton;
@@ -50,6 +49,7 @@ public class EssentialController extends TimeLine implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		Controllers.essentialController = this;
 		currentDayOfWeek = 0;
 		
 		AddEssentialsButton.setOnMouseClicked(event -> {
@@ -157,7 +157,7 @@ public class EssentialController extends TimeLine implements Initializable {
 		
 		
 		////////// 타임라인 일정 색상 표시 기능 //////////
-		timeLineListView.setCellFactory(lv -> new TimeLineCell(timeLineListView, selectedScheduleList));
+		timeLineListView.setCellFactory(lv -> new TimeLineCell(this, selectedScheduleList));
 		
 		showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
 		///////////////////////////////////////////

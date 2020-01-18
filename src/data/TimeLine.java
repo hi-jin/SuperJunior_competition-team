@@ -4,12 +4,19 @@ import java.util.Vector;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 
 public class TimeLine {
 
-	protected static double 			cellHeight = 24;
+	protected static double 				cellHeight = 24;
+	
+	@FXML
+	protected ListView<String> 			timeLineListView;
 	protected ObservableList<String> 	timeLineList = FXCollections.observableArrayList();
     protected Vector<Schedule> 			selectedScheduleList = new Vector<>();
+    
+    public boolean 					isEditable = false;
     
 	// 요일에 맞는 타임라인을 표시함
 	public void showSchedules(String dayOfWeek) {
@@ -47,13 +54,19 @@ public class TimeLine {
 	// 타임라인에 스케줄 추가
 	public void drawSchedule(Schedule schedule) {
 		timeLineList.set(schedule.getStartIndex(), getTime(schedule.getStartTime()) + " " + schedule.getTitle());
-		timeLineList.set(schedule.getEndIndex(), getTime(schedule.getEndTime()));
-		
+		if(!timeLineList.get(schedule.getEndIndex()).contains(":")) {
+			timeLineList.set(schedule.getEndIndex(), getTime(schedule.getEndTime()));
+		}
 		selectedScheduleList.add(schedule);
 		
 		for(int i = schedule.getStartIndex() + 1; i < schedule.getEndIndex(); i++) {
 			timeLineList.set(i, "");
 		}
+	}
+	
+	public void eraseSchedule(Schedule schedule) {
+		selectedScheduleList.remove(schedule);
+		showSchedules(schedule.getDayOfWeek());
 	}
 	
 	public static String getTime(int time) {

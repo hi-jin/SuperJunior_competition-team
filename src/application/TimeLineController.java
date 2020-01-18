@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import data.ClientInfo;
+import data.Controllers;
 import data.Schedule;
 import data.TimeLine;
 import data.TimeLineCell;
@@ -23,7 +24,6 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -34,7 +34,6 @@ import javafx.stage.Stage;
 
 public class TimeLineController extends TimeLine implements Initializable {
 
-	@FXML ListView<String> timeLineListView;
 	@FXML Button timeSettingButton;
 	@FXML Label currentTimeLabel;
 	@FXML Line currentTimeLine;
@@ -137,6 +136,9 @@ public class TimeLineController extends TimeLine implements Initializable {
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		super.isEditable = true;
+		Controllers.timeLineController = this;
+
 		AddEssentialsButton.setOnMouseClicked(event -> {
 			try {
 				Parent second;
@@ -279,7 +281,7 @@ public class TimeLineController extends TimeLine implements Initializable {
 		
 		
 		////////// 타임라인 일정 색상 표시 기능 //////////
-		timeLineListView.setCellFactory(lv -> new TimeLineCell(timeLineListView, selectedScheduleList));
+		timeLineListView.setCellFactory(lv -> new TimeLineCell(this, selectedScheduleList));
 		///////////////////////////////////////////
 		
 		
@@ -300,6 +302,12 @@ public class TimeLineController extends TimeLine implements Initializable {
 		
 		
 		/////////////////////////////////////////////////////////
+	}
+	
+	@Override
+	public void showSchedules(String dayOfWeek) {
+		super.showSchedules(dayOfWeek);
+		dayOfWeekLabel.setText(ClientInfo.dayOfWeekList[currentDayOfWeek] + "요일");
 	}
 
 	@FXML public void moveToLeft() {
