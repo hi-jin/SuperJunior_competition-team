@@ -31,3 +31,7 @@
 .list-cell:focused:odd {
 	-fx-background-color: derive(-fx-control-inner-background, -2%);
 }
+
+#groupListView .list-cell {
+	-fx-box-border: transparent;
+}

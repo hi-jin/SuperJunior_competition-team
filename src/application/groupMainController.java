@@ -8,9 +8,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
+import data.ClientInfo;
+import data.GroupCell;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,8 +34,11 @@ public class groupMainController implements Initializable{
 	
 	private ObservableList<String> teamList;
 	private ObservableList<String> rankList = FXCollections.observableArrayList();
+	private ObservableList<String> showList = FXCollections.observableArrayList();
 	private static PrintWriter out;
-	private static String progress;
+	
+	public static String progress;
+	public static String groupRankInfo;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -44,10 +50,8 @@ public class groupMainController implements Initializable{
 			} catch (IOException e) {
 				System.out.println("서버가 닫혀있습니다.");
 			}
-			
-			out.println("progress/getUser/"+data.ClientInfo.userId);
-			out.flush();
 		}
+		
 		AddEssentialsButton.setOnMouseClicked(event -> {
 			try {
 				Parent second;
@@ -121,14 +125,19 @@ public class groupMainController implements Initializable{
 			teamList.add(team);
 		}
 		myTeam.setItems(teamList);
+		
 		Platform.runLater(() -> {
 			myTeam.setPromptText(teams[0]);
 		});
-		out.println("progress/getGroup/"+teams[0]);
-		out.flush();
-		Platform.runLater(() -> {
-			progressOfMonth.setText(progress);
-		});
+		
+		try {
+			setRank(teams[0]);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		groupRank.setCellFactory(showList -> new GroupCell());
+
 	}
 	
 	@FXML
@@ -146,15 +155,24 @@ public class groupMainController implements Initializable{
 		}
 	}
 	
-	public void setProgress(String progress) {
-		groupMainController.progress = progress;
+	@FXML
+	public void showTeam(ActionEvent event) throws InterruptedException {
+		setRank(myTeam.getValue());
 	}
 	
-	public void setRank(String groupRank) {
+	public void setRank(String groupID) throws InterruptedException {
 		rankList.clear();
+		showList.clear();
+		out.println("progress/getGroup/"+groupID);
+		out.flush();
 		
-		String[] userInfo = groupRank.split("//");
+		Thread.sleep(200);
+		String[] userInfo = groupRankInfo.split(";;");
 		for(String user : userInfo) {
+			String[] info = user.split(";");
+			if(info[0].equals(ClientInfo.userId)) {
+				progressOfMonth.setText(info[1]);
+			}
 			rankList.add(user);
 		}
 		
@@ -162,11 +180,11 @@ public class groupMainController implements Initializable{
 
 			@Override
 			public int compare(String o1, String o2) {
-				String[] o1Info = o1.split("/");
-				String[] o2Info = o2.split("/");
-				int o1Progress = Integer.parseInt(o1Info[1]);
-				int o2Progress = Integer.parseInt(o2Info[1]);
-				if(o1Progress > o2Progress) {
+				String[] o1Info = o1.split(";");
+				String[] o2Info = o2.split(";");
+				int o1Progress = Integer.parseInt(o1Info[1].split("%")[0]);
+				int o2Progress = Integer.parseInt(o2Info[1].split("%")[0]);
+				if(o1Progress < o2Progress) {
 					return 1;
 				} else if (o1Progress == o2Progress) {
 					return 0;
@@ -177,7 +195,22 @@ public class groupMainController implements Initializable{
 			
 		});
 		
-		this.groupRank.setItems(rankList);
+		int rank = 1;
+		for(String user : rankList) {
+			String[] info = user.split(";");
+			if(info[0].equals(ClientInfo.userId)) {		
+				myRank.setText(rank+"등");
+			}
+			rank++;
+		}
+		for(int i=0; i < rankList.size(); i++) {
+			showList.add((i+1)+"등");
+			String[] info = rankList.get(i).split(";");
+			showList.add(info[0]);
+			showList.add(info[1]);
+		}
+
+		this.groupRank.setItems(showList);
 	}
 
 }

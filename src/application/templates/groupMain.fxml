@@ -19,8 +19,8 @@
             <Button fx:id="MoveToGroupButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="그" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
-      <ComboBox fx:id="myTeam" layoutX="46.0" layoutY="33.0" prefWidth="150.0" promptText="속해있는 그룹" />
-      <ListView fx:id="groupRank" layoutX="46.0" layoutY="159.0" prefHeight="420.0" prefWidth="300.0" />
+      <ComboBox fx:id="myTeam" layoutX="46.0" layoutY="33.0" onAction="#showTeam" prefWidth="150.0" promptText="속해있는 그룹" />
+      <ListView id="groupListView" fx:id="groupRank" layoutX="46.0" layoutY="159.0" prefHeight="420.0" prefWidth="300.0" />
       <Label layoutX="49.0" layoutY="79.0" text="이번 달 나의 진척도">
          <font>
             <Font name="Arial" size="21.0" />
@@ -36,7 +36,7 @@
             <Font name="Arial" size="21.0" />
          </font>
       </Label>
-      <Label layoutX="277.0" layoutY="114.0" text="1등">
+      <Label fx:id="myRank" alignment="CENTER" layoutX="277.0" layoutY="114.0" prefHeight="25.0" prefWidth="35.0">
          <font>
             <Font size="21.0" />
          </font>
