@@ -33,7 +33,7 @@ public class ServerListener extends Thread {
 						Platform.runLater(() -> data.Controllers.rootController.error_msg.setText("다시 시도해주세요."));
 					}
 					break;
-				case "update":
+				case "update": // TODO Platform.runLater 안해도 되는지 확인하기
 					try {
 						data.Controllers.timeLineController.nextDay();
 					} catch (Exception e) {}
@@ -47,8 +47,12 @@ public class ServerListener extends Thread {
 					if(command[1].equals("getUser")) {
 						data.Controllers.groupMainController.setProgress(command[2]);
 					}
-					if(command[1].equals("getGroup")) {
+					else if(command[1].equals("getGroup")) {
 						data.Controllers.groupMainController.setRank(command[2]);
+					}
+					else if(command[1].equals("updateUser")) {
+						if(command[2].equals("1")) System.out.println("진척도 업데이트 완료");
+						else System.out.println("진척도 업데이트 실패");
 					}
 					break;
 				}

@@ -2,17 +2,15 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import data.ClientInfo;
 import data.Schedule;
+import data.TimeLine;
+import data.TimeLineCell;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,12 +18,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.scene.control.ListView;
 
-public class EssentialController implements Initializable {
+public class EssentialController extends TimeLine implements Initializable {
 
 	@FXML Button next_day;
 	@FXML Button pre_day;
@@ -34,6 +31,7 @@ public class EssentialController implements Initializable {
 	
 	@FXML Label day;
 	@FXML Label essential_num;
+	@FXML Label challengesCountLabel;
 
 	@FXML TextField start_h;
 	@FXML TextField start_m;
@@ -48,30 +46,12 @@ public class EssentialController implements Initializable {
 	@FXML Button AddChallengesButton;
 	@FXML Button MoveToGroupButton;
 	
-	@SuppressWarnings("serial")
-	ArrayList<String> day_list = new ArrayList<String>() {{
-		add("일");
-		add("월");
-		add("화");
-		add("수");
-		add("목");
-		add("금");
-		add("토");
-	}};
-	int day_index = 0; // day_list index
-	
-	int[] essential = {0, 0, 0, 0, 0, 0, 0}; //요일별 필수 일정 개수
-	
-	StringBuilder time_info = new StringBuilder();
-	
-	////////// timeLine //////////
-	private double 					cellHeight = 24;
-	private ObservableList<String> 	timeLineList;
-    private Vector<Schedule> 		scheduleIndexList = new Vector<>();
-	//////////////////////////////
+	private int currentDayOfWeek;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		currentDayOfWeek = 0;
+		
 		AddEssentialsButton.setOnMouseClicked(event -> {
 			try {
 				Parent second;
@@ -139,10 +119,9 @@ public class EssentialController implements Initializable {
 			}
 		});
 		
-		day.setText(day_list.get(day_index));
-		essential_num.setText(String.valueOf(essential[day_index]));
+		day.setText(ClientInfo.dayOfWeekList[currentDayOfWeek] + "요일");
 		
-		if(day_index == 0) {
+		if(currentDayOfWeek == 0) {
 			pre_day.setDisable(true);
 		}
 		
@@ -151,9 +130,7 @@ public class EssentialController implements Initializable {
 			@Override
 			 public void changed(ObservableValue<? extends String> ov, String t, String t1) {
 					
-				essential_num.setText(String.valueOf(essential[day_index]));
-					
-					if(day_index == 0) {
+					if(currentDayOfWeek == 0) {
 						pre_day.setDisable(true);
 					}
 					
@@ -161,7 +138,7 @@ public class EssentialController implements Initializable {
 						pre_day.setDisable(false);
 					}
 					
-					if(day_index == 6) {
+					if(currentDayOfWeek == 6) {
 						next_day.setDisable(true);
 					}
 					else {
@@ -180,83 +157,42 @@ public class EssentialController implements Initializable {
 		
 		
 		////////// 타임라인 일정 색상 표시 기능 //////////
-		timeLineListView.setCellFactory(lv -> new ListCell<String>() { // TODO 최적화
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				String color;
-				String otherColor;
-				
-				Collections.sort(scheduleIndexList);
-				super.updateItem(item, empty);
-				if(empty) {
-					setText(null);
-					setStyle("");
-				} else {
-					setText(item);
-					setStyle("");
-					for(int i = 0; i < scheduleIndexList.size(); i++) {
-						if(scheduleIndexList.get(i).getType() == 'E') {
-							color = "#A9F5F2";
-						} else {
-							color = "#ebedf0";
-						}
-						if(scheduleIndexList.get(i).getStartIndex() < getIndex() && scheduleIndexList.get(i).getEndIndex() > getIndex()) {
-							setStyle("-fx-background-color: " + color);
-							break;
-						} else if(scheduleIndexList.get(i).getStartIndex() == getIndex()) {
-							if(i > 0) {
-								if(scheduleIndexList.get(i-1).getEndIndex() == getIndex()) {
-									if(scheduleIndexList.get(i-1).getType() == 'E') otherColor = "#A9F5F2";
-									else otherColor = "#ebedf0";
-									setStyle("-fx-background-color: linear-gradient(" + otherColor + " 50%, " + color + " 50%)");
-									break;
-								} 
-							}
-							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(-fx-control-inner-background 50%, " + color + " 50%)");
-							} else {
-								setStyle("-fx-background-color: linear-gradient(derive(-fx-control-inner-background, -2%) 50%, " + color + " 50%)");
-							}
-						} else if(scheduleIndexList.get(i).getEndIndex() == getIndex()) {
-							if(i < scheduleIndexList.size()-1) {
-								if(scheduleIndexList.get(i+1).getStartIndex() == getIndex()) {
-									if(scheduleIndexList.get(i+1).getType() == 'E') otherColor = "#A9F5F2";
-									else otherColor = "#ebedf0";
-									setStyle("-fx-background-color: linear-gradient(" + color + " 50%, " + otherColor + " 50%)");
-									break;
-								} 
-							}
-							if(getIndex() % 2 == 0) {
-								setStyle("-fx-background-color: linear-gradient(" + color + " 50%, -fx-control-inner-background 50%)");
-							} else {
-								setStyle("-fx-background-color: linear-gradient(" + color + " 50%, derive(-fx-control-inner-background, -2%) 50%)");
-							}
-						}
-					}
-				}
-			}
-		});
+		timeLineListView.setCellFactory(lv -> new TimeLineCell(timeLineListView, selectedScheduleList));
 		
-		showSchedules(day_list.get(day_index));
+		showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
 		///////////////////////////////////////////
 		//////////////////////////////
 	}
 	
+	@Override
+	public void showSchedules(String dayOfWeek) {
+		int essentialsCount = 0; // 필수일정 수
+		int challengesCount = 0; // 도전일정 수
+		
+		clearSchedules();
+		
+		for(int i = 0; i < ClientInfo.scheduleList.size(); i++) {
+			if(ClientInfo.scheduleList.get(i).getDayOfWeek().equals(dayOfWeek)) {
+				if(ClientInfo.scheduleList.get(i).getType() == 'E')  essentialsCount++;
+				else challengesCount++;
+			}
+			drawSchedule(ClientInfo.scheduleList.get(i));
+		}
+		day.setText(ClientInfo.dayOfWeekList[currentDayOfWeek] + "요일");
+		essential_num.setText(essentialsCount + "");
+		challengesCountLabel.setText(challengesCount + "");
+	}
 
 	
 	@FXML public void next_view_btn() {
-		
-		day_index ++;
-		day.setText(day_list.get(day_index) + "요일");
-		showSchedules(day_list.get(day_index));
+		currentDayOfWeek++;
+		showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
 	}
 
 	
 	@FXML public void pre_view_btn() {
-
-		day_index --;
-		day.setText(day_list.get(day_index) + "요일");
-		showSchedules(day_list.get(day_index));
+		currentDayOfWeek--;
+		showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
 	}
 	
 
@@ -288,27 +224,18 @@ public class EssentialController implements Initializable {
 		
 		
 		error_msg.setText("");
-
-		time_info.append(day_list.get(day_index)+"/");
-		time_info.append(title.getText()+"/");
-		time_info.append(start_h.getText());
-		time_info.append(start_m.getText()+"/");
-		time_info.append(end_h.getText());
-		time_info.append(end_m.getText()+"/");
-		time_info.append("E//"); // Essential (필수 일정)
-		
 		
 		//등록완료
+		Schedule schedule = new Schedule(ClientInfo.dayOfWeekList[currentDayOfWeek], title.getText(), start_h.getText() + start_m.getText(), end_h.getText() + end_m.getText(), 'E');
+		data.ClientInfo.scheduleList.add(schedule);
+		System.out.println(schedule);
+		showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
+		timeLineListView.refresh();
 		title.clear();
 		start_h.clear();
 		start_m.clear();
 		end_h.clear();
 		end_m.clear();
-		essential[day_index] += 1;
-		essential_num.setText(String.valueOf(essential[day_index]));
-		data.ClientInfo.schedules += time_info.toString();
-		showSchedules(day_list.get(day_index));
-		timeLineListView.refresh();
 	}
 
 
@@ -325,103 +252,4 @@ public class EssentialController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
-	////////// timeLine //////////
-	// 요일에 맞는 타임라인을 표시함
-	public void showSchedules(String dayOfWeek) {
-		clearSchedules();
-		String line = null;
-		// TODO line = Server input
-		line = data.ClientInfo.schedules; // default (테스트용)
-		// TODO 서버에서 받아온 것 추가하도록 해야됨.
-		// TODO 이 윗부분은 initialize 할 때 한 번에 하는 게 더 좋을 수도...
-		
-		String[] scheduleList = line.split("//");
-		for(int i = 0; i < scheduleList.length; i++) {
-			String[] command = scheduleList[i].split("/");
-			
-			if(command[0].equals(dayOfWeek)) {
-				writeSchedule(command[1], command[2], command[3], command[4]);
-			}
-		}
-	}
-
-	// 타임라인에 스케줄 추가
-	private void writeSchedule(String title, String startTime, String endTime, String type) {
-		Schedule schedule = new Schedule(startTime, endTime, type.charAt(0));
-		
-		timeLineList.set(schedule.getStartIndex(), getTime(schedule.getStartTime()) + " " + title);
-		timeLineList.set(schedule.getEndIndex(), getTime(schedule.getEndTime()));
-		
-		scheduleIndexList.add(schedule);
-		
-		for(int i = schedule.getStartIndex() + 1; i < schedule.getEndIndex(); i++) {
-			timeLineList.set(i, "");
-		}
-	}
-	
-	// 타임라인 초기화
-	private void clearSchedules() {
-		timeLineList.clear();
-		scheduleIndexList.clear();
-		
-		int time = 0000;
-		
-		timeLineList.add("");
-		timeLineList.add("");
-		
-		for(int i = 0; i < 144; i++) {
-			if(time % 100 == 0 || time % 100 == 30) {
-				timeLineList.add(getTime(time));
-			} else {
-				timeLineList.add("");
-			}
-			time = addTime(time, 10);
-		}
-		for(int i = 0; i < 11; i++) {
-			timeLineList.add("");
-		}
-	}
-	
-	private String getTime(int time) {
-		int hour = time / 100;
-		int min = time - hour * 100;
-		
-		return String.format("%02d:%02d", hour, min);
-	}
-	
-	private int addTime(int time1, int time2) {
-		int result = 0;
-		
-		if(time2 > 0) {
-			int h1 = time1 / 100;
-			int m1 = time1 % 100;
-			int h2 = time2 / 100;
-			int m2 = time2 % 100;
-			
-			while(m1 + m2 >= 60) {
-				m1 -= 60;
-				h1 += 1;
-			}
-			result = (h1 + h2) * 100 + m1 + m2;
-		} else if(time2 < 0){
-			time2 *= -1;
-			int h1 = time1 / 100;
-			int m1 = time1 % 100;
-			int h2 = time2 / 100;
-			int m2 = time2 % 100;
-
-			while(m1 - m2 < 0) {
-				m1 += 60;
-				h1 -= 1;
-			}
-			result = (h1 - h2) * 100 + m1 - m2;
-		} else {
-			result = time1;
-		}
-		
-		return result;
-	}
-	//////////////////////////////
-
 }
