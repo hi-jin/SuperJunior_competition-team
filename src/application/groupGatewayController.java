@@ -97,6 +97,7 @@ public class groupGatewayController implements Initializable {
 			}else {
 				try {
 					groupGatewayController.wannaQuit = false;
+					System.out.println("?");
 					Parent second;
 					second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
 					second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
@@ -112,12 +113,12 @@ public class groupGatewayController implements Initializable {
 		if(data.Controllers.groupGatewayController==null) {
 			data.Controllers.groupGatewayController=this;
 		}
-		System.out.println(wannaQuit);
 		if(wannaQuit) {
 			createGroup.setDisable(true);
 			createGroup.setStyle("-fx-opacity: 0");
 			joinGroup.setDisable(true);
 			joinGroup.setStyle("-fx-opacity: 0");
+			wannaQuit = false;
 		} else {
 			quitGroup.setDisable(true);
 			quitGroup.setStyle("-fx-opacity: 0");

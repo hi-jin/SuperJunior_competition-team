@@ -40,7 +40,12 @@ public class groupJoinController implements Initializable{
 			new Alert(Alert.AlertType.ERROR, "정확하게 5자로 입력해주세요!!", ButtonType.CLOSE).show();
 			return;
 		}
-		data.ClientInfo.groupId += teamID+";";
+		String[] teams = data.ClientInfo.groupId.split(";");
+		if(teams[0].equals("null")) {
+			data.ClientInfo.groupId = teamID+";";
+		}else {
+			data.ClientInfo.groupId += teamID+";";
+		}
 		out.println("group/join/"+data.ClientInfo.userId+"/"+teamID);
 		out.flush();
 	}

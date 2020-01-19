@@ -28,15 +28,22 @@ public class groupCreateController implements Initializable{
 	
 	@FXML
 	public void createGroup() {
-		String groupID = insertGroupID.getText();
+		String teamID = insertGroupID.getText();
 		
-		if(groupID.length()!=5) {
+		if(teamID.length()!=5) {
 			new Alert(Alert.AlertType.ERROR, "정확하게 5자로 입력해주세요!!", ButtonType.CLOSE).show();
 			return;
 		}
-		data.ClientInfo.groupId += groupID+";";
-		out.println("group/create/"+data.ClientInfo.userId+"/"+groupID);
+		
+		String[] teams = data.ClientInfo.groupId.split(";");
+		if(teams[0].equals("null")) {
+			data.ClientInfo.groupId = teamID+";";
+		}else {
+			data.ClientInfo.groupId += teamID+";";
+		}
+		out.println("group/create/"+data.ClientInfo.userId+"/"+teamID);
 		out.flush();
 	}
 	
 }
+	
