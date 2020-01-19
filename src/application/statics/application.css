@@ -8,12 +8,14 @@
 .label {
 	-fx-font-family: "나눔바른펜";
     -fx-font-weight: bold;
+    -fx-font-size: 15;
 }
 
 .button {
 	-fx-font-family: "나눔바른펜";
     -fx-font-weight: bold;
     -fx-font-size: 14;
+    
 }
 
 .list-view {

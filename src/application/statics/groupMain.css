@@ -1,0 +1,23 @@
+.root {
+	-fx-background-color: #FFFFFF;
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+}
+
+.list-view {
+	-fx-background-color: #FFFFFF;
+	-fx-padding: 0 5px;
+	-fx-border-width: 0 1px;
+	-fx-border-color: #000000;
+}
+
+.list-view .scroll-bar:vertical {
+	-fx-scale-x: 0;
+	-fx-padding: 0 0 0 -30;
+}
+
+.list-cell {
+	-fx-background-color: -fx-control-inner-background;
+	-fx-text-fill: -fx-text-inner-color;
+}
