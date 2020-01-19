@@ -11,29 +11,29 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TimeLineController">
    <children>
-      <ListView fx:id="timeLineListView" layoutX="50.0" layoutY="35.0" prefHeight="312.0" prefWidth="300.0" />
-      <Line fx:id="currentTimeLine" endX="278.0" layoutX="111.0" layoutY="95.0" startX="-100.0" stroke="RED" />
-      <Label fx:id="currentTimeLabel" layoutX="17.0" layoutY="75.0" text="now" textFill="RED">
+      <ListView fx:id="timeLineListView" layoutX="80.0" layoutY="33.0" prefHeight="282.0" prefWidth="300.0" />
+      <Line fx:id="currentTimeLine" endX="278.0" layoutX="141.0" layoutY="94.0" startX="-100.0" stroke="RED" />
+      <Label fx:id="currentTimeLabel" layoutX="48.0" layoutY="73.0" text="now" textFill="RED">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="timeSettingButton" layoutX="50.0" layoutY="355.0" mnemonicParsing="false" text="고정 해제" />
-      <Button fx:id="leftButton" layoutX="20.0" layoutY="178.0" mnemonicParsing="false" onAction="#moveToLeft" text="&lt;" />
-      <Button fx:id="rightButton" layoutX="354.0" layoutY="178.0" mnemonicParsing="false" onAction="#moveToRight" text="&gt;" />
-      <Label fx:id="dayOfWeekLabel" layoutX="181.0" layoutY="14.0" text="일요일" />
-      <HBox layoutX="78.0" layoutY="377.0" spacing="5.0">
+      <Button id="fixBtn" fx:id="timeSettingButton" layoutX="63.0" layoutY="320.0" mnemonicParsing="false" text="고정 해제" />
+      <Button fx:id="leftButton" layoutX="35.0" layoutY="154.0" mnemonicParsing="false" onAction="#moveToLeft" prefHeight="40.0" prefWidth="26.0" style="-fx-background-color: #009688; -fx-background-radius: 10px;" text="&lt;" textFill="WHITE" />
+      <Button fx:id="rightButton" layoutX="407.0" layoutY="154.0" mnemonicParsing="false" onAction="#moveToRight" prefHeight="40.0" prefWidth="26.0" style="-fx-background-color: #009688; -fx-background-radius: 10px;" text="&gt;" textFill="WHITE" />
+      <Label id="dayOfWeekLabel" fx:id="dayOfWeekLabel" layoutX="211.0" layoutY="7.0" text="일요일" />
+      <HBox layoutX="109.0" layoutY="371.0" spacing="5.0">
          <children>
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Sun" />
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Mon" />
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Tue" />
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Wed" />
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Thu" />
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Fri" />
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" text="Sat" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" styleClass="week" text="Sun" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" styleClass="week" text="Mon" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" styleClass="week" text="Tue" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" styleClass="week" text="Wed" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" styleClass="week" text="Thu" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" styleClass="week" text="Fri" />
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="30.0" styleClass="week" text="Sat" />
          </children>
       </HBox>
-      <HBox fx:id="sunToMon" layoutX="79.0" layoutY="401.0" spacing="5.0">
+      <HBox fx:id="sunToMon" layoutX="109.0" layoutY="401.0" spacing="5.0">
          <children>
             <Label fx:id="sun" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #ebedf0;" />
             <Label fx:id="mon" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #ebedf0;" />
@@ -44,7 +44,7 @@
             <Label fx:id="sat" alignment="CENTER" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #ebedf0;" />
          </children>
       </HBox>
-      <HBox fx:id="month" layoutX="150.0" layoutY="460.0" spacing="5.0">
+      <HBox fx:id="month" layoutX="181.0" layoutY="439.0" spacing="5.0">
          <children>
             <VBox spacing="3.0">
                <children>
@@ -103,19 +103,18 @@
             </VBox>
          </children>
       </HBox>
-      <Label fx:id="nowMonth" alignment="CENTER" layoutY="439.0" prefHeight="14.0" prefWidth="400.0">
+      <Label id="nowMonth" fx:id="nowMonth" alignment="CENTER" layoutX="147.0" layoutY="353.0" prefHeight="15.0" prefWidth="166.0">
          <font>
             <Font name="Arial" size="12.0" />
          </font>
       </Label>
-      <Button layoutX="302.0" layoutY="493.0" mnemonicParsing="false" onAction="#nextDay" text="다음날" />
-      <VBox layoutX="400.0" layoutY="10.0" prefHeight="600.0" prefWidth="50.0">
+      <HBox layoutY="580.0" prefHeight="40.0" prefWidth="460.0" style="-fx-background-color: #78909c;">
          <children>
-            <Button fx:id="AddEssentialsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="필" VBox.vgrow="ALWAYS" />
-            <Button fx:id="ShowTimeLineButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="타" VBox.vgrow="ALWAYS" />
-            <Button fx:id="AddChallengesButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="도" VBox.vgrow="ALWAYS" />
-            <Button fx:id="MoveToGroupButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="그" VBox.vgrow="ALWAYS" />
+            <Button fx:id="AddEssentialsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="필수 일정" textFill="WHITE" />
+           	<Button fx:id="ShowTimeLineButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="타임라인" textFill="WHITE" />
+           	<Button fx:id="AddChallengesButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="도전 일정" textFill="WHITE" />
+           	<Button fx:id="MoveToGroupButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="그룹 관리" textFill="WHITE" />
          </children>
-      </VBox>
+      </HBox>
    </children>
 </AnchorPane>

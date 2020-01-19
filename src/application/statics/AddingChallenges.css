@@ -1,0 +1,115 @@
+.root {
+	-fx-background-color: #FFFFFF;
+}
+.button {
+	-fx-background-color: #FFFFFF;
+	-fx-font-family: "NanumBarunpen";
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+.label {
+	-fx-font-family: "NanumBarunpen";
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+}
+.text-field {
+	-fx-font-family: "NanumBarunpen";
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+}
+.combo-box {
+	-fx-font-family: "NanumBarunpen";
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+    -fx-border-width: 1px 0;
+    -fx-border-color: #000;
+}
+.combo-box:focused {
+	-fx-faint-focus-color: transparent;
+    -fx-focus-color:rgba(69,0,166,0); /* here rgba (corrected) */
+}
+.combo-box .list-view {
+	-fx-background-color: #d1f5ff;
+	-fx-padding: 0 5px;
+	-fx-border-width: 1px;
+	-fx-border-color: #d1f5ff;
+}
+.combo-box .list-cell {
+    -fx-alignment: center;
+}
+.combo-box .arrow, .combo-box .arrow-button{
+	-fx-padding: 0 0 0 0;
+}
+.list-view {
+	-fx-background-color: #FFFFFF;
+	-fx-padding: 0 5px;
+	-fx-border-width: 0 1px;
+	-fx-border-color: #000000;
+}
+
+.list-view .scroll-bar:vertical {
+	-fx-scale-x: 0;
+}
+
+.list-cell {
+	-fx-font-family: "NanumBarunpen";
+	-fx-font-family: "나눔바른펜";
+    -fx-font-size: 13;
+	-fx-background-color: -fx-control-inner-background;
+	-fx-text-fill: -fx-text-inner-color;
+}
+
+.list-cell:odd {
+	-fx-background-color: derive(-fx-control-inner-background, -2%);
+}
+
+.list-cell:focused {
+	-fx-background-color: -fx-control-inner-background;
+	-fx-text-fill: -fx-text-inner-color;
+	/*-fx-padding: 0.25em;*/
+}
+
+.list-cell:focused:odd {
+	-fx-background-color: derive(-fx-control-inner-background, -2%);
+}
+#insert {
+	-fx-font-family: "NanumBarunpen";
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 25;
+}
+#add {
+	-fx-background-color: #FFFFFF;
+	-fx-text-fill: black;
+	-fx-border-width: 2px;
+	-fx-border-color: black;
+	-fx-border-radius: 10;
+	-fx-font-family: "NanumBarunpen";
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+}
+#finish {
+	-fx-background-color: #617bff;
+	-fx-text-fill: black;
+	-fx-background-radius: 10;
+	-fx-border-radius: 10;
+	-fx-font-family: "NanumBarunpen";
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+}
+#cancle {
+	-fx-background-color: #ff6161;
+	-fx-text-fill: black;
+	-fx-background-radius: 10;
+	-fx-border-radius: 10;
+	-fx-font-family: "NanumBarunpen";
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+}
