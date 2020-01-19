@@ -27,7 +27,7 @@ public class groupCreateController implements Initializable{
 	}
 	
 	@FXML
-	public void createGroup() {
+	public void createGroup() throws InterruptedException {
 		String teamID = insertGroupID.getText();
 		
 		if(teamID.length()!=5) {
@@ -42,6 +42,9 @@ public class groupCreateController implements Initializable{
 			data.ClientInfo.groupId += teamID+";";
 		}
 		out.println("group/create/"+data.ClientInfo.userId+"/"+teamID);
+		out.flush();
+		Thread.sleep(250);
+		out.println("group/join/"+data.ClientInfo.userId+"/"+teamID);
 		out.flush();
 	}
 	

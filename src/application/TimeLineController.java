@@ -178,7 +178,7 @@ public class TimeLineController extends TimeLine implements Initializable {
 			}
 		});
 		MoveToGroupButton.setOnMouseClicked(event -> {
-			if(data.ClientInfo.groupId.equals("null")) {
+			if(data.ClientInfo.groupId.split(";")[0].equals("null")) {
 				try {
 					Parent second;
 					second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));

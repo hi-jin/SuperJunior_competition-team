@@ -26,11 +26,12 @@ public class GroupCell extends ListCell<String>{
 			setStyle("");
 		} else {
 			setText(item);
-			if(index%3==0) {
+			if(index%3==0 && index!=0) {
 				setStyle(
 						"-fx-font-size: 15.0;"
+						+"-fx-background-color: #fff;"
 						+"-fx-border-color: black;"
-						+"-fx-border-width: 0.5;"
+						+"-fx-border-width: 1;"
 						+"-fx-border-style: solid none none none;"
 				);
 			}else {
@@ -40,10 +41,16 @@ public class GroupCell extends ListCell<String>{
 							+"-fx-font-size: 15.0;"
 							+"-fx-alignment: center;"
 					);
-				}else {
+				}else if((index-1)%3==0 && index!=0){
 					setStyle(
 							"-fx-font-size: 15.0;"
 							+"-fx-alignment: center;"
+							+"-fx-background-color: #eeffd9;"
+					);
+				}else if(index==0){
+					setStyle(
+							"-fx-font-size: 15.0;"
+							+"-fx-background-color: #fff;"
 					);
 				}
 			}

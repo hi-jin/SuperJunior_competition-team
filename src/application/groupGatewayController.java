@@ -86,7 +86,7 @@ public class groupGatewayController implements Initializable {
 				try {
 					Parent second;
 					second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));
-					second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+					second.getStylesheets().add(getClass().getResource("statics/groupGateway.css").toExternalForm());
 					Scene sc = new Scene(second);
 					Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
 					stage.setScene(sc);
@@ -100,7 +100,7 @@ public class groupGatewayController implements Initializable {
 					System.out.println("?");
 					Parent second;
 					second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
-					second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+					second.getStylesheets().add(getClass().getResource("statics/groupMain.css").toExternalForm());
 					Scene sc = new Scene(second);
 					Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
 					stage.setScene(sc);
