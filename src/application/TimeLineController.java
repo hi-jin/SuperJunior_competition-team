@@ -354,7 +354,8 @@ public class TimeLineController extends TimeLine implements Initializable {
 		weekColors[dayCount] = color;
 		calendar.set(Calendar.DATE, calendar.get(Calendar.DATE)+1);
 		dayCount++;
-		Schedule.setToday(); // TODO 이렇게 하는 거 맞음??
+		Schedule.writeSchedule();
+		Schedule.readSchedule();
 		/*
 		nowDate.setText(calendar.get(Calendar.YEAR)+"년 "
 				+(calendar.get(Calendar.MONTH)+1)+"월 "
