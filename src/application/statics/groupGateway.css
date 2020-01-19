@@ -11,6 +11,11 @@
     -fx-border-radius: 30;
     -fx-background-radius: 30;
 }
+.button {
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
 #innerBtn:pressed {
 	-fx-background-color: #0080FF;
     -fx-border-color: #01A9DB;

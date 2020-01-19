@@ -14,4 +14,26 @@
 	-fx-font-family: "나눔바른펜";
     -fx-font-weight: bold;
     -fx-font-size: 13;
+    -fx-background-color: #a187ff;
+    -fx-border-color: #9e71de;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-text-fill: #fff;
+}
+.button:pressed {
+	-fx-background-color: #4500a6;
+    -fx-border-color: #9e71de;
+    -fx-text-fill: #fff;
+}
+.text-field {
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+    -fx-border-color: white;
+}
+
+.text-field:focused {
+	-fx-faint-focus-color: transparent;
+    -fx-focus-color:rgba(69,0,166,0.4); /* here rgba (corrected) */
+	
 }
