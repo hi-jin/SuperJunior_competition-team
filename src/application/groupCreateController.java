@@ -34,7 +34,8 @@ public class groupCreateController implements Initializable{
 			new Alert(Alert.AlertType.ERROR, "정확하게 5자로 입력해주세요!!", ButtonType.CLOSE).show();
 			return;
 		}
-		out.println("group/create/"+groupID);
+		data.ClientInfo.groupId += groupID+";";
+		out.println("group/create/"+data.ClientInfo.userId+"/"+groupID);
 		out.flush();
 	}
 	

@@ -106,6 +106,7 @@ public class groupMainController implements Initializable{
 				}
 			}else {
 				try {
+					groupGatewayController.wannaQuit = false;
 					Parent second;
 					second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
 					second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
@@ -143,6 +144,28 @@ public class groupMainController implements Initializable{
 	@FXML
 	public void moveToCreateOrJoinGroup() {
 		try {
+			groupGatewayController.wannaQuit = false;
+			Parent second;
+			second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));
+			second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+			Scene sc = new Scene(second);
+			Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
+			stage.setScene(sc);
+			stage.show();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void quitTeam() {
+		try {
+			groupGatewayController.wannaQuit = true;
+			if(myTeam.getValue()==null) {
+				groupGatewayController.quitGroupID = myTeam.getPromptText();
+			}else {
+				groupGatewayController.quitGroupID = myTeam.getValue();
+			}
 			Parent second;
 			second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));
 			second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
