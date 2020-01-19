@@ -349,7 +349,6 @@ public class TimeLineController extends TimeLine implements Initializable {
 		} else {
 			color = (int) (Math.random() * 5) + 6;
 		}
-		System.out.println(colorMap.get(color));
 		week[dayCount].setStyle(colorMap.get(color));
 		
 		weekColors[dayCount] = color;
