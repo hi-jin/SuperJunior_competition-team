@@ -7,14 +7,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="300.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.groupCreateController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="300.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-border-width: 2; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.groupCreateController">
    <children>
-      <Label alignment="CENTER" layoutY="45.0" prefHeight="14.0" prefWidth="300.0" text="그룹 생성하기">
+      <Label alignment="CENTER" layoutX="4.0" layoutY="39.0" prefHeight="30.0" prefWidth="292.0" text="그룹 생성하기">
          <font>
             <Font name="Arial" size="25.0" />
          </font>
       </Label>
-      <HBox layoutX="70.0" layoutY="85.0">
+      <HBox layoutX="68.0" layoutY="92.0" spacing="3.0">
          <children>
             <TextField fx:id="insertGroupID" prefHeight="30.0" prefWidth="120.0" promptText="5자로 작성">
                <font>
@@ -24,5 +24,6 @@
             <Button mnemonicParsing="false" onAction="#createGroup" prefHeight="30.0" prefWidth="40.0" text="생성" />
          </children>
       </HBox>
+      <Label id="notice" alignment="CENTER" layoutX="74.0" layoutY="73.0" prefHeight="14.0" prefWidth="152.0" text="( 5자로 작성해주세요 )" />
    </children>
 </AnchorPane>

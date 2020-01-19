@@ -1,0 +1,17 @@
+.label {
+	-fx-background-color: #FFFFFF;
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 25;
+}
+#notice {
+	-fx-background-color: #FFFFFF;
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 11;
+}
+.button {
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
+}

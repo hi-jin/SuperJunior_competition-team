@@ -133,6 +133,7 @@ public class groupGatewayController implements Initializable {
 		Parent root;
 		try {
 			root = FXMLLoader.load(getClass().getResource("templates/groupCreatePopup.fxml"));
+			root.getStylesheets().add(getClass().getResource("statics/groupPopup.css").toExternalForm());
 			// 팝업 객체에 레이아웃 추가
 			pop.getContent().add(root);
 			pop.setAutoHide(true); // 포커스 이동시 창 숨김
@@ -154,6 +155,7 @@ public class groupGatewayController implements Initializable {
 		Parent root;
 		try {
 			root = FXMLLoader.load(getClass().getResource("templates/groupjoinPopup.fxml"));
+			root.getStylesheets().add(getClass().getResource("statics/groupPopup.css").toExternalForm());
 			// 팝업 객체에 레이아웃 추가
 			pop.getContent().add(root);
 			pop.setAutoHide(true); // 포커스 이동시 창 숨김
