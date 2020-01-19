@@ -41,7 +41,9 @@ public class Schedule implements Comparable<Schedule> {
 			for(int i = 0; i < strScheduleList.length; i++) {
 				String[] command = strScheduleList[i].split("/");
 				Schedule schedule = new Schedule(command[0], command[1], command[2], command[3], command[4].charAt(0));
-				ClientInfo.scheduleList.add(schedule);
+				if(schedule.dayOfWeek.equals(ClientInfo.dayOfWeekList[ClientInfo.today])) {
+					ClientInfo.scheduleList.add(schedule);
+				}
 			}
 		}
 	}
