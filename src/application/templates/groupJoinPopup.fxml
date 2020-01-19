@@ -14,14 +14,14 @@
             <Font name="Arial" size="25.0" />
          </font>
       </Label>
-      <HBox layoutX="68.0" layoutY="90.0" spacing="3.0">
+      <HBox layoutX="68.0" layoutY="92.0" spacing="3.0">
          <children>
             <TextField fx:id="insertGroupID" prefHeight="30.0" prefWidth="120.0" promptText="5자로 작성">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <Button mnemonicParsing="false" onAction="#createGroup" prefHeight="30.0" prefWidth="40.0" text="참가" />
+            <Button mnemonicParsing="false" onAction="#createGroup" text="참가" />
          </children>
       </HBox>
       <Label id="notice" alignment="CENTER" layoutX="74.0" layoutY="73.0" prefHeight="14.0" prefWidth="152.0" text="( 5자로 작성해주세요 )" />

@@ -39,6 +39,11 @@
     -fx-border-color: #fc123c;
     -fx-text-fill: #fff;
 }
+.button {
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
 .combo-box {
 	-fx-font-family: "나눔바른펜";
     -fx-font-weight: bold;
@@ -62,7 +67,7 @@
 .list-view {
 	-fx-background-color: #FFFFFF;
 	-fx-padding: 0 5px;
-	-fx-border-width: 1px;
+	-fx-border-width: 2px;
 	-fx-border-color: #000000;
 	-fx-border-radius: 5;
 }

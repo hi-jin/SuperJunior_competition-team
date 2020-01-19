@@ -21,7 +21,7 @@
                   <Font size="14.0" />
                </font>
             </TextField>
-            <Button mnemonicParsing="false" onAction="#createGroup" prefHeight="30.0" prefWidth="40.0" text="생성" />
+            <Button mnemonicParsing="false" onAction="#createGroup" text="생성" />
          </children>
       </HBox>
       <Label id="notice" alignment="CENTER" layoutX="74.0" layoutY="73.0" prefHeight="14.0" prefWidth="152.0" text="( 5자로 작성해주세요 )" />

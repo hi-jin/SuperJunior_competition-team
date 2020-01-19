@@ -3,11 +3,12 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.groupGatewayController">
    <children>
-      <VBox layoutX="142.0" layoutY="180.0" spacing="30.0">
+      <VBox layoutX="160.0" layoutY="180.0" spacing="30.0">
          <children>
             <Button id="innerBtn" fx:id="createGroup" mnemonicParsing="false" onAction="#createGroupGateWay" prefHeight="50.0" prefWidth="140.0" text="그룹 생성">
                <cursor>
@@ -23,13 +24,13 @@
                </cursor></Button>
          </children>
       </VBox>
-      <VBox layoutX="400.0" layoutY="10.0" prefHeight="600.0" prefWidth="50.0">
+      <HBox layoutY="580.0" prefHeight="40.0" prefWidth="460.0" style="-fx-background-color: #78909c;">
          <children>
-            <Button fx:id="AddEssentialsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="필" VBox.vgrow="ALWAYS" />
-            <Button fx:id="ShowTimeLineButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="타" VBox.vgrow="ALWAYS" />
-            <Button fx:id="AddChallengesButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="도" VBox.vgrow="ALWAYS" />
-            <Button fx:id="MoveToGroupButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="그" VBox.vgrow="ALWAYS" />
+           <Button fx:id="AddEssentialsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="필수 일정" textFill="WHITE" />
+           <Button fx:id="ShowTimeLineButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="타임라인" textFill="WHITE" />
+           <Button fx:id="AddChallengesButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="도전 일정" textFill="WHITE" />
+           <Button fx:id="MoveToGroupButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="그룹 관리" textFill="WHITE" />
          </children>
-      </VBox>
+      </HBox>
    </children>
 </AnchorPane>
