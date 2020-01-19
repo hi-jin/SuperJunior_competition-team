@@ -1,18 +1,21 @@
 .root {
 	-fx-background-color: #FFFFFF;
-	-fx-font-family: "나눔바른펜";
+	-fx-font-family: "NanumBarunpen";
+	/** -fx-font-family: "나눔바른펜"; **/
     -fx-font-weight: bold;
     -fx-font-size: 12;
 }
 
 .label {
-	-fx-font-family: "나눔바른펜";
+	-fx-font-family: "NanumBarunpen";
+	/** -fx-font-family: "나눔바른펜"; **/
     -fx-font-weight: bold;
     -fx-font-size: 15;
 }
 
 .button {
-	-fx-font-family: "나눔바른펜";
+	-fx-font-family: "NanumBarunpen";
+	/** -fx-font-family: "나눔바른펜"; **/
     -fx-font-weight: bold;
     -fx-font-size: 14;
     

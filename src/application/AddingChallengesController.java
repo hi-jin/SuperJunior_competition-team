@@ -19,11 +19,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
 public class AddingChallengesController extends TimeLine implements Initializable {
@@ -43,6 +46,8 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 	
 	////////// timeLine //////////
     private int currentDayOfWeek; // 현재 보고있는 요일
+    private boolean isChanged = false;
+    Alert alert = new Alert(AlertType.CONFIRMATION, "완료를 누르지 않고 이동하면, 추가가 취소됩니다. 이동하시겠습니까?", ButtonType.NO, ButtonType.YES);
 	
 	Vector<Schedule> tempScheduleList = new Vector<>();
 	//////////////////////////////
@@ -54,10 +59,18 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		isChanged = false;
+		
 		Controllers.addingChallengesController = this;
 		
 		currentDayOfWeek = ClientInfo.today;
 		AddEssentialsButton.setOnMouseClicked(event -> {
+			if(isChanged) {
+				alert.showAndWait();
+				if(alert.getResult() == ButtonType.NO) {
+					return;
+				}
+			}
 			try {
 				Parent second;
 				second = FXMLLoader.load(getClass().getResource("templates/first.fxml"));
@@ -71,6 +84,12 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 			}
 		});
 		ShowTimeLineButton.setOnMouseClicked(event -> {
+			if(isChanged) {
+				alert.showAndWait();
+				if(alert.getResult() == ButtonType.NO) {
+					return;
+				}
+			}
 			try {
 				Parent second;
 				second = FXMLLoader.load(getClass().getResource("templates/TimeLine.fxml"));
@@ -84,6 +103,12 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 			}
 		});
 		AddChallengesButton.setOnMouseClicked(event -> {
+			if(isChanged) {
+				alert.showAndWait();
+				if(alert.getResult() == ButtonType.NO) {
+					return;
+				}
+			}
 			try {
 				Parent second;
 				second = FXMLLoader.load(getClass().getResource("templates/AddingChallenges.fxml"));
@@ -97,6 +122,12 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 			}
 		});
 		MoveToGroupButton.setOnMouseClicked(event -> {
+			if(isChanged) {
+				alert.showAndWait();
+				if(alert.getResult() == ButtonType.NO) {
+					return;
+				}
+			}
 			if(data.ClientInfo.groupId.split(";")[0].equals("null")) {
 				try {
 					Parent second;
@@ -200,6 +231,7 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 		tempScheduleList.add(schedule);
 		ClientInfo.allChallengesCount++;
 		drawSchedule(schedule);
+		isChanged = true;
 		timeLineListView.refresh();
 		titleTextField.clear();
 		hourTextField.clear();
@@ -225,6 +257,7 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 	@FXML public void cancel() {
 		tempScheduleList.clear();
 		showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
+		isChanged = false;
 	} // TODO
 	
 	private void recommendTime() {
