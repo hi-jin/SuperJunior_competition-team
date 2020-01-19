@@ -1,10 +1,12 @@
 .root {
 	-fx-background-color: #FFFFFF;
+	-fx-font-family: "NanumBarunpen";
 	-fx-font-family: "나눔바른펜";
     -fx-font-weight: bold;
     -fx-font-size: 12;
 }
 .label {
+	-fx-font-family: "NanumBarunpen";
 	-fx-font-family: "나눔바른펜";
     -fx-font-weight: bold;
     -fx-font-size: 21;
@@ -13,8 +15,8 @@
     -fx-background-color: #58ACFA;
     -fx-border-color: #01A9DB;
     -fx-text-fill: #fff;
+	-fx-font-family: "NanumBarunpen";
 	-fx-font-family: "나눔바른펜";
-    -fx-font-weight: bold;
     -fx-font-size: 12;
     -fx-border-radius: 30;
     -fx-background-radius: 30;
@@ -28,8 +30,8 @@
 	-fx-background-color: #ff708a;
     -fx-border-color: #fc123c;
     -fx-text-fill: #000;
+	-fx-font-family: "NanumBarunpen";
 	-fx-font-family: "나눔바른펜";
-    -fx-font-weight: bold;
     -fx-font-size: 12;
     -fx-border-radius: 30;
     -fx-background-radius: 30;
@@ -40,11 +42,13 @@
     -fx-text-fill: #fff;
 }
 .button {
+	-fx-font-family: "NanumBarunpen";
 	-fx-font-family: "나눔바른펜";
     -fx-font-weight: bold;
     -fx-font-size: 14;
 }
 .combo-box {
+	-fx-font-family: "NanumBarunpen";
 	-fx-font-family: "나눔바른펜";
     -fx-font-weight: bold;
     -fx-font-size: 12;
