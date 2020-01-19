@@ -5,69 +5,77 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EssentialController">
    <children>
-      <Label fx:id="day" layoutX="162.0" layoutY="34.0" text="NULL">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Label>
-      <Label layoutX="219.0" layoutY="424.0" text="시작시각" />
-      <Label layoutX="219.0" layoutY="470.0" prefHeight="17.0" prefWidth="52.0" text="종료시각" />
-      <TextField fx:id="start_h" layoutX="301.0" layoutY="419.0" prefHeight="27.0" prefWidth="34.0" promptText="00" />
-      <TextField fx:id="start_m" layoutX="352.0" layoutY="419.0" prefHeight="27.0" prefWidth="34.0" promptText="00" />
-      <TextField fx:id="end_h" layoutX="301.0" layoutY="465.0" prefHeight="27.0" prefWidth="34.0" promptText="00" />
-      <TextField fx:id="end_m" layoutX="352.0" layoutY="465.0" prefHeight="27.0" prefWidth="34.0" promptText="00" />
-      <Button fx:id="input_btn" focusTraversable="false" layoutX="323.0" layoutY="504.0" mnemonicParsing="false" onAction="#date_input" prefHeight="27.0" prefWidth="59.0" text="등록" />
-      <Label layoutX="342.0" layoutY="424.0" text=":" />
-      <Label layoutX="342.0" layoutY="470.0" text=":" />
-      <Label fx:id="essential_num" layoutX="200.0" layoutY="128.0" text="0">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Label fx:id="challengesCountLabel" layoutX="200.0" layoutY="190.0" text="0">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Label layoutX="247.0" layoutY="128.0" text="개">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Label layoutX="247.0" layoutY="191.0" text="개">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Button fx:id="next_day" layoutX="352.0" layoutY="185.0" mnemonicParsing="false" onAction="#next_view_btn" prefHeight="40.0" prefWidth="26.0" text="&gt;" />
-      <Button fx:id="pre_day" layoutX="23.0" layoutY="185.0" mnemonicParsing="false" onAction="#pre_view_btn" prefHeight="40.0" prefWidth="26.0" text="&lt;" />
-      <Label layoutX="115.0" layoutY="128.0" text="필수일정">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Label layoutX="115.0" layoutY="191.0" text="도전일정">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Button fx:id="exit" layoutX="316.0" layoutY="556.0" mnemonicParsing="false" onAction="#exit" text="작성 종료" />
-      <Label layoutX="224.0" layoutY="386.0" text="제목" />
-      <TextField fx:id="title" layoutX="301.0" layoutY="381.0" prefHeight="27.0" prefWidth="84.0" />
-      <Label fx:id="error_msg" alignment="CENTER" layoutX="-2.0" layoutY="336.0" prefHeight="17.0" prefWidth="400.0" textAlignment="CENTER" textFill="RED" />
-      <ListView fx:id="timeLineListView" layoutX="14.0" layoutY="370.0" prefHeight="224.0" prefWidth="193.0" />
-      <VBox layoutX="400.0" layoutY="10.0" prefHeight="600.0" prefWidth="50.0">
+      <AnchorPane layoutX="256.0" layoutY="331.0" prefHeight="185.0" prefWidth="175.0" style="-fx-background-color: #eeeeee; -fx-border-color: #999;">
          <children>
-            <Button fx:id="AddEssentialsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="필" VBox.vgrow="ALWAYS" />
-            <Button fx:id="ShowTimeLineButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="타" VBox.vgrow="ALWAYS" />
-            <Button fx:id="AddChallengesButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="도" VBox.vgrow="ALWAYS" />
-            <Button fx:id="MoveToGroupButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="그" VBox.vgrow="ALWAYS" />
+            <Label layoutX="12.0" layoutY="56.0" text="시작시각" />
+            <Label layoutX="12.0" layoutY="100.0" prefHeight="17.0" prefWidth="59.0" text="종료시각" />
+            <Label layoutX="20.0" layoutY="22.0" text="제  목" />
+            <Button fx:id="input_btn" focusTraversable="false" layoutX="107.0" layoutY="144.0" mnemonicParsing="false" onAction="#date_input" prefHeight="27.0" prefWidth="59.0" style="-fx-background-color: #009688;" text="등록" textFill="WHITE" />
+            <TextField fx:id="title" layoutX="81.0" layoutY="16.0" prefHeight="27.0" prefWidth="84.0" style="-fx-background-color: #fff;" />
+            <TextField fx:id="start_h" layoutX="81.0" layoutY="56.0" prefHeight="27.0" prefWidth="34.0" promptText="00" style="-fx-background-color: #fff;" />
+            <TextField fx:id="start_m" layoutX="132.0" layoutY="56.0" prefHeight="27.0" prefWidth="34.0" promptText="00" style="-fx-background-color: #fff;" />
+            <TextField fx:id="end_h" layoutX="81.0" layoutY="102.0" prefHeight="27.0" prefWidth="34.0" promptText="00" style="-fx-background-color: #fff;" />
+            <TextField fx:id="end_m" layoutX="132.0" layoutY="102.0" prefHeight="27.0" prefWidth="34.0" promptText="00" style="-fx-background-color: #fff;" />
+            <Label layoutX="122.0" layoutY="61.0" text=":" />
+            <Label layoutX="122.0" layoutY="107.0" text=":" />
          </children>
-      </VBox>
+      </AnchorPane>
+      <AnchorPane layoutX="131.0" layoutY="105.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #999; -fx-border-radius: 3px; -fx-background-color: #eeeeee;">
+         <children>
+            <Label layoutX="22.0" layoutY="58.0" text="필수일정">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="22.0" layoutY="122.0" text="도전일정">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="essential_num" layoutX="107.0" layoutY="58.0" text="0">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="154.0" layoutY="58.0" text="개">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="challengesCountLabel" layoutX="107.0" layoutY="122.0" text="0">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Label layoutX="154.0" layoutY="122.0" style="-fx-border-radius: 3px;" text="개">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label fx:id="day" layoutX="193.0" layoutY="47.0" text="NULL">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <Button fx:id="next_day" layoutX="405.0" layoutY="185.0" mnemonicParsing="false" onAction="#next_view_btn" prefHeight="40.0" prefWidth="26.0" style="-fx-background-color: #009688; -fx-background-radius: 10px;" text="&gt;" textFill="WHITE" />
+      <Button fx:id="pre_day" layoutX="23.0" layoutY="185.0" mnemonicParsing="false" onAction="#pre_view_btn" prefHeight="40.0" prefWidth="26.0" style="-fx-background-color: #009688; -fx-background-radius: 10px;" text="&lt;" textFill="WHITE" />
+      <Button fx:id="exit" layoutX="363.0" layoutY="532.0" mnemonicParsing="false" onAction="#exit" style="-fx-background-color: #ef5350;" text="작성 종료" textFill="WHITE" />
+      <Label fx:id="error_msg" alignment="CENTER" layoutY="310.0" prefHeight="17.0" prefWidth="400.0" textAlignment="CENTER" textFill="RED" />
+      <ListView fx:id="timeLineListView" layoutX="35.0" layoutY="331.0" prefHeight="224.0" prefWidth="193.0" />
+      <HBox layoutY="580.0" prefHeight="40.0" prefWidth="460.0" style="-fx-background-color: #78909c;">
+         <children>
+            <Button fx:id="AddEssentialsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #00000000;" text="필수 일정" textFill="WHITE" />
+            <Button fx:id="ShowTimeLineButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #00000000;" text="타임라인" textFill="WHITE" />
+            <Button fx:id="AddChallengesButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #00000000;" text="도전 일정" textFill="WHITE" />
+            <Button fx:id="MoveToGroupButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: #00000000;" text="그룹 관리" textFill="WHITE" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
