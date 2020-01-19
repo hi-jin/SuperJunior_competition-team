@@ -6,6 +6,7 @@
     -fx-border-color: #01A9DB;
     -fx-text-fill: #fff;
 	-fx-font-family: "나눔바른펜";
+	-fx-font-family: "NanumBarunpen";
     -fx-font-weight: bold;
     -fx-font-size: 15;
     -fx-border-radius: 30;
@@ -13,6 +14,7 @@
 }
 .button {
 	-fx-font-family: "나눔바른펜";
+	-fx-font-family: "NanumBarunpen";
     -fx-font-weight: bold;
     -fx-font-size: 14;
 }
@@ -26,6 +28,7 @@
     -fx-border-color: #fc123c;
     -fx-text-fill: #000;
 	-fx-font-family: "나눔바른펜";
+	-fx-font-family: "NanumBarunpen";
     -fx-font-weight: bold;
     -fx-font-size: 15;
     -fx-border-radius: 30;
