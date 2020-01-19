@@ -338,7 +338,9 @@ public class TimeLineController extends TimeLine implements Initializable {
 		} else {
 			currentDayOfWeek = 0;
 		}
-		showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
+		Platform.runLater(() -> {
+			showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
+		});
 	}
 	
 	@FXML
@@ -354,8 +356,8 @@ public class TimeLineController extends TimeLine implements Initializable {
 		weekColors[dayCount] = color;
 		calendar.set(Calendar.DATE, calendar.get(Calendar.DATE)+1);
 		dayCount++;
-		Schedule.writeSchedule();
-		Schedule.readSchedule();
+//		Schedule.writeSchedule(); TODO 이 두 줄로 인해 오류가 납니당.
+//		Schedule.readSchedule();
 		/*
 		nowDate.setText(calendar.get(Calendar.YEAR)+"년 "
 				+(calendar.get(Calendar.MONTH)+1)+"월 "

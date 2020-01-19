@@ -35,6 +35,7 @@ public class ServerListener extends Thread {
 					break;
 				case "update": // TODO Platform.runLater 안해도 되는지 확인하기
 					try {
+						data.Controllers.timeLineController.moveToRight();
 						data.Controllers.timeLineController.nextDay();
 					} catch (Exception e) {}
 					break;
