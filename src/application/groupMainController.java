@@ -92,11 +92,11 @@ public class groupMainController implements Initializable{
 			}
 		});
 		MoveToGroupButton.setOnMouseClicked(event -> {
-			if(data.ClientInfo.groupId.equals("null")) {
+			if(data.ClientInfo.groupId.split(";")[0].equals("null")) {
 				try {
 					Parent second;
 					second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));
-					second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+					second.getStylesheets().add(getClass().getResource("statics/groupGateway.css").toExternalForm());
 					Scene sc = new Scene(second);
 					Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
 					stage.setScene(sc);
@@ -109,7 +109,7 @@ public class groupMainController implements Initializable{
 					groupGatewayController.wannaQuit = false;
 					Parent second;
 					second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
-					second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+					second.getStylesheets().add(getClass().getResource("statics/groupMain.css").toExternalForm());
 					Scene sc = new Scene(second);
 					Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
 					stage.setScene(sc);
@@ -147,7 +147,7 @@ public class groupMainController implements Initializable{
 			groupGatewayController.wannaQuit = false;
 			Parent second;
 			second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));
-			second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+			second.getStylesheets().add(getClass().getResource("statics/groupGateway.css").toExternalForm());
 			Scene sc = new Scene(second);
 			Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
 			stage.setScene(sc);
@@ -168,7 +168,7 @@ public class groupMainController implements Initializable{
 			}
 			Parent second;
 			second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));
-			second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+			second.getStylesheets().add(getClass().getResource("statics/groupGateway.css").toExternalForm());
 			Scene sc = new Scene(second);
 			Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
 			stage.setScene(sc);

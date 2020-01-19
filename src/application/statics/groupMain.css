@@ -4,20 +4,70 @@
     -fx-font-weight: bold;
     -fx-font-size: 12;
 }
-
+.label {
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 21;
+}
+#innerBtn {
+    -fx-background-color: #58ACFA;
+    -fx-border-color: #01A9DB;
+    -fx-text-fill: #fff;
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+}
+#innerBtn:pressed {
+	-fx-background-color: #0080FF;
+    -fx-border-color: #01A9DB;
+    -fx-text-fill: #fff;
+}
+#quitBtn{
+	-fx-background-color: #ff708a;
+    -fx-border-color: #fc123c;
+    -fx-text-fill: #000;
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+}
+#quitBtn:pressed {
+	-fx-background-color: #fc123c;
+    -fx-border-color: #fc123c;
+    -fx-text-fill: #fff;
+}
+.combo-box {
+	-fx-font-family: "나눔바른펜";
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+    -fx-border-width: 1px 0;
+    -fx-border-color: #000;
+}
+.combo-box .list-view {
+	-fx-background-color: #d1f5ff;
+	-fx-padding: 0 5px;
+	-fx-border-width: 1px;
+	-fx-border-color: #d1f5ff;
+}
+.combo-box .list-cell {
+	-fx-background-color: #d1f5ff;
+    -fx-alignment: center;
+}
+.combo-box .arrow, .combo-box .arrow-button{
+	-fx-padding: 0 0 0 0;
+}
 .list-view {
 	-fx-background-color: #FFFFFF;
 	-fx-padding: 0 5px;
-	-fx-border-width: 0 1px;
+	-fx-border-width: 1px;
 	-fx-border-color: #000000;
+	-fx-border-radius: 5;
 }
 
 .list-view .scroll-bar:vertical {
 	-fx-scale-x: 0;
 	-fx-padding: 0 0 0 -30;
-}
-
-.list-cell {
-	-fx-background-color: -fx-control-inner-background;
-	-fx-text-fill: -fx-text-inner-color;
 }
