@@ -29,7 +29,6 @@ public class groupJoinController implements Initializable{
 	@FXML
 	public void joinGroup() {
 		String teamID = insertGroupID.getText();
-		System.out.println(teamID);
 		String[] nowTeam = data.ClientInfo.groupId.split(";");
 		for(String team : nowTeam) {
 			if(team.equals(teamID)) {

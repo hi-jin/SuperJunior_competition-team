@@ -97,16 +97,30 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 			}
 		});
 		MoveToGroupButton.setOnMouseClicked(event -> {
-			try {
-				Parent second;
-				second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
-				second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
-				Scene sc = new Scene(second);
-				Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
-				stage.setScene(sc);
-				stage.show();
-			} catch(IOException e) {
-				e.printStackTrace();
+			if(data.ClientInfo.groupId.equals("null")) {
+				try {
+					Parent second;
+					second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));
+					second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+					Scene sc = new Scene(second);
+					Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
+					stage.setScene(sc);
+					stage.show();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}else {
+				try {
+					Parent second;
+					second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
+					second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+					Scene sc = new Scene(second);
+					Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
+					stage.setScene(sc);
+					stage.show();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
