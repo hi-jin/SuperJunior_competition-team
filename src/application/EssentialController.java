@@ -69,7 +69,6 @@ public class EssentialController extends TimeLine implements Initializable {
 			try {
 				Parent second;
 				second = FXMLLoader.load(getClass().getResource("templates/TimeLine.fxml"));
-				second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
 				Scene sc = new Scene(second);
 				Stage stage = (Stage)ShowTimeLineButton.getScene().getWindow();
 				stage.setScene(sc);
@@ -81,8 +80,7 @@ public class EssentialController extends TimeLine implements Initializable {
 		AddChallengesButton.setOnMouseClicked(event -> {
 			try {
 				Parent second;
-				second = FXMLLoader.load(getClass().getResource("templates/AddingChallenges.fxml"));
-				second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+				second = FXMLLoader.load(getClass().getResource("templates/AddingChallenges.fxml"));  
 				Scene sc = new Scene(second);
 				Stage stage = (Stage)AddChallengesButton.getScene().getWindow();
 				stage.setScene(sc);
@@ -92,7 +90,8 @@ public class EssentialController extends TimeLine implements Initializable {
 			}
 		});
 		MoveToGroupButton.setOnMouseClicked(event -> {
-			if(data.ClientInfo.groupId.equals("null")) {
+			
+			if(data.ClientInfo.groupId.split(";")[0].equals("null")) {
 				try {
 					Parent second;
 					second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));

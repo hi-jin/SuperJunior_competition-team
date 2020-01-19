@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -8,9 +9,18 @@
    <children>
       <VBox layoutX="142.0" layoutY="180.0" spacing="30.0">
          <children>
-            <Button fx:id="createGroup" mnemonicParsing="false" onAction="#createGroupGateWay" prefHeight="50.0" prefWidth="140.0" text="그룹 생성" />
-            <Button fx:id="quitGroup" mnemonicParsing="false" onAction="#quitGroup" prefHeight="50.0" prefWidth="140.0" text="그룹 탈퇴" />
-            <Button fx:id="joinGroup" mnemonicParsing="false" onAction="#joinGroupGateWay" prefHeight="50.0" prefWidth="140.0" text="그룹 참여" />
+            <Button id="innerBtn" fx:id="createGroup" mnemonicParsing="false" onAction="#createGroupGateWay" prefHeight="50.0" prefWidth="140.0" text="그룹 생성">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button id="quitBtn" fx:id="quitGroup" mnemonicParsing="false" onAction="#quitGroup" prefHeight="50.0" prefWidth="140.0" text="그룹 탈퇴">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button id="innerBtn" fx:id="joinGroup" mnemonicParsing="false" onAction="#joinGroupGateWay" prefHeight="50.0" prefWidth="140.0" text="그룹 참여">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
          </children>
       </VBox>
       <VBox layoutX="400.0" layoutY="10.0" prefHeight="600.0" prefWidth="50.0">
