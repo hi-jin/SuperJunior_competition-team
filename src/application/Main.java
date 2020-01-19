@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 
 
 public class Main extends Application {
@@ -23,6 +24,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			Font.loadFont(getClass().getResourceAsStream("statics/NANUMBARUNPENR.TTF"),
+	                14
+	        );
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("templates/main.fxml"));
 			Parent root = loader.load();
 			root.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
