@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="300.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-border-width: 2; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.groupCreateController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="300.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-border-width: 2; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.groupJoinController">
    <children>
       <Label alignment="CENTER" layoutX="4.0" layoutY="39.0" prefHeight="30.0" prefWidth="292.0" text="그룹 참가하기">
          <font>
@@ -21,7 +21,7 @@
                   <Font size="14.0" />
                </font>
             </TextField>
-            <Button mnemonicParsing="false" onAction="#createGroup" text="참가" />
+            <Button mnemonicParsing="false" onAction="#joinGroup" text="참가" />
          </children>
       </HBox>
       <Label id="notice" alignment="CENTER" layoutX="74.0" layoutY="73.0" prefHeight="14.0" prefWidth="152.0" text="( 5자로 작성해주세요 )" />

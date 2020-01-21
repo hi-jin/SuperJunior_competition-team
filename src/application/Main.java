@@ -32,7 +32,7 @@ public class Main extends Application {
 			);
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("templates/main.fxml"));
 			Parent root = loader.load();
-			root.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+			root.getStylesheets().add(getClass().getResource("statics/main.css").toExternalForm());
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.show();
