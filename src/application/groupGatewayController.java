@@ -62,7 +62,7 @@ public class groupGatewayController implements Initializable {
 			try {
 				Parent second;
 				second = FXMLLoader.load(getClass().getResource("templates/TimeLine.fxml"));
-				second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+				second.getStylesheets().add(getClass().getResource("statics/TimeLine.css").toExternalForm());
 				Scene sc = new Scene(second);
 				Stage stage = (Stage)ShowTimeLineButton.getScene().getWindow();
 				stage.setScene(sc);
@@ -75,42 +75,13 @@ public class groupGatewayController implements Initializable {
 			try {
 				Parent second;
 				second = FXMLLoader.load(getClass().getResource("templates/AddingChallenges.fxml"));
-				second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+				second.getStylesheets().add(getClass().getResource("statics/AddingChallenges.css").toExternalForm());
 				Scene sc = new Scene(second);
 				Stage stage = (Stage)AddChallengesButton.getScene().getWindow();
 				stage.setScene(sc);
 				stage.show();
 			} catch(IOException e) {
 				e.printStackTrace();
-			}
-		});
-		MoveToGroupButton.setOnMouseClicked(event -> {
-			if(data.ClientInfo.groupId.equals("null")) {
-				try {
-					Parent second;
-					second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));
-					second.getStylesheets().add(getClass().getResource("statics/groupGateway.css").toExternalForm());
-					Scene sc = new Scene(second);
-					Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
-					stage.setScene(sc);
-					stage.show();
-				} catch(IOException e) {
-					e.printStackTrace();
-				}
-			}else {
-				try {
-					groupGatewayController.wannaQuit = false;
-					System.out.println("?");
-					Parent second;
-					second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
-					second.getStylesheets().add(getClass().getResource("statics/groupMain.css").toExternalForm());
-					Scene sc = new Scene(second);
-					Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
-					stage.setScene(sc);
-					stage.show();
-				} catch(IOException e) {
-					e.printStackTrace();
-				}
 			}
 		});
 		if(data.Controllers.groupGatewayController==null) {
@@ -173,7 +144,6 @@ public class groupGatewayController implements Initializable {
 	@FXML
 	public void quitGroup() {
 		StringBuilder teams = new StringBuilder();
-		
 		Alert alert  = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setContentText(quitGroupID+"를 탈퇴하시겠습니까?");
 		
@@ -188,11 +158,11 @@ public class groupGatewayController implements Initializable {
 			
 			String show = teams.toString();
 			if(show.equals("")) {
-				show = "null";
+				show = "null;";
 			}
 			data.ClientInfo.groupId = show;
 			
-			out.println("group/quit/"+data.ClientInfo.userId+"/"+show);
+			out.println("group/quit/"+data.ClientInfo.userId+"/"+quitGroupID);
 			out.flush();
 		} else {
 			Platform.runLater(() -> {
@@ -200,10 +170,46 @@ public class groupGatewayController implements Initializable {
 			});
 		}
 	}
+	
+	public void moveToGroup() {
+		if(data.ClientInfo.groupId.split(";")[0].equals("null")) {
+			try {
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));
+				second.getStylesheets().add(getClass().getResource("statics/groupGateway.css").toExternalForm());
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			try {
+				groupGatewayController.wannaQuit = false;
+				Parent second;
+				second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
+				second.getStylesheets().add(getClass().getResource("statics/groupMain.css").toExternalForm());
+				
+				Scene sc = new Scene(second);
+				Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				stage.setScene(sc);
+				stage.show();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void alertErrorMessage(String errorMsg) {
 		Platform.runLater(() -> {
-			new Alert(Alert.AlertType.INFORMATION, errorMsg, ButtonType.CLOSE).show();
+			new Alert(Alert.AlertType.INFORMATION, errorMsg+"\n[하단의 그룹관리를 다시 누르면 결과과 적용됩니다.]", ButtonType.CLOSE).show();
 		});
 		return;
 	}

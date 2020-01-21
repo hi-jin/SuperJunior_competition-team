@@ -93,7 +93,7 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 			try {
 				Parent second;
 				second = FXMLLoader.load(getClass().getResource("templates/TimeLine.fxml"));
-				second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+				second.getStylesheets().add(getClass().getResource("statics/TimeLine.css").toExternalForm());
 				Scene sc = new Scene(second);
 				Stage stage = (Stage)ShowTimeLineButton.getScene().getWindow();
 				stage.setScene(sc);
@@ -112,7 +112,7 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 			try {
 				Parent second;
 				second = FXMLLoader.load(getClass().getResource("templates/AddingChallenges.fxml"));
-				second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+				second.getStylesheets().add(getClass().getResource("statics/AddingChallenges.css").toExternalForm());
 				Scene sc = new Scene(second);
 				Stage stage = (Stage)AddChallengesButton.getScene().getWindow();
 				stage.setScene(sc);
@@ -132,7 +132,7 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 				try {
 					Parent second;
 					second = FXMLLoader.load(getClass().getResource("templates/groupGateway.fxml"));
-					second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+					second.getStylesheets().add(getClass().getResource("statics/groupGateway.css").toExternalForm());
 					Scene sc = new Scene(second);
 					Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
 					stage.setScene(sc);
@@ -144,7 +144,7 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 				try {
 					Parent second;
 					second = FXMLLoader.load(getClass().getResource("templates/groupMain.fxml"));
-					second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+					second.getStylesheets().add(getClass().getResource("statics/groupMain.css").toExternalForm());
 					Scene sc = new Scene(second);
 					Stage stage = (Stage)MoveToGroupButton.getScene().getWindow();
 					stage.setScene(sc);
@@ -244,7 +244,7 @@ public class AddingChallengesController extends TimeLine implements Initializabl
 		Parent second;
 		try {
 			second = FXMLLoader.load(getClass().getResource("templates/TimeLine.fxml"));
-			second.getStylesheets().add(getClass().getResource("statics/application.css").toExternalForm());
+			second.getStylesheets().add(getClass().getResource("statics/TimeLine.css").toExternalForm());
 			Scene sc = new Scene(second);
 			Stage stage = (Stage)doneButton.getScene().getWindow();
 			stage.setScene(sc);

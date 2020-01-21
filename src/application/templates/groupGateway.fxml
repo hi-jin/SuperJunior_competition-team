@@ -29,7 +29,7 @@
            <Button fx:id="AddEssentialsButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="필수 일정" textFill="WHITE" />
            <Button fx:id="ShowTimeLineButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="타임라인" textFill="WHITE" />
            <Button fx:id="AddChallengesButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="도전 일정" textFill="WHITE" />
-           <Button fx:id="MoveToGroupButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="115.0" style="-fx-background-color: #00000000;" text="그룹 관리" textFill="WHITE" />
+           <Button fx:id="MoveToGroupButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#moveToGroup" prefWidth="115.0" style="-fx-background-color: #00000000;" text="그룹 관리" textFill="WHITE" />
          </children>
       </HBox>
    </children>
