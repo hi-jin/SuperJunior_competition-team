@@ -68,6 +68,19 @@ public class TimeLineCell extends ListCell<String> {
 								timeLine.showSchedules(schedule.dayOfWeek);
 								timeLine.timeLineListView.refresh();
 							}
+							if(event.getButton() == MouseButton.SECONDARY) {
+								String type = (schedule.getType() == 'E') ? "필수일정" : "도전일정";
+								Alert alert = new Alert(AlertType.CONFIRMATION, type + " " + schedule.getTitle() + " 정말 삭제하시겠습니까?", ButtonType.NO, ButtonType.YES);
+								alert.showAndWait();
+								if(alert.getResult() == ButtonType.YES) {
+									if(schedule.getType() == 'C') {
+										ClientInfo.allChallengesCount--;
+									}
+									ClientInfo.scheduleList.remove(schedule);
+									timeLine.eraseSchedule(schedule);
+									timeLine.timeLineListView.refresh();
+								}
+							}
 						});
 					} else if(schedule.getType() == 'D') {
 						this.setOnMouseClicked(event -> {
@@ -77,6 +90,19 @@ public class TimeLineCell extends ListCell<String> {
 								ClientInfo.finishedChallengesCount--;
 								timeLine.showSchedules(schedule.dayOfWeek);
 								timeLine.timeLineListView.refresh();
+							}
+							if(event.getButton() == MouseButton.SECONDARY) {
+								String type = (schedule.getType() == 'E') ? "필수일정" : "도전일정";
+								Alert alert = new Alert(AlertType.CONFIRMATION, type + " " + schedule.getTitle() + " 정말 삭제하시겠습니까?", ButtonType.NO, ButtonType.YES);
+								alert.showAndWait();
+								if(alert.getResult() == ButtonType.YES) {
+									if(schedule.getType() == 'C') {
+										ClientInfo.allChallengesCount--;
+									}
+									ClientInfo.scheduleList.remove(schedule);
+									timeLine.eraseSchedule(schedule);
+									timeLine.timeLineListView.refresh();
+								}
 							}
 						});
 					}
@@ -107,6 +133,19 @@ public class TimeLineCell extends ListCell<String> {
 								timeLine.showSchedules(schedule.dayOfWeek);
 								timeLine.timeLineListView.refresh();
 							}
+							if(event.getButton() == MouseButton.SECONDARY) {
+								String type = (schedule.getType() == 'E') ? "필수일정" : "도전일정";
+								Alert alert = new Alert(AlertType.CONFIRMATION, type + " " + schedule.getTitle() + " 정말 삭제하시겠습니까?", ButtonType.NO, ButtonType.YES);
+								alert.showAndWait();
+								if(alert.getResult() == ButtonType.YES) {
+									if(schedule.getType() == 'C') {
+										ClientInfo.allChallengesCount--;
+									}
+									ClientInfo.scheduleList.remove(schedule);
+									timeLine.eraseSchedule(schedule);
+									timeLine.timeLineListView.refresh();
+								}
+							}
 						});
 					} else if(schedule.getType() == 'D') {
 						this.setOnMouseClicked(event -> {
@@ -116,6 +155,19 @@ public class TimeLineCell extends ListCell<String> {
 								ClientInfo.finishedChallengesCount--;
 								timeLine.showSchedules(schedule.dayOfWeek);
 								timeLine.timeLineListView.refresh();
+							}
+							if(event.getButton() == MouseButton.SECONDARY) {
+								String type = (schedule.getType() == 'E') ? "필수일정" : "도전일정";
+								Alert alert = new Alert(AlertType.CONFIRMATION, type + " " + schedule.getTitle() + " 정말 삭제하시겠습니까?", ButtonType.NO, ButtonType.YES);
+								alert.showAndWait();
+								if(alert.getResult() == ButtonType.YES) {
+									if(schedule.getType() == 'C') {
+										ClientInfo.allChallengesCount--;
+									}
+									ClientInfo.scheduleList.remove(schedule);
+									timeLine.eraseSchedule(schedule);
+									timeLine.timeLineListView.refresh();
+								}
 							}
 						});
 					}
