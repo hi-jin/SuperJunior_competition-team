@@ -322,7 +322,7 @@ public class TimeLineController extends TimeLine implements Initializable {
 	@Override
 	public void showSchedules(String dayOfWeek) {
 		super.showSchedules(dayOfWeek);
-		dayOfWeekLabel.setText(ClientInfo.dayOfWeekList[currentDayOfWeek] + "요일");
+		dayOfWeekLabel.setText(dayOfWeek + "요일");
 	}
 
 	@FXML public void moveToLeft() {
@@ -335,11 +335,9 @@ public class TimeLineController extends TimeLine implements Initializable {
 	}
 
 	@FXML public void moveToRight() {
-		if(currentDayOfWeek < ClientInfo.dayOfWeekList.length - 1) {
-			currentDayOfWeek += 1;
-		} else {
+		currentDayOfWeek++;
+		if(currentDayOfWeek == ClientInfo.dayOfWeekList.length)
 			currentDayOfWeek = 0;
-		}
 		Platform.runLater(() -> {
 			showSchedules(ClientInfo.dayOfWeekList[currentDayOfWeek]);
 		});
@@ -358,8 +356,6 @@ public class TimeLineController extends TimeLine implements Initializable {
 		weekColors[dayCount] = color;
 		calendar.set(Calendar.DATE, calendar.get(Calendar.DATE)+1);
 		dayCount++;
-//		Schedule.writeSchedule(); TODO 이 두 줄로 인해 오류가 납니당.
-//		Schedule.readSchedule();
 		/*
 		nowDate.setText(calendar.get(Calendar.YEAR)+"년 "
 				+(calendar.get(Calendar.MONTH)+1)+"월 "

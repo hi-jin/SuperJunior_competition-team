@@ -44,11 +44,12 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		FileIO.read();
+		Schedule.setToday();
 		Schedule.readSchedule();
 		
 		if(!ClientInfo.connection) { //socket connect를 최초 실행시 한 번만 실행되기 위함 , 소켓  객체 중복 생성 방지
 			
-			final String SERVER_IP = "cs-cnu.tk"; //local에서 테스트 중일 경우 자신의 IP 작성
+			final String SERVER_IP = "localhost"; //local에서 테스트 중일 경우 자신의 IP 작성
 
 			final int SERVER_PORT = 50000;
 			
