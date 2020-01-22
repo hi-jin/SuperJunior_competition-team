@@ -149,6 +149,8 @@ public class EssentialController extends TimeLine implements Initializable {
 	            }
 		});
 		
+		AddEssentialsButton.setDisable(true);
+		
 		////////// timeLine ////////// TODO 필수일정 추가 하면 timeLine에 반영
 		////////// 초기화 //////////
 		timeLineListView.setFixedCellSize(cellHeight);

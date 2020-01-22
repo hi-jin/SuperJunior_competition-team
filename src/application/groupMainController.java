@@ -120,6 +120,8 @@ public class groupMainController implements Initializable{
 			}
 		});
 		
+		MoveToGroupButton.setDisable(true);
+		
 		teamList = FXCollections.observableArrayList();
 		String[] teams = data.ClientInfo.groupId.split(";");
 		for(String team : teams) {
