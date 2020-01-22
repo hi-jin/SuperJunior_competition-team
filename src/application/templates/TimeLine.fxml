@@ -12,7 +12,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TimeLineController">
    <children>
       <ListView fx:id="timeLineListView" layoutX="80.0" layoutY="33.0" prefHeight="312.0" prefWidth="300.0" />
-      <Line fx:id="currentTimeLine" endX="278.0" layoutX="141.0" layoutY="94.0" startX="-100.0" stroke="RED" />
+      <Line fx:id="currentTimeLine" endX="278.0" layoutX="141.0" layoutY="93.0" startX="-100.0" stroke="RED" />
       <Label fx:id="currentTimeLabel" layoutX="48.0" layoutY="73.0" text="now" textFill="RED">
          <font>
             <Font name="System Bold" size="16.0" />
