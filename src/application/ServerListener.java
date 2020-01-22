@@ -43,6 +43,15 @@ public class ServerListener extends Thread {
 					if(command[1].equals("error")) {
 						data.Controllers.groupGatewayController.alertErrorMessage(command[2]);
 					}
+					else if(command[1].equals("update")) {
+						String[] teams = data.ClientInfo.groupId.split(";");
+						try {
+							data.Controllers.groupMainController.setRank(teams[0]);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 					break;	
 				case "progress":
 					if(command[1].equals("getUser")) {
