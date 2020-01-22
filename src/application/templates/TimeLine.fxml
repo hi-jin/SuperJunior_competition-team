@@ -9,16 +9,16 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TimeLineController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.TimeLineController">
    <children>
-      <ListView fx:id="timeLineListView" layoutX="80.0" layoutY="33.0" prefHeight="282.0" prefWidth="300.0" />
+      <ListView fx:id="timeLineListView" layoutX="80.0" layoutY="33.0" prefHeight="312.0" prefWidth="300.0" />
       <Line fx:id="currentTimeLine" endX="278.0" layoutX="141.0" layoutY="94.0" startX="-100.0" stroke="RED" />
       <Label fx:id="currentTimeLabel" layoutX="48.0" layoutY="73.0" text="now" textFill="RED">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Button id="fixBtn" fx:id="timeSettingButton" layoutX="63.0" layoutY="320.0" mnemonicParsing="false" text="고정 해제" />
+      <Button id="fixBtn" fx:id="timeSettingButton" layoutX="63.0" layoutY="350.0" mnemonicParsing="false" text="고정 해제" />
       <Button fx:id="leftButton" layoutX="35.0" layoutY="154.0" mnemonicParsing="false" onAction="#moveToLeft" prefHeight="40.0" prefWidth="26.0" style="-fx-background-color: #009688; -fx-background-radius: 10px;" text="&lt;" textFill="WHITE" />
       <Button fx:id="rightButton" layoutX="407.0" layoutY="154.0" mnemonicParsing="false" onAction="#moveToRight" prefHeight="40.0" prefWidth="26.0" style="-fx-background-color: #009688; -fx-background-radius: 10px;" text="&gt;" textFill="WHITE" />
       <Label id="dayOfWeekLabel" fx:id="dayOfWeekLabel" layoutX="211.0" layoutY="7.0" text="일요일" />
