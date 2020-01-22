@@ -205,6 +205,8 @@ public class TimeLineController extends TimeLine implements Initializable {
 			}
 		});
 		
+		ShowTimeLineButton.setDisable(true);
+		
 		////////// 각종 초기화 + 애니메이션 (타임라인) 시작 //////////
 		if(data.Controllers.timeLineController == null) {
 			data.Controllers.timeLineController = this;
