@@ -5,8 +5,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RootController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RootController">
    <children>
       <Label layoutX="179.0" layoutY="91.0" text="로그인!" />
       <HBox layoutX="116.0" layoutY="197.0">
@@ -16,5 +17,9 @@
          </children>
       </HBox>
       <Label fx:id="error_msg" alignment="CENTER" layoutX="-1.0" layoutY="301.0" prefHeight="17.0" prefWidth="400.0" textAlignment="CENTER" textFill="RED" />
+      <Label id="tipTitle" layoutX="190.0" layoutY="293.0" text="Tip!" />
+      <Text id="tipContent" layoutX="80.0" layoutY="347.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1. 도전일정을 완료하면 &quot;더블클릭&quot; 하세요." />
+      <Text id="tipContent" layoutX="80.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2. 우클릭하여 일정을 삭제할 수 있습니다." />
+      <Text id="tipContent" layoutX="84.0" layoutY="421.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3. 친구들과 그룹을 만들어 공유해보세요." />
    </children>
 </AnchorPane>
