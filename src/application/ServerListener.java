@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import data.ClientInfo;
+import data.Schedule;
 import javafx.application.Platform;
 
 public class ServerListener extends Thread {
@@ -37,6 +38,11 @@ public class ServerListener extends Thread {
 					try {
 						data.Controllers.timeLineController.moveToRight();
 						data.Controllers.timeLineController.nextDay();
+						Schedule.writeSchedule(); // TODO 이 두 줄로 인해 오류가 납니당.
+						Schedule.readSchedule();
+						ClientInfo.today++;
+						if(ClientInfo.today == ClientInfo.dayOfWeekList.length)
+							ClientInfo.today = 0;
 					} catch (Exception e) {}
 					break;
 				case "group":
@@ -46,7 +52,8 @@ public class ServerListener extends Thread {
 					else if(command[1].equals("update")) {
 						String[] teams = data.ClientInfo.groupId.split(";");
 						try {
-							data.Controllers.groupMainController.setRank(teams[0]);
+							if(data.Controllers.groupMainController != null)
+								data.Controllers.groupMainController.setRank(teams[0]);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

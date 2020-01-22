@@ -33,17 +33,18 @@ public class Schedule implements Comparable<Schedule> {
 	}
 	
 	public static void readSchedule() {
-		setToday();
 		String line = ClientInfo.schedules;
+		ClientInfo.scheduleList.clear();
 		
 		if(!line.equals("")) {
 			String[] strScheduleList = line.split("//");
 			for(int i = 0; i < strScheduleList.length; i++) {
 				String[] command = strScheduleList[i].split("/");
 				Schedule schedule = new Schedule(command[0], command[1], command[2], command[3], command[4].charAt(0));
-				if(schedule.dayOfWeek.equals(ClientInfo.dayOfWeekList[ClientInfo.today])) {
-					ClientInfo.scheduleList.add(schedule);
-				}
+				ClientInfo.scheduleList.add(schedule);
+				if(schedule.getType() == 'D' || schedule.getType() == 'C')
+					if(!schedule.getDayOfWeek().equals(ClientInfo.dayOfWeekList[ClientInfo.today]))
+						ClientInfo.scheduleList.remove(schedule);
 			}
 		}
 	}
